@@ -5,7 +5,7 @@ title: Theo Sanderson
 superuser: true
 
 # Role/position/tagline
-role: Sir Henry Wellcoem Fellow
+role: Sir Henry Wellcome Fellow
 
 # Organizations/Affiliations to show in About widget
 organizations:
