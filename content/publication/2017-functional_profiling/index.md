@@ -7,14 +7,30 @@ title: "Functional profiling of a Plasmodium genome reveals an abundance of esse
 authors:
 - Ellen Bushell
 - Ana Rita Gomes
-- admin
-- et al.
+- Theo Sanderson
+- Burcu Anar
+- Gareth Girling
+- Colin Herd
+- Tom Metcalf
+- Katarzyna Modrzynska
+- Frank Schwach
+- Rowena E. Martin
+- Michael W. Mather
+- Geoffrey I. McFadden
+- Leopold Parts
+- Gavin G. Rutledge
+- Akhil B. Vaidya
+- Kai Wengelnik
+- Julian C. Rayner
+- Oliver Billker
+
 
 # Author notes (optional)
 author_notes:
 - "Equal contribution"
 - "Equal contribution"
 - "Equal contribution"
+
 
 date: "2017-07-01T00:00:00Z"
 doi: ""
