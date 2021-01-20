@@ -18,7 +18,7 @@ If I were buying my own scientific hardware I would always go for the upstart co
 
 I was given some hope that it might be possible to customise the robot from this video, in which someone has replaced all the electronics of the robot with a standard board for a CNC machine:
 
-
+<p><iframe src="https://www.youtube.com/embed/IDlZ_FIUgjM" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>
 
 But other than that I could find very little on the internet about what is inside these robots. I think that&#8217;s a shame, and now I have one at my disposal, without a warranty. So here is a run-down of what happens when you take it apart, in case it is useful to anyone in a similar position.
 

@@ -22,6 +22,12 @@
     <p class="pub-abstract">{{ .Params.abstract | markdownify }}</p>
     {{ end }}
 
+    {{ if .Params.summary }}
+    <h3>Summary</h3>
+    <p class="pub-abstract">{{ .Params.summary | markdownify }}</p>
+    {{ end }}
+
+
     {{/* If the type is Uncategorized, hide the type. */}}
     {{ if ne $pub_type 0 }}
     <div class="row">
