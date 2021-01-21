@@ -26,7 +26,7 @@
 
 {{ with $pdf }}
 <a class="btn btn-outline-primary btn-page-header{{ if $is_list }} btn-sm{{end}}" href="{{ . }}" target="_blank" rel="noopener">
-  {{ i18n "btn_pdf" }}
+  Article
 </a>
 {{ end }}
 {{ $resource := $page.Resources.GetMatch "cite.bib" }}

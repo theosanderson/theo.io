@@ -1,0 +1,17 @@
+{{- define "main" -}}
+
+<div class="pub">
+
+  {{ partial "page_header.html" . }}
+
+  <div class="article-container">
+    {{ .Params.bla | markdownify | emojify }}
+
+    {{ partial "page_footer" . }}
+
+  </div>
+</div>
+{{- end -}}
+
+
+
