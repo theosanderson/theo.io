@@ -11,7 +11,12 @@ categories:
 I recently began an [AI Residency][1] at Google, which I am enjoying a great deal. I have been experimenting with deep-learning approaches for a few years now, but am excited to immerse myself in this world over the coming year. Biology increasingly generates very large datasets and I am convinced that novel machine-learning approaches will be essential to make the most of them.
 
 At the beginning of my residency, I was advised to complete a _mini-project_ which largely reimplements existing work, as an introduction to new tools.  In this post I&#8217;m going to describe what I got up to during that first few weeks, which culminated in the tool below that conjures up new images of red blood cells infected with malaria parasites:  
-<!--more-->
+<p><script>
+	  function resizeIframe(obj) {
+	    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+	  }
+	</script><br />
+<iframe src="http://static.theo.io/GAN/plasmodium_gan/test.html" style="width:100%; height:500px"  frameborder="0" scrolling="no" onload="resizeIframe(this)" ></iframe></p>
 
   
 
