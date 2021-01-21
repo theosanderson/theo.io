@@ -64,6 +64,6 @@ email: ""
 highlight_name: false
 ---
 
-I study the genes of malaria parasites. I am interested in developing the tools needed to provide a better systems-level understanding of these parasites, by developing open-source methods for high-throughput culture.
+I study the genes of malaria parasites. I am interested in developing the tools needed to provide a better systems-level understanding of these parasites, with a focus on open-source methods for high-throughput culture.
 
 
