@@ -38,7 +38,7 @@
   {{ else if site.Params.description }}
     {{ $desc = site.Params.description }}
   {{ else }}
-    {{ $desc = $superuser_role }}
+    {{ $desc = "Biologist investigating malaria genetics" }}
   {{ end }}
   <meta name="description" content="{{ $desc }}">
 
