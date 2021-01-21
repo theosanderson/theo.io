@@ -1,0 +1,52 @@
+---
+title: "The virus vs. the vaccine"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-21T16:58:37Z
+lastmod: 2021-01-21T16:58:37Z
+featured: false
+draft: false
+projects: []
+output:  hugodown::md_document  
+---
+
+One framing for thinking about COVID is as a race between vaccination and infection, since we expect the former to have at least some mitigating effect on the latter. To get a sense for this I plot the cumulative infection estimates from the [MRC Biostatistics Nowcasting Reports](https://www.mrc-bsu.cam.ac.uk/tackling-covid-19/nowcasting-and-forecasting-of-covid-19/) against the vaccination numbers from [PHE](https://coronavirus.data.gov.uk/details/healthcare) (with historical data filled in from [Our World in Data](https://ourworldindata.org/covid-vaccinations)).
+
+```{r message=FALSE}
+try(library(tidyverse), silent=TRUE)
+library(jsonlite)
+library(ggthemes)
+a = fromJSON("mrc_biostats.json")
+df=tibble(date=a[[1]],y=a[[2]])
+df$date=lubridate::ymd(df$date)
+
+
+df$label = "People infected"
+b = read_csv("vaccinations.csv")
+b$y=b$numFirstDose
+b$date=lubridate::dmy(b$date)
+b$label = "People vaccinated"
+ggplot(bind_rows(df,b),aes(x=date,y=y/1000000,color=label))+geom_line(size=1) +labs(x="Date",y="Number of people (millions)",color="Type",title="Infection and vaccination levels in England",caption="Data sources: MRC Biostatistics Unit (cumulative infection estimates)\nOur World In Data & PHE (vaccination figures – at least one dose)")+theme_hc()+
+  theme(plot.title = element_text(hjust = 0.5))
+ggsave("plot.png",width=7.3,height=4, type = "cairo") 
+```
+
+If we literally were to imagine vaccination and infection to be mutually exclusive (which clearly isn't true in either direction), we could plot a graph like this to look at where they might meet.
+```{r}
+
+
+c=b
+c$label = "People unvaccinated"
+c$y=56000000-c$y
+ggplot(bind_rows(df,c),aes(x=date,y=y/1000000,color=label))+geom_line(size=1) +labs(x="Date",y="Number of people (millions)",color="Type",title="Infection and vaccination levels in England",caption="Data sources: MRC Biostatistics Unit (cumulative infection estimates)\nOur World In Data & PHE (vaccination figures – at least one dose)")+theme_hc()+
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+ggsave("plot2.png",width=7.3,height=4, type = "cairo") 
+
+```
+
+
