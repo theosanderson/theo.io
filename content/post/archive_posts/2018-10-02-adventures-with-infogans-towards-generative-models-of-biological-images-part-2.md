@@ -5,7 +5,7 @@ type: post
 date: 2018-10-02T10:05:06+00:00
 url: /blog/2018/10/02/adventures-with-infogans-towards-generative-models-of-biological-images-part-2/
 categories:
-  - Uncategorized
+  - ML
 
 ---
 In [the last post][1] I introduced neural networks, generative adversarial networks (GANs) and InfoGANs.

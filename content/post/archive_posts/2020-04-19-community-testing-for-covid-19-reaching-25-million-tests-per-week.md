@@ -5,7 +5,7 @@ type: post
 date: 2020-04-19T13:28:46+00:00
 url: /blog/2020/04/19/community-testing-for-covid-19-reaching-25-million-tests-per-week/
 categories:
-  - Uncategorized
+  - COVID
 
 ---
 Until recently, the strategy for COVID testing in many countries has been focused on people who have a significantly likelihood of having COVID-19. The need to impose unpleasant social distancing measures, and ultimately complete lock-downs, trades off against how much testing you do in the community. With sufficient community testing, you could suppress COVID in a population without any social distancing measures. This post is an outline of one way one might go about testing 25 million people per week in order to achieve this.

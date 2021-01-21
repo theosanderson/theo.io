@@ -5,7 +5,7 @@ type: post
 date: 2020-03-14T13:04:28+00:00
 url: /blog/2020/03/14/controlled-infection-with-covid-19-as-a-safer-means-of-establishing-herd-immunity/
 categories:
-  - Uncategorized
+  - COVID
 
 ---
 **Update: it seems (although clarity is lacking) that the UK has moved away from the herd-immunity strategy.** **I very much welcome this. It renders the argument below irrelevant, except as an illustration of the weaknesses of a strategy that seeks to vaccinate a population using an epidemic.**

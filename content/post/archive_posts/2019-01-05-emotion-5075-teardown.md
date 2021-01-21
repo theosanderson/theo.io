@@ -5,7 +5,7 @@ type: post
 date: 2019-01-05T17:38:35+00:00
 url: /blog/2019/01/05/emotion-5075-teardown/
 categories:
-  - Uncategorized
+  - Automation
 
 ---
 ![](/post/archive_posts/old_wp_images/wp-content/uploads/2019/01/epmotion.jpg)

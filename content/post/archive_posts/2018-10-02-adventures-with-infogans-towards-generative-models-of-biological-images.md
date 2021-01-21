@@ -5,7 +5,7 @@ type: post
 date: 2018-10-02T09:00:46+00:00
 url: /blog/2018/10/02/adventures-with-infogans-towards-generative-models-of-biological-images/
 categories:
-  - Uncategorized
+  - ML
 
 ---
 I recently began an [AI Residency][1] at Google, which I am enjoying a great deal. I have been experimenting with deep-learning approaches for a few years now, but am excited to immerse myself in this world over the coming year. Biology increasingly generates very large datasets and I am convinced that novel machine-learning approaches will be essential to make the most of them.

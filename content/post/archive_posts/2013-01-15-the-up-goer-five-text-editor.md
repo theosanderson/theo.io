@@ -5,7 +5,6 @@ type: post
 date: 2013-01-15T20:30:09+00:00
 url: /blog/2013/01/15/the-up-goer-five-text-editor/
 categories:
-  - Projects
   - Sci-comm
 
 ---

@@ -5,7 +5,8 @@ type: post
 date: 2018-11-13T14:51:57+00:00
 url: /blog/2018/11/13/biggan-interpolations/
 categories:
-  - Uncategorized
+  - ML
+  - Non-bio
 
 ---
 The state of the art in image generation is [BigGAN][1].

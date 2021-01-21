@@ -5,7 +5,7 @@ type: post
 date: 2018-02-01T14:30:41+00:00
 url: /blog/2018/02/01/save-99-5-upgrading-a-manual-microscope-with-an-automated-stage-for-60/
 categories:
-  - Uncategorized
+  - Automation
 
 ---
 **TL;DR: **Some 3D-printing hackery can create an automated microscope stage from a manual stage for ~0.5% of the cost from the manufacturer.

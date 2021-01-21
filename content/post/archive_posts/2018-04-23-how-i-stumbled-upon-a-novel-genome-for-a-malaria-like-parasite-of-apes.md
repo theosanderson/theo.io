@@ -5,7 +5,7 @@ type: post
 date: 2018-04-23T17:39:10+00:00
 url: /blog/2018/04/23/how-i-stumbled-upon-a-novel-genome-for-a-malaria-like-parasite-of-apes/
 categories:
-  - Uncategorized
+  - Parasites
 
 ---
 <span style="color: gray;">Sometimes in science you come across things that are definitely interesting, and useful, but which you don&#8217;t have time to write up properly for one reason or another. I&#8217;m going to try to get into the habit of sharing these as blog-posts rather than letting them disappear. Here is one such story.</span>
