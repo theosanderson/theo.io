@@ -62,7 +62,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'https://linkinghub.elsevier.com/retrieve/pii/S0092-8674(17)30714-6'
+url_pdf: '//linkinghub.elsevier.com/retrieve/pii/S0092-8674(17)30714-6'
 url_code: ''
 url_dataset: ''
 url_poster: ''
