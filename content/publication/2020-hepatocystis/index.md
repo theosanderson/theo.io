@@ -53,7 +53,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'https://wellcomeopenresearch.org/articles/2-45'
+url_pdf: '//wellcomeopenresearch.org/articles/2-45'
 url_code: ''
 url_dataset: ''
 url_poster: ''
