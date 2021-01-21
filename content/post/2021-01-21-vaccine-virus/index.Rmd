@@ -10,6 +10,7 @@ lastmod: 2021-01-21T16:58:37Z
 featured: false
 draft: false
 projects: []
+mininote: true
 output:  hugodown::md_document  
 ---
 
