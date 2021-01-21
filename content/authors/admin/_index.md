@@ -13,13 +13,13 @@ organizations:
   url: https://www.crick.ac.uk
 
 # Short bio (displayed in user profile at end of posts)
-bio: Interested in scaling malaria reverse genetics.
+bio: Biologist developing tools to scale malaria reverse genetics.
 
 # Interests to show in About widget
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Parasite Genetics
+- Machine Learning
+- Open Source Hardware
 
 # Education to show in About widget
 education:
@@ -64,6 +64,6 @@ email: ""
 highlight_name: false
 ---
 
-I work on malaria genetics.
+I study the genes of malaria parasites. I am interested in developing the tools needed to provide a better systems-level understanding of these parasites, by developing open-source methods for high-throughput culture.
 
 
