@@ -18,8 +18,8 @@ bio: Biologist developing tools to scale malaria reverse genetics.
 # Interests to show in About widget
 interests:
 - Parasite Genetics
-- Machine Learning
 - Open Source Hardware
+- Machine Learning
 
 # Education to show in About widget
 education:
