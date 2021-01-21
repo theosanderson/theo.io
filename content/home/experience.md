@@ -26,7 +26,7 @@ experience:
     company: Francis Crick Institute
     company_url: ''
     location: London
-    date_start: '2019-05-01'
+    date_start: '2019-06-01'
     date_end: ''
     description: |2-
         Developing open-source tooling for large scale reverse genetics in malaria parasites.
@@ -35,7 +35,7 @@ experience:
     company: Google
     company_url: ''
     location: Cambridge, Massachusetts
-    date_start: '2018-05-01'
-    date_end: '2019-05-01'
+    date_start: '2018-06-01'
+    date_end: '2019-06-01'
     description: Developed deep-learning approaches for protein function prediction
 ---
