@@ -5,7 +5,7 @@ type: post
 date: 2020-04-21T13:26:41+00:00
 url: /blog/2020/04/21/covid-19-and-the-categorical-imperative/
 categories:
-  - Uncategorized
+  - COVID
 
 ---
 I recently asked on Twitter:<figure class="wp-block-image is-resized">
