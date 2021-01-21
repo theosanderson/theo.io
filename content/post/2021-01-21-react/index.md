@@ -3,7 +3,7 @@ title: "Investigating the latest round of REACT"
 subtitle: ""
 summary: ""
 authors: []
-tags: []
+tags: [COVID, 'R notebook']
 categories: []
 date: 2021-01-21T17:58:37Z
 lastmod: 2021-01-21T16:58:37Z

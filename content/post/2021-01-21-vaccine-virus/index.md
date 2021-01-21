@@ -3,7 +3,7 @@ title: "The virus vs. the vaccine"
 subtitle: ""
 summary: ""
 authors: []
-tags: []
+tags: [COVID, 'R notebook']
 categories: []
 date: 2021-01-21T16:58:37Z
 lastmod: 2021-01-21T16:58:37Z
