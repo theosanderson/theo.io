@@ -74,7 +74,7 @@ subset_cts = data_ct %>% filter(week=="2020-09-21") %>% filter(RegionType=="Engl
 
 both <- inner_join(subset,subset_cts) 
 
-ggplot(both,aes(x=Mean,y=RandomDropout,label=Region))+geom_point()+labs(x="Mean Ct value",y="Proportion of 'random dropout'")+geom_text_repel()+theme_bw()
+ggplot(both,aes(x=Mean,y=RandomDropout,label=Region))+geom_point()+labs(x="Mean Ct value",y="Proportion of 'random dropout'")+geom_text_repel()+theme_bw()+scale_y_continuous(labels=scales::percent)
 
 
 ```

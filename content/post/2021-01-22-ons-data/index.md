@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 632b44790008193e
+rmd_hash: 27e78d35f1e0adb0
 
 ---
 
@@ -70,7 +70,7 @@ We can also see a lot of geographical heterogeneity. What drives this? We also h
 <span class='c'>#&gt; Joining, by = c("Region", "RegionType", "week")</span>
 
 
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>both</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Mean</span>,y<span class='o'>=</span><span class='nv'>RandomDropout</span>,label<span class='o'>=</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_point</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>x<span class='o'>=</span><span class='s'>"Mean Ct value"</span>,y<span class='o'>=</span><span class='s'>"Proportion of 'random dropout'"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>geom_text_repel</a></span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>both</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Mean</span>,y<span class='o'>=</span><span class='nv'>RandomDropout</span>,label<span class='o'>=</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_point</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>x<span class='o'>=</span><span class='s'>"Mean Ct value"</span>,y<span class='o'>=</span><span class='s'>"Proportion of 'random dropout'"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>geom_text_repel</a></span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span>
 
 </code></pre>
 <img src="figs/unnamed-chunk-3-1.png" width="700px" style="display: block; margin: auto;" />
