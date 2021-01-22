@@ -60,7 +60,7 @@ subset = data %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegi
 ggplot(subset,aes(x=AmpliconType,y=Count,fill=Amplicons))+geom_bar(stat="identity")+facet_wrap(~Region)+theme_bw()+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-I've separated out the `OR+N` amplicon types, which the ONS considers new variannt compatible. Let's ignore these for now. We can see that there is a substantial variation in the other amplicon groups. If there were no random dropout (and no other variants that compromise an assay), we would expect everything else to be `OR+N+S`. But in the South West these make up a minority of the total positives identified. Instead it seems that some of these amplicons are randomly dropping out there.
+I've separated out the `OR+N` amplicon types, which the ONS considers new variant compatible. Let's ignore these for now. We can see that there is a substantial variation in the other amplicon groups. If there were no random dropout (and no other variants that compromise an assay), we would expect everything else to be `OR+N+S`. But in the South West these make up a minority of the total positives identified. Instead it seems that some of these amplicons are randomly dropping out there.
 
 We can also see a lot of geographical heterogeneity in the level of this random dropout. What drives this? We also have the mean Ct values for each region so we can test the hypothesis that high Ct values (low number of virions), due to a higher proportion of infections being identified longer after the original infection, are responsible for the "random dropout".
 
