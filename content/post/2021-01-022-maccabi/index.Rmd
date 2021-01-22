@@ -49,7 +49,7 @@ graphdata = data %>% select(c(Day,contains("daily_incidence"))) %>% pivot_longer
 
 
 graphdata$condition = ifelse(graphdata$condition=="unvaccinated","Control cohort",graphdata$condition)
-ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+theme_classic()+labs(caption="Caveats: based on 7-day-moving average data so sharpness of start of initial efficacy will be understated. \n Blue line may contain vaccinated people",color="Condition",y="Cumulative Incidence")+scale_color_manual(values=c("red","blue"))+geom_point()
+ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+theme_classic()+labs(caption="Caveats: based on 7-day-moving average data so sharpness of start of initial efficacy will be understated. \n Control cohort may contain vaccinated people",color="Condition",y="Cumulative Incidence")+scale_color_manual(values=c("red","blue"))+geom_point()
 ```
 
 
