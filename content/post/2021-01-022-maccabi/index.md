@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 8409cd22e41da388
+rmd_hash: 32b31cdfcf0ab8e3
 
 ---
 
@@ -43,7 +43,7 @@ As Eran Segal [pointed out on Twitter](https://twitter.com/segal_eran/status/135
 
 </div>
 
-There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint, and in some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd expect the immune response to take longer.
+There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint. In some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd very much expect the immune response to take longer.
 
-In general the top plot is actually much more useful.
+In general the top plot presented by Maccabi is much more useful for getting a sense of what is going on (what direction the lines are pointing at the end of the Kaplain-Meier plot).
 
