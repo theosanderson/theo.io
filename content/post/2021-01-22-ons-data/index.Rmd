@@ -97,7 +97,7 @@ We can see a rise in `OR+N` over time. But this seems to tail off to at least ho
 Again if we want to look for an explanation we can investigate the Cts.
 
 ```{r}
-ggplot(data_ct%>% filter(RegionType=="EnglandRegion"),aes(x=week, y=Mean))+geom_line() +labs(title="Regions")+facet_wrap(~Region)+theme_bw()
+ggplot(data_ct%>% filter(RegionType=="EnglandRegion"),aes(x=week, y=Mean))+geom_line() +labs(title="Regions")+facet_wrap(~Region)+theme_bw()+labs(y="Mean Ct value")
 
 ```
 

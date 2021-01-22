@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 62f644c1867d20b9
+rmd_hash: 081f1bd6d6972662
 
 ---
 
@@ -99,7 +99,7 @@ Again if we want to look for an explanation we can investigate the Cts.
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data_ct</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, y<span class='o'>=</span><span class='nv'>Mean</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_line</span><span class='o'>(</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"Regions"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span>
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data_ct</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, y<span class='o'>=</span><span class='nv'>Mean</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_line</span><span class='o'>(</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"Regions"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>y<span class='o'>=</span><span class='s'>"Mean Ct value"</span><span class='o'>)</span>
 
 </code></pre>
 <img src="figs/unnamed-chunk-5-1.png" width="700px" style="display: block; margin: auto;" />
