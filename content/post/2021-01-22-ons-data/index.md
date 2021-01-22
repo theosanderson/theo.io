@@ -1,0 +1,79 @@
+---
+title: "'New-variant compatible' in the ONS infection survey"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-22T17:58:37Z
+lastmod: 2021-01-22T16:58:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output:  hugodown::md_document  
+rmd_hash: b34a4895598eab82
+
+---
+
+The ONS infection survey has come out and there has been a lot of discussion on the apparent decrease in proportion of "new variant compatible" cases.
+
+![](ons.png)
+
+To try to understand these patterns we need to go into a bit more detail. How are "new variant compatible" cases defined?
+
+The TaqPath tests that produce this data amplify parts of three genes in the SARS-CoV2 genome:
+
+-   The N gene
+-   ORF1ab
+-   The S gene
+
+We know that B.1.1.7 often gives complete loss of the S-gene amplicon (data from Portugal suggest it doesn't [always](https://virological.org/t/tracking-sars-cov-2-voc-202012-01-lineage-b-1-1-7-dissemination-in-portugal-insights-from-nationwide-rt-pcr-spike-gene-drop-out-data/600)).
+
+When B.1.1.7 was emerging the ONS defined a fairly conservative definition of "new variant compatible" tests. They said that these must be positive for N, *and* ORF1AB, but not for S. That is what we would expect to see for B.1.1.7 when there a lot of virions in the sample. But if a sample has a low number of virions, one or other of these genes might randomly drop below the detection threshold. Fortunately the ONS also report the data split out by each of the possible amplicon combinations, so we can examine this.
+
+First let's convince ourselves that, irrespective of B.1.1.7, dropouts of amplicons can occur for various reasons. Let's look at the distribution of amplicons period of time in September, before B.1.1.7 had really emerged.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>subset</span> <span class='o'>=</span> <span class='nv'>data</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>week</span><span class='o'>==</span><span class='s'>"2020-09-21"</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>subset</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Amplicons</span>,y<span class='o'>=</span><span class='nv'>Count</span>,fill<span class='o'>=</span><span class='nv'>Amplicons</span>,color<span class='o'>=</span><span class='nv'>Amplicons</span><span class='o'>==</span><span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_bar</span><span class='o'>(</span>stat<span class='o'>=</span><span class='s'>"identity"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span>
+  <span class='nf'>theme</span><span class='o'>(</span>
+        axis.text.x<span class='o'>=</span><span class='nf'>element_blank</span><span class='o'>(</span><span class='o'>)</span>
+        <span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_color_manual</span><span class='o'>(</span>values<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"NA"</span>,<span class='s'>"red"</span><span class='o'>)</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-2-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+I've circled in red the variants that would be considered new variant compatible. Let's ignore these for now. We can see that there is a substantial variation in the other amplicon groups. If there were no random dropout (and no other variants that compromise an assay), we would expect everything to be `OR+N+S`. But in the South West these make up a minority of the total positives identified.
+
+We can also see a lot of geographical heterogeneity. What drives this? We also have the mean Ct values for each region so we can test the hypothesis that high Ct values (low number of virions), due to a higher proportion of infections being identified longer after the original infection, are responsible for the "random dropout".
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='c'># Exclude suspected B.1.1.7 from the data</span>
+<span class='nv'>subset</span> <span class='o'>=</span> <span class='nv'>data</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>week</span><span class='o'>==</span><span class='s'>"2020-09-21"</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Amplicons</span><span class='o'>!=</span><span class='s'>"OR+S"</span><span class='o'>)</span>
+
+<span class='c'>#Calculate the proportion with "no random dropout", then invert to get proportion of "random dropout"</span>
+<span class='nv'>subset</span> <span class='o'>=</span><span class='nv'>subset</span> <span class='o'>%&gt;%</span> <span class='nf'>group_by</span><span class='o'>(</span><span class='nv'>Region</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>proportion <span class='o'>=</span> <span class='nv'>Count</span><span class='o'>/</span><span class='nf'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='o'>(</span><span class='nv'>Count</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Amplicons</span><span class='o'>==</span><span class='s'>"OR+N+S"</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>RandomDropout<span class='o'>=</span><span class='m'>1</span><span class='o'>-</span><span class='nv'>proportion</span><span class='o'>)</span>
+
+
+<span class='nv'>subset_cts</span> <span class='o'>=</span> <span class='nv'>data_ct</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>week</span><span class='o'>==</span><span class='s'>"2020-09-21"</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span>
+
+<span class='nv'>both</span> <span class='o'>&lt;-</span> <span class='nf'>inner_join</span><span class='o'>(</span><span class='nv'>subset</span>,<span class='nv'>subset_cts</span><span class='o'>)</span> 
+
+<span class='c'>#&gt; Joining, by = c("Region", "RegionType", "week")</span>
+
+
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>both</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Mean</span>,y<span class='o'>=</span><span class='nv'>RandomDropout</span>,label<span class='o'>=</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_point</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>x<span class='o'>=</span><span class='s'>"Mean Ct value"</span>,y<span class='o'>=</span><span class='s'>"Proportion of 'random dropout'"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>geom_text_repel</a></span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-3-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+to be continued in a few minutes..
+

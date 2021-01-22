@@ -1,0 +1,95 @@
+---
+title: "Investigating the latest round of REACT"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-21T17:58:37Z
+lastmod: 2021-01-21T16:58:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output:  hugodown::md_document  
+---
+
+The [latest round of the REACT study](https://spiral.imperial.ac.uk/handle/10044/1/85583) has come out, and been quite controversial. Let's examine some of the raw data behind it.
+
+```{r message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+Let's download the REACT data and process it into a nice format:
+```{r message=FALSE}
+
+
+library(tidyverse)
+library(httr)
+url <- "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fbirthsdeathsandmarriages%2fdeaths%2fdatasets%2fweeklyprovisionalfiguresondeathsregisteredinenglandandwales%2f2020/publishedweek532020.xlsx"
+
+GET(url, write_disk(tf <- tempfile(fileext = ".xlsx")))
+df <- read_excel(tf, 6L, col_types = "text")
+
+
+data = rio::import(file = url,which = 6) 
+weeks = t(data[4,])
+
+weeks = t(data[4,])
+week_end_date = t(data[5,])
+deaths = t(data[8,])
+deaths = deaths[3:length(deaths)]
+weeks = weeks[3:length(weeks)]
+week_end_date =   week_end_date[3:length(week_end_date)]
+
+ons_occurrences = tibble(week = as.numeric(weeks), week_end = as.Date(as.numeric(week_end_date), origin = "1899-12-30"), deaths = as.numeric(deaths))
+ggplot(ons_occurrences,aes(x=week_end,y=deaths))+geom_point()
+```
+
+
+```{r}
+
+
+england_phe_deaths_28 = read_csv(url("https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&areaCode=E92000001&metric=newDeaths28DaysByDeathDate&format=csv"))
+england_phe_deaths_28$date = lubridate::week(england_phe_deaths_28$date)
+
+
+
+```
+```{r}
+positive$type = "positive"
+total$type = "total"
+all = bind_rows(positive, total)
+colnames(all)[1] = "Date"
+
+all = all %>% pivot_longer(c(-Date,-type),names_to="Region") %>% pivot_wider(names_from=type)
+all
+```
+
+Now we can calculate binomial confidence intervals by location for each date and plot them.
+
+
+```{r}
+all = all %>% filter(!is.na(positive)) %>% filter(!is.na(total))
+library(binom)
+
+cis = binom.confint(all$positive,all$total, method="exact")
+
+
+all$lower=cis$lower
+all$mean = cis$mean
+all$upper=cis$upper
+
+ggplot(all %>% filter(Date>"2020-12-15"),aes(x=Date,ymin=lower,ymax=upper,y=mean))+geom_pointrange(color="black") +facet_wrap(~Region,scales="free_y")+scale_y_log10(labels = scales::percent)+theme_bw() + labs(y="Probability of testing positive")
+
+
+ggsave("plot.png",width=9,height=5, type="cairo")
+```
+
+This looks to accord well with the table of R values that REACT provide in Table 3:
+![](react-table.png)
+
+This isn't especially surprising, but I think the visualisation helps to make sense of how these values came to be calculated (even though they are probably based on a more complex analysis weighting for various demographic factors).
+
+That's it for now.

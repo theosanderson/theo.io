@@ -1,0 +1,83 @@
+---
+title: "'New-variant compatible' in the ONS infection survey"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-22T17:58:37Z
+lastmod: 2021-01-22T16:58:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output:  hugodown::md_document  
+---
+
+The ONS infection survey has come out and there has been a lot of discussion on the apparent decrease in proportion of "new variant compatible" cases.
+
+![](ons.png)
+
+
+To try to understand these patterns we need to go into a bit more detail. How are "new variant compatible" cases defined?
+
+The TaqPath tests that produce this data amplify parts of three genes in the SARS-CoV2 genome:
+
+- The N gene
+- ORF1ab
+- The S gene
+
+We know that B.1.1.7 often gives complete loss of the S-gene amplicon (data from Portugal suggest it doesn't [always](https://virological.org/t/tracking-sars-cov-2-voc-202012-01-lineage-b-1-1-7-dissemination-in-portugal-insights-from-nationwide-rt-pcr-spike-gene-drop-out-data/600)).
+
+When B.1.1.7 was emerging the ONS defined a fairly conservative definition of "new variant compatible" tests. They said that these must be positive for N, *and* ORF1AB, but not for S. That is what we would expect to see for B.1.1.7 when there a lot of virions in the sample. But if a sample has a low number of virions, one or other of these genes might randomly drop below the detection threshold. Fortunately the ONS also report the data split out by each of the possible amplicon combinations, so we can examine this.
+
+```{r include=FALSE}
+library(ggrepel)
+library(tidyverse)
+library(lubridate)
+data = read_csv("ons_ct.csv") %>% mutate(week=dmy(`Week started`)) %>% select(`N only`, `OR only`, `S only`, `OR+N` ,`OR+S`, `N+S`, `OR+N+S`,`Region`,`RegionType`,week) %>% pivot_longer(c(-week,-Region,-RegionType),names_to="Amplicons",values_to="Count")
+
+
+
+data_ct = read_csv("ons_ct.csv") %>% mutate(week=dmy(`Week started`)) %>% select(`week`,`Region`,`RegionType`,contains("Percentile"), `Mean`)
+
+
+```
+
+First let's convince ourselves that, irrespective of B.1.1.7, dropouts of amplicons can occur for various reasons. Let's look at the distribution of amplicons period of time in September, before B.1.1.7 had really emerged.
+
+
+```{r}
+subset = data %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegion")
+ggplot(subset,aes(x=Amplicons,y=Count,fill=Amplicons,color=Amplicons=="OR+N"))+geom_bar(stat="identity")+facet_wrap(~Region)+theme_bw()+
+  theme(
+        axis.text.x=element_blank()
+        )+scale_color_manual(values=c("NA","red"))
+```
+
+I've circled in red the variants that would be considered new variant compatible. Let's ignore these for now. We can see that there is a substantial variation in the other amplicon groups. If there were no random dropout (and no other variants that compromise an assay), we would expect everything to be `OR+N+S`. But in the South West these make up a minority of the total positives identified. 
+
+We can also see a lot of geographical heterogeneity. What drives this? We also have the mean Ct values for each region so we can test the hypothesis that high Ct values (low number of virions), due to a higher proportion of infections being identified longer after the original infection, are responsible for the "random dropout".
+
+```{r}
+
+# Exclude suspected B.1.1.7 from the data
+subset = data %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegion") %>% filter(Amplicons!="OR+S")
+
+#Calculate the proportion with "no random dropout", then invert to get proportion of "random dropout"
+subset =subset %>% group_by(Region) %>% mutate(proportion = Count/sum(Count)) %>% filter(Amplicons=="OR+N+S") %>% mutate(RandomDropout=1-proportion)
+
+
+subset_cts = data_ct %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegion")
+
+both <- inner_join(subset,subset_cts) 
+
+ggplot(both,aes(x=Mean,y=RandomDropout,label=Region))+geom_point()+labs(x="Mean Ct value",y="Proportion of 'random dropout'")+geom_text_repel()+theme_bw()
+
+
+```
+
+
+to be continued in a few minutes..
+
+
