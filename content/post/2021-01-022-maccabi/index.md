@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 32b31cdfcf0ab8e3
+rmd_hash: 1e9f944663e4caa2
 
 ---
 
@@ -20,7 +20,7 @@ This exciting chart has emerged from the Maccabi study, providing evidence for e
 
 ![](chart.jpg)
 
-As Eran Segal [pointed out on Twitter](https://twitter.com/segal_eran/status/1352696339377885187). The blue line actually includes the green line. I was interested to see what this would look like replotted as a Kaplan-Meier curve like the Pfizer graph.
+As Eran Segal [pointed out on Twitter](https://twitter.com/segal_eran/status/1352696339377885187), the blue line actually includes the green line. I was interested to see what this would look like replotted as a Kaplan-Meier curve like the Pfizer graph.
 
 ![](pfizer.jpg)
 
