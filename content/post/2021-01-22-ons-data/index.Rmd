@@ -1,5 +1,5 @@
 ---
-title: "New-variant compatible in the ONS infection survey"
+title: "New-variant compatibility in the ONS infection survey"
 subtitle: ""
 summary: ""
 authors: []
