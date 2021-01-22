@@ -51,6 +51,24 @@ ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+
 ```
 
 
+```{r include=FALSE}
+
+
+#day20 = filter(graphdata, Day==22)
+#day23 = filter(graphdata, Day==23)
+
+
+#day23vsday20 = inner_join(day23,day20,by="condition") %>% mutate(diff=cumulative_incidence.x-cumulative_incidence.y)%>% ungroup()%>%summarise(
+ # efficacy=( max(diff) - min(diff))/max(diff))
+
+
+
+
+
+
+```
+
+
 There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint. In some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd very much expect the immune response to take longer.
 
 In general the top plot presented by Maccabi is much more useful for getting a sense of what is going on (what direction the lines are pointing at the end of the Kaplain-Meier plot).
