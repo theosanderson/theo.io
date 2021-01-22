@@ -1,5 +1,5 @@
 ---
-title: "New-variant compatible in the ONS infection survey"
+title: "New-variant compatibility in the ONS infection survey"
 subtitle: ""
 summary: ""
 authors: []
@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 6a2fcf846baa64a5
+rmd_hash: 62f644c1867d20b9
 
 ---
 
@@ -121,6 +121,24 @@ One (imperfect) way to try to get a handle on this is to just plot the ratio of 
 
 </code></pre>
 <img src="figs/unnamed-chunk-6-2.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+Similarly we can also plot how the proportion of B.1.1.7 incompatible cases (those that do show S amplification) has changed.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>data</span> <span class='o'>=</span> <span class='nv'>data</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>B117_incompatible <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='o'>(</span><span class='s'>'S'</span>,<span class='nv'>Amplicons</span><span class='o'>)</span><span class='o'>)</span>
+
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Region</span><span class='o'>==</span><span class='s'>"England"</span>,<span class='nv'>Amplicons</span> <span class='o'>%in%</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"OR+N+S"</span>,<span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, fill<span class='o'>=</span><span class='nv'>B117_incompatible</span>,y<span class='o'>=</span><span class='nv'>Count</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_bar</span><span class='o'>(</span>stat<span class='o'>=</span><span class='s'>"identity"</span>,position<span class='o'>=</span><span class='s'>"fill"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"England"</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-7-1.png" width="700px" style="display: block; margin: auto;" />
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span>,<span class='nv'>Amplicons</span> <span class='o'>%in%</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"OR+N+S"</span>,<span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, fill<span class='o'>=</span><span class='nv'>B117_incompatible</span>,y<span class='o'>=</span><span class='nv'>Count</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_bar</span><span class='o'>(</span>stat<span class='o'>=</span><span class='s'>"identity"</span>,position<span class='o'>=</span><span class='s'>"fill"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"Regions"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-7-2.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 

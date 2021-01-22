@@ -116,8 +116,17 @@ ggplot(data%>% filter(RegionType=="EnglandRegion",Amplicons %in% c("OR+N+S","OR+
 
 ```
 
+Similarly we can also plot how the proportion of B.1.1.7 incompatible cases (those that do show S amplification) has changed.
+
+```{r}
+data = data %>% mutate(B117_incompatible = grepl('S',Amplicons))
+
+ggplot(data%>% filter(Region=="England",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=B117_incompatible,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="England")
+
+ggplot(data%>% filter(RegionType=="EnglandRegion",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=B117_incompatible,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="Regions")+facet_wrap(~Region)
 
 
+```
 
 to be continued
 
