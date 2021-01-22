@@ -1,20 +1,22 @@
 ---
-title: "'New-variant compatible' in the ONS infection survey"
+title: "New-variant compatible in the ONS infection survey"
 subtitle: ""
 summary: ""
 authors: []
 tags: []
 categories: []
-date: 2021-01-22T17:58:37Z
-lastmod: 2021-01-22T16:58:37Z
+date: 2021-01-22T14:18:37Z
+lastmod: 2021-01-22T14:58:37Z
 featured: false
 draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: b34a4895598eab82
+rmd_hash: 632b44790008193e
 
 ---
+
+Code behind this analysis: <a href="https://github.com/theosanderson/theo.io/tree/master/content/post/2021-01-22-ons-data" class="uri">https://github.com/theosanderson/theo.io/tree/master/content/post/2021-01-22-ons-data</a>
 
 The ONS infection survey has come out and there has been a lot of discussion on the apparent decrease in proportion of "new variant compatible" cases.
 
