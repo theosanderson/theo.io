@@ -81,7 +81,7 @@ ggplot(both,aes(x=Mean,y=RandomDropout,label=Region))+geom_point()+labs(x="Mean 
 
 
 
-Having convinced ourselves that random dropouts can occur due at different levels due to differences in Ct values (and that Ct values [can differ due to epidemiological dynamic](https://www.medrxiv.org/content/10.1101/2020.10.08.20204222v1))), we can examine whether an increased rate of random dropouts in the N or ORF1ab genes (or both!) might cause an underestimation of B.1.1.7 prevalence when considering only `OR+N+S` as compatible with the new variant.
+Having convinced ourselves that random dropouts can occur at different levels due to differences in Ct values (and that Ct values [can differ due to epidemiological dynamics](https://www.medrxiv.org/content/10.1101/2020.10.08.20204222v1))), we can examine whether an increased rate of random dropouts in the N or ORF1ab genes (or both!) might cause an underestimation of B.1.1.7 prevalence when considering only `OR+N+S` as compatible with the new variant.
 
 
 

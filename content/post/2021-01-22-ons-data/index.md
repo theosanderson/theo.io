@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 081f1bd6d6972662
+rmd_hash: d752556fd267e1f8
 
 ---
 
@@ -78,7 +78,7 @@ We can also see a lot of geographical heterogeneity in the level of this random 
 
 </div>
 
-Having convinced ourselves that random dropouts can occur due at different levels due to differences in Ct values (and that Ct values [can differ due to epidemiological dynamic](https://www.medrxiv.org/content/10.1101/2020.10.08.20204222v1))), we can examine whether an increased rate of random dropouts in the N or ORF1ab genes (or both!) might cause an underestimation of B.1.1.7 prevalence when considering only `OR+N+S` as compatible with the new variant.
+Having convinced ourselves that random dropouts can occur at different levels due to differences in Ct values (and that Ct values [can differ due to epidemiological dynamic](https://www.medrxiv.org/content/10.1101/2020.10.08.20204222v1))), we can examine whether an increased rate of random dropouts in the N or ORF1ab genes (or both!) might cause an underestimation of B.1.1.7 prevalence when considering only `OR+N+S` as compatible with the new variant.
 
 Now lets look at the trajectories of all amplicon groups over time in England.
 
