@@ -47,7 +47,9 @@ data = data %>% mutate(daily_incidence_vaccinated = VaccinatedCohort/size_of_coh
 
 graphdata = data %>% select(c(Day,contains("daily_incidence"))) %>% pivot_longer(-Day,names_to="group",values_to="daily_incidence") %>% separate(group,into=c("bla","bla2","condition"),sep="_") %>% select(-contains("bla")) %>% group_by(condition) %>% arrange(Day) %>% mutate(cumulative_incidence=cumsum(daily_incidence))
 
-ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+theme_classic()+labs(caption="Caveats: based on 7-day-moving average data so sharpness of start of initial efficacy will be understated.",color="Condition",y="Cumulative Incidence")+scale_color_manual(values=c("red","blue"))+geom_point()
+
+graphdata$condition = ifelse(graphdata$condition=="unvaccinated","Control cohort",graphdata$condition)
+ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+theme_classic()+labs(caption="Caveats: based on 7-day-moving average data so sharpness of start of initial efficacy will be understated. \n Blue line may contain vaccinated people",color="Condition",y="Cumulative Incidence")+scale_color_manual(values=c("red","blue"))+geom_point()
 ```
 
 
@@ -69,6 +71,6 @@ ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+
 ```
 
 
-There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint. In some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd very much expect the immune response to take longer.
+There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint. In some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd very much expect the immune response to take longer. Another really important [caveat](https://twitter.com/gbpolitics/status/1352764070668201985) is that the blue line likely includes people who were vaccinated later on.
 
 In general the top plot presented by Maccabi is much more useful for getting a sense of what is going on (what direction the lines are pointing at the end of the Kaplain-Meier plot).
