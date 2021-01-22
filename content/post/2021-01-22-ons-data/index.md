@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: e71a9b0322074fca
+rmd_hash: f098c7b91c751bb2
 
 ---
 
@@ -93,7 +93,7 @@ Now lets look at the trajectories of all amplicon groups over time in England.
 
 </div>
 
-We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected. Again we can investigate this by looking at the Cts.
+We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected.
 
 Again if we want to look for an explanation we can investigate the Cts.
 
