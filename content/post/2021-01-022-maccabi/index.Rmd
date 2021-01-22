@@ -1,0 +1,56 @@
+---
+title: "Analysing Maccabi data on initial efficacy of first vaccine dose"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-22T23:18:37Z
+lastmod: 2021-01-22T23:58:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output:  hugodown::md_document  
+---
+
+
+This exciting chart has emerged from the Maccabi study, providing evidence for efficacy of the Pfizer vaccine after the first dose.
+
+![](chart.jpg)
+
+
+
+
+```{r include=FALSE}
+
+library(tidyverse)
+
+data = read_csv("data_from_chart.csv")
+
+
+```
+
+As Eran Segal [pointed out on Twitter](https://twitter.com/segal_eran/status/1352696339377885187). The blue line actually includes the green line. I was interested to see what this would look like replotted as a Kaplan-Meier curve like the Pfizer graph.
+
+![](pfizer.jpg)
+
+
+```{r,fig.height=3,fig.width=8}
+size_of_cohort = 50777
+size_of_all_members = 480000
+size_of_unvaccinated = size_of_all_members-size_of_cohort
+data = data %>% mutate(new_infections_all_members = AllMembersNormalised*size_of_all_members/size_of_cohort)
+data = data %>% mutate(new_infections_unvaccinated = new_infections_all_members - VaccinatedCohort)
+data = data %>% mutate(daily_incidence_unvaccinated = new_infections_unvaccinated/size_of_unvaccinated)
+data = data %>% mutate(daily_incidence_vaccinated = VaccinatedCohort/size_of_cohort)
+
+graphdata = data %>% select(c(Day,contains("daily_incidence"))) %>% pivot_longer(-Day,names_to="group",values_to="daily_incidence") %>% separate(group,into=c("bla","bla2","condition"),sep="_") %>% select(-contains("bla")) %>% group_by(condition) %>% arrange(Day) %>% mutate(cumulative_incidence=cumsum(daily_incidence))
+
+ggplot(graphdata,aes(x=Day,y=cumulative_incidence,color=condition))+geom_line()+theme_classic()+labs(caption="Caveats: based on 7-day-moving average data so sharpness of start of initial efficacy will be understated.",color="Condition",y="Cumulative Incidence")+scale_color_manual(values=c("red","blue"))+geom_point()
+```
+
+
+There are a lot of caveats about whether this is comparing like-for-like in terms of endpoint, and in some respects it is definitely not, and everything is smoothed out by the 7 day moving average. In addition, this is a much older age group where we'd expect the immune response to take longer.
+
+In general the top plot is actually much more useful.
