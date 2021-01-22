@@ -62,24 +62,44 @@ I've circled in red the variants that would be considered new variant compatible
 We can also see a lot of geographical heterogeneity. What drives this? We also have the mean Ct values for each region so we can test the hypothesis that high Ct values (low number of virions), due to a higher proportion of infections being identified longer after the original infection, are responsible for the "random dropout".
 
 ```{r}
-
 # Exclude suspected B.1.1.7 from the data
 subset = data %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegion") %>% filter(Amplicons!="OR+S")
 
 #Calculate the proportion with "no random dropout", then invert to get proportion of "random dropout"
 subset =subset %>% group_by(Region) %>% mutate(proportion = Count/sum(Count)) %>% filter(Amplicons=="OR+N+S") %>% mutate(RandomDropout=1-proportion)
 
-
 subset_cts = data_ct %>% filter(week=="2020-09-21") %>% filter(RegionType=="EnglandRegion")
 
 both <- inner_join(subset,subset_cts) 
 
 ggplot(both,aes(x=Mean,y=RandomDropout,label=Region))+geom_point()+labs(x="Mean Ct value",y="Proportion of 'random dropout'")+geom_text_repel()+theme_bw()+scale_y_continuous(labels=scales::percent)
+```
+
+
+
+
+Having convinced ourselves that random dropouts can occur due at different levels due to differences in Ct values (and that Ct values [can differ due to epidemiological dynamic](https://www.medrxiv.org/content/10.1101/2020.10.08.20204222v1))), we can examine whether an increased rate of random dropouts in the N or ORF1ab genes (or both!) might cause an underestimation of B.1.1.7 prevalence when considering only `OR+N+S` as compatible with the new variant.
+
+
+
+Now lets look at the trajectories of all amplicon groups over time in England.
+
+```{r}
+data = data %>% group_by(Region,week) %>% mutate(proportion = Count/sum(Count)) 
+
+ggplot(data%>% filter(Region=="England"), aes(x=week,y=proportion,color=Amplicons))+geom_line()+theme_bw()+scale_y_continuous(labels=scales::percent)
+```
+We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected.
+
+We can plot the ratio of these two over time.
+
+```{r}
+ggplot(data%>% filter(Region=="England",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=Amplicons,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="England")
+
+ggplot(data%>% filter(RegionType=="EnglandRegion",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=Amplicons,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="Regions")+facet_wrap(~Region)
 
 
 ```
 
-
-to be continued in a few minutes..
-
+to be continued
 
