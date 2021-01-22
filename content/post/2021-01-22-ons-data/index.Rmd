@@ -89,9 +89,21 @@ data = data %>% group_by(Region,week) %>% mutate(proportion = Count/sum(Count))
 
 ggplot(data%>% filter(Region=="England"), aes(x=week,y=proportion,color=Amplicons))+geom_line()+theme_bw()+scale_y_continuous(labels=scales::percent)
 ```
-We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected.
+We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected. Again we can investigate this by looking at the Cts.
 
-We can plot the ratio of these two over time.
+Again if we want to look for an explanation we can investigate the Cts.
+
+```{r}
+ggplot(data_ct%>% filter(RegionType=="EnglandRegion"),aes(x=week, y=Mean))+geom_line() +labs(title="Regions")+facet_wrap(~Region)+theme_bw()
+
+```
+
+In all regions we see an increase in mean Ct over January, which we'd expect to cause more random dropouts, and reduce the number of both WT viruses that appear as `OR+N+S` and of B.1.1.7 viruses that appear as `OR+N`.
+
+
+
+
+One (imperfect) way to try to get a handle on this is to just plot the ratio of `OR+N+S` to `OR+N`, because both of these are affected by random drop out.
 
 ```{r}
 ggplot(data%>% filter(Region=="England",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=Amplicons,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="England")
@@ -100,6 +112,9 @@ ggplot(data%>% filter(RegionType=="EnglandRegion",Amplicons %in% c("OR+N+S","OR+
 
 
 ```
+
+
+
 
 to be continued
 

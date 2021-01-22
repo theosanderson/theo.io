@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 7b6545b30fbb9502
+rmd_hash: 0fa88b389b7b594e
 
 ---
 
@@ -90,21 +90,36 @@ Now lets look at the trajectories of all amplicon groups over time in England.
 
 </div>
 
-We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected.
+We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected. Again we can investigate this by looking at the Cts.
 
-We can plot the ratio of these two over time.
+Again if we want to look for an explanation we can investigate the Cts.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data_ct</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, y<span class='o'>=</span><span class='nv'>Mean</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_line</span><span class='o'>(</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"Regions"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-5-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+In all regions we see an increase in mean Ct over January, which we'd expect to cause more random dropouts, and reduce the number of both WT viruses that appear as `OR+N+S` and of B.1.1.7 viruses that appear as `OR+N`.
+
+One (imperfect) way to try to get a handle on this is to just plot the ratio of `OR+N+S` to `OR+N`, because both of these are affected by random drop out.
 
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Region</span><span class='o'>==</span><span class='s'>"England"</span>,<span class='nv'>Amplicons</span> <span class='o'>%in%</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"OR+N+S"</span>,<span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, fill<span class='o'>=</span><span class='nv'>Amplicons</span>,y<span class='o'>=</span><span class='nv'>Count</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_bar</span><span class='o'>(</span>stat<span class='o'>=</span><span class='s'>"identity"</span>,position<span class='o'>=</span><span class='s'>"fill"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"England"</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-5-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-6-1.png" width="700px" style="display: block; margin: auto;" />
 <pre class='chroma'><code class='language-r' data-lang='r'>
 <span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>RegionType</span><span class='o'>==</span><span class='s'>"EnglandRegion"</span>,<span class='nv'>Amplicons</span> <span class='o'>%in%</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"OR+N+S"</span>,<span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>, fill<span class='o'>=</span><span class='nv'>Amplicons</span>,y<span class='o'>=</span><span class='nv'>Count</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_bar</span><span class='o'>(</span>stat<span class='o'>=</span><span class='s'>"identity"</span>,position<span class='o'>=</span><span class='s'>"fill"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>title<span class='o'>=</span><span class='s'>"Regions"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nv'>Region</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-5-2.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-6-2.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
+
+to be continued
 
