@@ -95,18 +95,21 @@ ggplot(data%>% filter(Region=="England"), aes(x=week,y=proportion,color=Amplicon
 
 data$Amplicons = factor(as.character(data$Amplicons),levels = c("S only","OR+S","N+S","OR+N+S","N only","OR only","OR+N"))
 
-ggplot(data%>% filter(Region=="England")%>% filter(Amplicons!="S only"), aes(x=week,y=proportion,fill=Amplicons))+geom_area()+theme_bw()+scale_y_continuous(expand=c(0,0),labels=scales::percent)+scale_fill_brewer(type="qual",palette=4)+labs(x="Date",y="Proportion")+scale_x_date(expand=c(0,0))
+p<-ggplot(data%>% filter(Region=="England")%>% filter(Amplicons!="S only"), aes(x=week,y=proportion,fill=Amplicons))+geom_area()+theme_bw()+scale_y_continuous(expand=c(0,0),labels=scales::percent)+scale_fill_brewer(type="qual",palette=4)+labs(x="Date",y="Proportion")+scale_x_date(expand=c(0,0))
 
 ggsave("plot.pdf",width=5,height=3)
 
+```
+An annotated version of that plot:
+![](illustrated_plot-01.png)
 
+```{r}
 ggplot(data%>% filter(RegionType=="EnglandRegion")%>% filter(Amplicons!="S only"), aes(x=week,y=proportion,fill=Amplicons))+geom_area()+theme_bw()+scale_y_continuous(expand=c(0,0),labels=scales::percent)+scale_fill_brewer(type="qual",palette=4)+labs(x="Date",y="Proportion")+scale_x_date(expand=c(0,0)) +facet_wrap(~Region)
 
-
-
+ggsave("plotregion.png",width=7*1.2,height=4*1.2)
 
 ```
-We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be falling faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected. 
+We can see a rise in `OR+N` over time. But this seems to tail off to at least horizontal at the end. Does this mean that B.1.1.7 is no longer increasing at the expense of other variants? Well I don't think we have evidence for this. `OR+N` may be horizontal, but `OR+N+S` seems likely to be decreasing faster. It is likely that this is due to a general change in the epidemic stage, as lockdown controls new infections and a higher proportion of old detections are detected. 
 
 Again if we want to look for an explanation we can investigate the Cts.
 
