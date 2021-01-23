@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: f098c7b91c751bb2
+rmd_hash: ff137898fefec94a
 
 ---
 
@@ -90,6 +90,17 @@ Now lets look at the trajectories of all amplicon groups over time in England.
 
 </code></pre>
 <img src="figs/unnamed-chunk-4-1.png" width="700px" style="display: block; margin: auto;" />
+<pre class='chroma'><code class='language-r' data-lang='r'>
+
+<span class='nv'>data</span><span class='o'>$</span><span class='nv'>Amplicons</span> <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nv'>data</span><span class='o'>$</span><span class='nv'>Amplicons</span><span class='o'>)</span>,levels <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"S only"</span>,<span class='s'>"OR+S"</span>,<span class='s'>"N+S"</span>,<span class='s'>"OR+N+S"</span>,<span class='s'>"N only"</span>,<span class='s'>"OR only"</span>,<span class='s'>"OR+N"</span><span class='o'>)</span><span class='o'>)</span>
+
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>data</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Region</span><span class='o'>==</span><span class='s'>"England"</span><span class='o'>)</span><span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Amplicons</span><span class='o'>!=</span><span class='s'>"S only"</span><span class='o'>)</span>, <span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>week</span>,y<span class='o'>=</span><span class='nv'>proportion</span>,fill<span class='o'>=</span><span class='nv'>Amplicons</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_area</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>expand<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>0</span>,<span class='m'>0</span><span class='o'>)</span>,labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_fill_brewer</span><span class='o'>(</span>type<span class='o'>=</span><span class='s'>"qual"</span>,palette<span class='o'>=</span><span class='m'>4</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>x<span class='o'>=</span><span class='s'>"Date"</span>,y<span class='o'>=</span><span class='s'>"Proportion"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_x_date</span><span class='o'>(</span>expand<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>0</span>,<span class='m'>0</span><span class='o'>)</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-4-2.png" width="700px" style="display: block; margin: auto;" />
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='nf'>ggsave</span><span class='o'>(</span><span class='s'>"plot.pdf"</span>,width<span class='o'>=</span><span class='m'>5</span>,height<span class='o'>=</span><span class='m'>3</span><span class='o'>)</span>
+</code></pre>
 
 </div>
 
