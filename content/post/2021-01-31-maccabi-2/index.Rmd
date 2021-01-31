@@ -1,5 +1,5 @@
 ---
-title: "Analysing Maccabi data on initial efficacy of first vaccine dose - part 2"
+title: "Looking again at Maccabi data for efficacy after initial Pfizer dose"
 subtitle: ""
 summary: ""
 authors: []

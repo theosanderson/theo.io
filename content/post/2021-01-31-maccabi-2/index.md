@@ -1,5 +1,5 @@
 ---
-title: "Analysing Maccabi data on initial efficacy of first vaccine dose - part 2"
+title: "Looking again at Maccabi data for efficacy after initial Pfizer dose"
 subtitle: ""
 summary: ""
 authors: []
@@ -12,7 +12,7 @@ draft: false
 projects: []
 mininote: true
 output:  hugodown::md_document  
-rmd_hash: 371edf7597602461
+rmd_hash: 4738dfb6f975e480
 
 ---
 
