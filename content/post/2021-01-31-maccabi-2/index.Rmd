@@ -1,0 +1,118 @@
+---
+title: "Analysing Maccabi data on initial efficacy of first vaccine dose - part 2"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-31T10:18:37Z
+lastmod: 2021-01-31T10:18:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output:  hugodown::md_document  
+---
+
+
+Maccabi have now released a [preprint](https://www.medrxiv.org/content/10.1101/2021.01.27.21250612v1) on Pfizer vaccine efficacy after the first dose. Let's take a look at it.
+
+Firstly a little complaint. If you go to the `Data' tab on bioRxiv, it says:
+
+![](data_availability.png)
+
+
+Now of course one understands that there may be lots of underlying patient data that can't be released for regulatory reasons. But some data definitely can, because they release it in this preprint, in graphical form.
+
+![](maccabi.png)
+
+At bare minimum, we should demand that the data directly plotted in graphs are released in numerical form to permit further analysis. There can be no regulatory justification for not doing so.
+
+Fortunately, the data are there, we just need to extract them. For this image file I did that by hand with [WebPlotDigitizer](https://apps.automeris.io/wpd/).
+
+
+
+```{r, include=F}
+library(tidyverse)
+```
+
+```{r, dev="CairoPNG", message=F}
+maccabi = read_csv("maccabi.csv",col_names = c('Day','CumulativeIncidence')) %>% mutate(Day=round(Day)) 
+
+ggplot(maccabi,aes(x=Day,y=CumulativeIncidence))+geom_line(color="blue")+theme_bw()+labs(x="Day",y="Cumulative Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA))
+```
+Looks like we've pretty much got it. Now let's convert that cumulative incidence into a daily incidence (something not done in the Maccabi preprint).
+
+```{r,fig.height=3,fig.width=8, dev="CairoPNG", message=F, warning = FALSE}
+perday = maccabi %>% arrange(Day,CumulativeIncidence) %>% group_by(Day) %>% summarise(CumulativeIncidence=max(CumulativeIncidence)) %>% mutate(DailyIncidence=CumulativeIncidence-lag(CumulativeIncidence),type="Vaccinated") 
+
+ggplot(perday,aes(x=Day,y=DailyIncidence))+geom_line(color="blue")+theme_bw()+labs(x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) 
+```
+
+Now we have a fair idea of what went on. On day 1 after vaccination, 0.024% of those vaccinated tested positive. That proportion seems to have risen until about day 8, when 0.06% of those vaccinated tested positive. It then fell until day 25, when just 0.005% tested positive.
+
+Now, to properly calculate vaccine efficacy we would need some control group who have not been vaccinated. In the original trials that was a randomly selected half who were given a placebo injection. We compared how many cases they developed, as compared to those who were vaccinated.
+
+There is no placebo group here. No set of matching people who were not vaccinated. So to have any way of calculating an efficacy value we essentially have to invent one and imagine what the incidence would have been in it. 
+
+Doing this for the first ~10 days, seems pretty easy. We really don't expect to see the vaccine have any effect here, so the control group might look something like this:
+
+```{r dev="CairoPNG",warning = FALSE}
+control_group = tibble(Day=1:10,DailyIncidence=seq(0.00032,0.00059,length.out=10),type="Synthetic control")
+ggplot(bind_rows(control_group, perday),aes(x=Day,y=DailyIncidence,color=type))+geom_line()+theme_bw()+labs(color="",x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +scale_color_manual(values=c("red","blue"))
+```
+
+The reason for this not being a horizontal line would have to be some genuine rise in cases over this period. One possibility is the general increasing number of cases in Israel, which continued up to around 15 Jan. 
+
+Unforunately, having this synthetic control line for the first 7 days isn't especially useful. By construction this shows ~0% efficacy in that period, because that's what we designed it to. What I'm really interested is that the efficacy around Day 24. So how should we extend the line?
+
+I've illustrated 3 possible scenarios below, one where cases continue to rise in the placebo group, another where they stay flat, and another where they fall :
+
+
+```{r dev="CairoPNG",warning = FALSE}
+ syn_control <- function(final, name,offset){
+return(bind_rows(tibble(Day=1:10,DailyIncidence=seq(0.00032+offset,0.00059+offset,length.out=10),type=name),
+                  tibble(Day=10:25,DailyIncidence=seq(0.00059+offset,final,length.out=16),type=name)) )
+}
+combo =bind_rows(syn_control(0.0010,"Synthetic control: Growth",0.00001),syn_control(0.00059,"Synthetic control: flat",0),syn_control(0.00029,"Synthetic control: decreasing",-0.00001), perday)
+ggplot(combo,aes(x=Day,y=DailyIncidence,color=type))+geom_line()+theme_bw()+labs(color="",x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +scale_color_manual(values=c("pink","red","darkred","blue"))
+```
+These choices have a substantial effect on the efficacy we measure for days 23-25, which range from 82% (placebo cases fall) to 94% (placebo cases rise).
+
+```{r }
+combo %>% filter(Day>22) %>% group_by(type) %>% summarise(Incidence = mean(DailyIncidence)) %>% mutate(efficacy_percent = 100*(1- min(Incidence)/Incidence)) %>% filter(type!="Vaccinated") %>% select(-Incidence)
+```
+
+So what did Maccabi do? Well something quite different to any of these. They used the period from days 0 to 12 as the control for days 13 to 24. That looks like this:
+
+
+```{r dev="CairoPNG",warning = FALSE}
+control_group = perday %>% mutate(Day=Day+12, type= "Synthetic control") %>% filter(Day<25)
+maccabi_analysis = bind_rows(control_group, perday %>% filter(Day<25))
+ggplot(maccabi_analysis,aes(x=Day,y=DailyIncidence,color=type))+geom_line()+theme_bw()+labs(color="",x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +scale_color_manual(values=c("red","blue"))
+
+```
+
+If again you look at day 23-24 efficacy here, you get an efficacy of 88%.
+
+```{r}
+maccabi_analysis %>% filter(Day>22) %>% group_by(type) %>% summarise(Incidence = mean(DailyIncidence)) %>% mutate(efficacy_percent = 100*(1- min(Incidence)/Incidence)) %>% filter(type!="Vaccinated") %>% select(-Incidence)
+
+```
+
+Maccabi however looked across the entire period. If you do that you get an efficacy close to 50% (they got 51%, I got 56%, possibly due to slight differences in the weighting of different days based on the number of people in them).
+
+```{r}
+maccabi_analysis %>% filter(Day>12) %>% group_by(type) %>% summarise(Incidence = mean(DailyIncidence)) %>% mutate(efficacy_percent = 100*(1- min(Incidence)/Incidence)) %>% filter(type!="Vaccinated") %>% select(-Incidence)
+
+```
+
+
+So, what to conclude? Essentially the way Maccabi analysed this data was one relatively arbitrary possibility among many. Efficacy estimates are quite sensitive to the guesses one makes about how many cases there would have been in the control group. Maccabi's decision here is quite conservative in that it includes as a control group the day 10 to 12 period where some cases may well have been averted by vaccination. 
+
+The decision to look at the entire day 12-24 period rather than the end of it, will yield a result lower than the true efficacy towards the end of this period, given the clear evidence for an increase in efficacy over the period. This is incredibly valuable data, and all in all, things look pretty good.
+
+```{r, dev="CairoPNG",warning = FALSE}
+ggplot(perday,aes(x=Day,y=DailyIncidence))+geom_line(color="black")+theme_bw()+labs(x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +geom_smooth()
+```
+

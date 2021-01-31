@@ -3,15 +3,16 @@ title: "The virus vs. the vaccine"
 subtitle: ""
 summary: ""
 authors: []
-tags: [COVID, 'R notebook']
+tags: []
 categories: []
 date: 2021-01-21T16:58:37Z
 lastmod: 2021-01-21T16:58:37Z
 featured: false
 draft: false
 projects: []
+mininote: true
 output:  hugodown::md_document  
-rmd_hash: 87b094ae6ada7c92
+rmd_hash: e7c056d6413c1083
 
 ---
 
