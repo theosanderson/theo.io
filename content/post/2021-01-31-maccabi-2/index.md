@@ -11,8 +11,11 @@ featured: false
 draft: false
 projects: []
 mininote: true
-output:  hugodown::md_document  
-rmd_hash: 4738dfb6f975e480
+output: 
+  hugodown::md_document:
+    fig_width: 6 
+    fig_asp: 0.59
+rmd_hash: 5bca94137139934a
 
 ---
 

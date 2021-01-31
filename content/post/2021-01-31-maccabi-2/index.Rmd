@@ -11,7 +11,10 @@ featured: false
 draft: false
 projects: []
 mininote: true
-output:  hugodown::md_document  
+output: 
+  hugodown::md_document:
+    fig_width: 6 
+    fig_asp: 0.59
 ---
 
 
@@ -43,7 +46,7 @@ ggplot(maccabi,aes(x=Day,y=CumulativeIncidence))+geom_line(color="blue")+theme_b
 ```
 Looks like we've pretty much got it. Now let's convert that cumulative incidence into a daily incidence (something not done in the Maccabi preprint).
 
-```{r,fig.height=3,fig.width=8, dev="CairoPNG", message=F, warning = FALSE}
+```{r, dev="CairoPNG", message=F, warning = FALSE}
 perday = maccabi %>% arrange(Day,CumulativeIncidence) %>% group_by(Day) %>% summarise(CumulativeIncidence=max(CumulativeIncidence)) %>% mutate(DailyIncidence=CumulativeIncidence-lag(CumulativeIncidence),type="Vaccinated") 
 
 ggplot(perday,aes(x=Day,y=DailyIncidence))+geom_line(color="blue")+theme_bw()+labs(x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) 
