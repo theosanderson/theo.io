@@ -1,15 +1,40 @@
 ---
-title: "R Notebook"
-output:
-  html_document:
-    df_print: paged
+title: "Democratising ONS infection survey data using SVG parsing"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-02-03T10:18:37Z
+featured: false
+draft: true
+projects: []
+mininote: true
+output: 
+  hugodown::md_document:
+    fig_width: 6 
+    fig_asp: 0.59
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have only been released in graphical form which makes them hard to re-analyse. I extracted a line-list like dataset containing: swab date, overall Ct value, symptomatic status, and number of genes detected (1, 2 or 3) from a [preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) describing testing work from 26 April--11 October 2020. Here I [make this data available](/ons_ct_values_and_symptoms.csv) for further analysis, and describe the extraction process.
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+<hr>
+
+### Background
+
+The ONS infection survey is an extremely valuable and well-conducted piece of work.
+
+As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the raw data outputs can be subject to different interpretations.
+
+One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to calculating this by calculating the Ct value in different regions, and relating this to the areas mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
+
+I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the figure below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
+
 
 ![](ons_scatterplot.svg)
+
+
+Unfortunately this data is only presented graphically. But since 
 
 ```{r,message=F}
 knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
@@ -267,7 +292,7 @@ as compared to
 
 ```{r}
 ggplot(values,aes(x=Ct,fill=genes_detected)) +
-  scale_fill_manual(values = c("red", "blue", "black")) +geom_density(alpha=0.3)
+  scale_fill_manual(values = c("red", "blue", "black")) +geom_density(alpha=0.3)+facet_grid(symptoms~.)
 
 ggplot(values,aes(x=Ct,fill=genes_detected)) +
   scale_fill_manual(values = c("red", "blue", "black")) +geom_density(position="stack")+facet_grid(symptoms~.)

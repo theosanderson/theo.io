@@ -18,6 +18,9 @@ output:
 ---
 
 
+**Update(2021-02-03):** Maccabi have also now released a [different report](https://kinstitute.org.il/wp-content/uploads/2021/02/linkedin-post-28-days-01.02-3-PDF.pdf) looking at a cohort, which gives a less rosy picture of initial efficacy. The explanation may be the older age group in the cohort. I think the calculations below still stand, but am flagging this important further data for context.
+<hr>
+
 Maccabi have now released a [preprint](https://www.medrxiv.org/content/10.1101/2021.01.27.21250612v1) on Pfizer vaccine efficacy after the first dose. Let's take a look at it.
 
 Firstly a little complaint. If you go to the `Data' tab on bioRxiv, it says:
@@ -120,7 +123,21 @@ ggplot(perday,aes(x=Day,y=DailyIncidence))+geom_line(color="black")+theme_bw()+l
 ```
 
 ```{r}
+perday
+
+incidence_data = read_csv("data_from_chart.csv") 
+cohort_size=132015
+incidence_data$CumulativeIncidence = cumsum(incidence_data$VaccinatedCohort)/ cohort_size
+incidence_data$type = "Incidence plot"
 
 
+
+maccabi_offset = maccabi %>% filter(Day>3) %>% mutate(CumulativeIncidence = CumulativeIncidence-min(CumulativeIncidence), type="Kaplan-Meier plot" )
+ 
+
+
+ggplot(bind_rows(incidence_data,maccabi_offset),aes(color=type, group=type, x=Day,y=CumulativeIncidence))+geom_line()+theme_bw()+labs(x="Day",y="Cumulative Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +scale_color_manual(values=c("darkgreen","red"))
+
+ggsave("comparison.png",type="cairo",width=7,height=3)
 ```
 

@@ -15,9 +15,12 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 5bca94137139934a
+rmd_hash: 3ab4d85f6f0dbdcf
 
 ---
+
+**Update(2021-02-03):** Maccabi have also now released a [different report](https://kinstitute.org.il/wp-content/uploads/2021/02/linkedin-post-28-days-01.02-3-PDF.pdf) looking at a cohort, which gives a less rosy picture of initial efficacy. The explanation may be the older age group in the cohort. I think the calculations below still stand, but am flagging this important further data for context.
+<hr>
 
 Maccabi have now released a [preprint](https://www.medrxiv.org/content/10.1101/2021.01.27.21250612v1) on Pfizer vaccine efficacy after the first dose. Let's take a look at it.
 
@@ -170,6 +173,54 @@ The decision to look at the entire day 12-24 period rather than the end of it, w
 
 </code></pre>
 <img src="figs/unnamed-chunk-10-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>perday</span>
+
+<span class='c'>#&gt; <span style='color: #555555;'># A tibble: 26 x 4</span></span>
+<span class='c'>#&gt;      Day CumulativeIncidence DailyIncidence type      </span>
+<span class='c'>#&gt;    <span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 1</span><span>     0           0.000</span><span style='text-decoration: underline;'>025</span><span>1      </span><span style='color: #BB0000;'>NA</span><span>        Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 2</span><span>     1           0.000</span><span style='text-decoration: underline;'>269</span><span>        0.000</span><span style='text-decoration: underline;'>244</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 3</span><span>     2           0.000</span><span style='text-decoration: underline;'>626</span><span>        0.000</span><span style='text-decoration: underline;'>357</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 4</span><span>     3           0.000</span><span style='text-decoration: underline;'>990</span><span>        0.000</span><span style='text-decoration: underline;'>363</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 5</span><span>     4           0.001</span><span style='text-decoration: underline;'>49</span><span>         0.000</span><span style='text-decoration: underline;'>501</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 6</span><span>     5           0.001</span><span style='text-decoration: underline;'>97</span><span>         0.000</span><span style='text-decoration: underline;'>476</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 7</span><span>     6           0.002</span><span style='text-decoration: underline;'>47</span><span>         0.000</span><span style='text-decoration: underline;'>501</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 8</span><span>     7           0.003</span><span style='text-decoration: underline;'>03</span><span>         0.000</span><span style='text-decoration: underline;'>564</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 9</span><span>     8           0.003</span><span style='text-decoration: underline;'>65</span><span>         0.000</span><span style='text-decoration: underline;'>614</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>10</span><span>     9           0.004</span><span style='text-decoration: underline;'>13</span><span>         0.000</span><span style='text-decoration: underline;'>489</span><span> Vaccinated</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'># … with 16 more rows</span></span>m
+
+
+<span class='nv'>incidence_data</span> <span class='o'>=</span> <span class='nf'>read_csv</span><span class='o'>(</span><span class='s'>"data_from_chart.csv"</span><span class='o'>)</span> 
+
+<span class='c'>#&gt; Parsed with column specification:</span>
+<span class='c'>#&gt; cols(</span>
+<span class='c'>#&gt;   Day = <span style='color: #00BB00;'>col_double()</span><span>,</span></span>
+<span class='c'>#&gt;   VaccinatedCohort = <span style='color: #00BB00;'>col_double()</span></span>
+<span class='c'>#&gt; )</span>
+
+<span class='nv'>cohort_size</span><span class='o'>=</span><span class='m'>132015</span>
+<span class='nv'>incidence_data</span><span class='o'>$</span><span class='nv'>CumulativeIncidence</span> <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='o'>(</span><span class='nv'>incidence_data</span><span class='o'>$</span><span class='nv'>VaccinatedCohort</span><span class='o'>)</span><span class='o'>/</span> <span class='nv'>cohort_size</span>
+<span class='nv'>incidence_data</span><span class='o'>$</span><span class='nv'>type</span> <span class='o'>=</span> <span class='s'>"Incidence plot"</span>
+
+
+
+<span class='nv'>maccabi_offset</span> <span class='o'>=</span> <span class='nv'>maccabi</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>Day</span><span class='o'>&gt;</span><span class='m'>3</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>CumulativeIncidence <span class='o'>=</span> <span class='nv'>CumulativeIncidence</span><span class='o'>-</span><span class='nf'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='o'>(</span><span class='nv'>CumulativeIncidence</span><span class='o'>)</span>, type<span class='o'>=</span><span class='s'>"Kaplan-Meier plot"</span> <span class='o'>)</span>
+ 
+
+
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nf'>bind_rows</span><span class='o'>(</span><span class='nv'>incidence_data</span>,<span class='nv'>maccabi_offset</span><span class='o'>)</span>,<span class='nf'>aes</span><span class='o'>(</span>color<span class='o'>=</span><span class='nv'>type</span>, group<span class='o'>=</span><span class='nv'>type</span>, x<span class='o'>=</span><span class='nv'>Day</span>,y<span class='o'>=</span><span class='nv'>CumulativeIncidence</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>geom_line</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>labs</span><span class='o'>(</span>x<span class='o'>=</span><span class='s'>"Day"</span>,y<span class='o'>=</span><span class='s'>"Cumulative Incidence"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_y_continuous</span><span class='o'>(</span>labels<span class='o'>=</span><span class='nf'>scales</span><span class='nf'>::</span><span class='nv'><a href='https://scales.r-lib.org//reference/label_percent.html'>percent</a></span>,limits<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>0</span>,<span class='kc'>NA</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>scale_color_manual</span><span class='o'>(</span>values<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"darkgreen"</span>,<span class='s'>"red"</span><span class='o'>)</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-11-1.png" width="700px" style="display: block; margin: auto;" />
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='nf'>ggsave</span><span class='o'>(</span><span class='s'>"comparison.png"</span>,type<span class='o'>=</span><span class='s'>"cairo"</span>,width<span class='o'>=</span><span class='m'>7</span>,height<span class='o'>=</span><span class='m'>3</span><span class='o'>)</span>
+</code></pre>
 
 </div>
 
