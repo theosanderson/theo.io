@@ -119,3 +119,8 @@ The decision to look at the entire day 12-24 period rather than the end of it, w
 ggplot(perday,aes(x=Day,y=DailyIncidence))+geom_line(color="black")+theme_bw()+labs(x="Day",y="Daily Incidence")+scale_y_continuous(labels=scales::percent,limits=c(0,NA)) +geom_smooth()
 ```
 
+```{r}
+
+
+```
+

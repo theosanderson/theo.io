@@ -1,0 +1,287 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+![](ons_scatterplot.svg)
+
+```{r,message=F}
+knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
+require(xml2)
+library(tidyverse)
+library(lubridate)
+library(rvest)
+
+
+```
+
+
+
+First we will read in the SVG file as XML and look at the straight lines - i.e. the axis plots and so on.
+
+```{r}
+theme_set(theme_classic())
+
+doc <- read_xml("ons_scatterplot.svg") %>% xml_ns_strip()
+lines <- xml_nodes(doc, "line")
+
+linesdf <-
+  tibble(bind_rows(lapply(xml_attrs(lines), as.data.frame.list))) %>%
+  mutate_at(c("x1", "x2", "y1", "y2"), as.character) %>%
+  mutate_at(c("x1", "x2", "y1", "y2"), as.numeric) %>%
+  mutate(y1 = -y1, y2 = -y2) %>%
+  mutate(length = sqrt((x2 - x1)^2 + (y2 - y1)^2))
+
+```
+
+Let's try drawing this set of lines.
+```{r}
+ggplot(linesdf, aes(x = x1, xend = x2, y = y1, yend = y2, color = class)) +
+  geom_segment()
+```
+
+OK, so `st14` represents the black lines of the axis - lets extract those some more and mark them as horizontal or vertical.
+
+
+```{r}
+
+black_lines <- linesdf %>%
+  filter(class == "st14") %>%
+  mutate(horizontal = abs(y2 - y1) < 10 * abs(x2 - x1)) %>%
+  mutate(vertical = !horizontal)
+
+ggplot(black_lines, aes(x = x1, xend = x2, y = y1, yend = y2, color = horizontal)) +
+  geom_segment()
+```
+
+We can also look at the distribution of line lengths to be able to separate out the short 'ticks'.
+
+```{r fig.height=2}
+ggplot(black_lines, aes(x = length)) +
+  geom_histogram()
+
+```
+
+It looks like any line with length less than 30 will be a tick.
+
+```{r}
+
+ticks <- black_lines %>%
+  mutate(is_tick = length < 30) %>%
+  filter(is_tick)
+horiz_limits <- ticks %>%
+  filter(horizontal) %>%
+  filter(y1 == max(y1) | y1 == min(y1))
+vert_limits <- ticks %>%
+  filter(vertical) %>%
+  filter(x1 == max(x1) | x1 == min(x1))
+
+
+#ggplot(bind_rows(horiz_limits, vert_limits), aes(x = x1, xend = x2, y = y1, yend = y2, color = horizontal)) +
+#  geom_segment()
+```
+
+Now we can extract the positions of the maximum and minimum tick for each axis, and manually write in the real values those correspond to from the label:
+
+```{r}
+x_min_svg <- min(vert_limits$x1)
+x_max_svg <- max(vert_limits$x1)
+y_min_svg <- min(horiz_limits$y1)
+y_max_svg <- max(horiz_limits$y1)
+
+x_min_real <- ymd("2020-04-26")
+x_max_real <- ymd("2020-10-11")
+y_min_real <- 10
+y_max_real <- 40
+```
+
+
+We've dealt with the axes. Now time to move onto the points. Unfortunately they are not points, they are paths (bezier-curves), drawing circles to represent points!
+
+Here is a [useful tool for interpreting SVG commands](https://svg-path-visualizer.netlify.app/)
+
+
+We'll extract all the paths  
+```{r}
+paths <- xml_nodes(doc, "path")
+```
+
+And then try to split up the bezier curves into sub commands, like `M` (move to a point), `C` draw a curve in absolute coordinates, `c` draw a curve in relative coordinates, and so on.
+```{r}
+pathsdf <-
+  tibble(bind_rows(lapply(xml_attrs(paths), as.data.frame.list))) %>%
+  mutate(id = 1:n()) %>%
+  mutate(d = gsub("S", "|S", d)) %>%
+  mutate(d = gsub("s", "|s", d)) %>%
+  mutate(d = gsub("z", "|z", d)) %>%
+  mutate(d = gsub("c", "|c:", d)) %>%
+  mutate(d = gsub("C", "|C:", d)) %>%
+  mutate(d = gsub("M", "M:", d)) %>%
+  mutate(d = gsub("\n", "", d)) %>%
+  mutate(d = gsub(" ", "", d)) %>%
+  mutate(d = gsub("([0-9])-", "\\1,-", d))
+
+
+
+commandsdf <- pathsdf %>%
+  separate_rows(d, sep = "\\|") %>%
+  filter(d != "z") %>%
+  separate(d, into = c("command", "parameters"), ":")
+
+
+
+commandsdf %>%
+  group_by(id, command) %>%
+  summarise(n = n()) %>%
+  group_by(n, command) %>%
+  summarise(count = n())
+
+
+commands_processed <- commandsdf %>%
+  separate(parameters, into = c("p1", "p2", "p3", "p4", "p5", "p6"), sep = ",") %>%
+  mutate(abs_x = case_when(command == "M" ~ p1, command == "C" ~ p5), abs_y = case_when(command == "M" ~ p2, command == "C" ~ p6)) %>%
+  mutate(rel_x = case_when(command == "c" ~ p5), rel_y = case_when(command == "c" ~ p6))
+```
+These circles are represented as 4 curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points in just the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we average out, and add back the class metadata.
+
+```{r}
+lowercase_cs <- commands_processed %>%
+  group_by(id) %>%
+  filter(command == "c") %>%
+  mutate(rel_x_sum = cumsum(rel_x), rel_y_sum = cumsum(rel_y)) %>%
+  select(id, rel_x_sum, rel_y_sum)
+
+zeroes <- lowercase_cs %>%
+  group_by(id) %>%
+  summarise(rel_x_sum = 0, rel_y_sum = 0)
+
+full_relative_set <- bind_rows(lowercase_cs, zeroes)
+
+uppercase_cs <- commands_processed %>%
+  filter(command == "C") %>%
+  select(id, command, abs_x, abs_y) %>%
+  mutate(abs_x = as.numeric(abs_x), abs_y = as.numeric(abs_y))
+
+both <- inner_join(uppercase_cs, full_relative_set, by = "id") %>% mutate(x = abs_x + rel_x_sum, y = abs_y + rel_y_sum)
+
+point_types <- pathsdf %>% select(id, class)
+
+points <- both %>%
+  group_by(id) %>%
+  summarise(x = mean(x), y = mean(y)) %>%
+  inner_join(point_types, by = "id") %>%
+  mutate(y = -y) %>%
+  filter(class %in% c("st10", "st7", "st9", "st12", "st11", "st5"))
+
+```
+
+Above you can see I have filtered to only some of the classes. This is because some points were represented by two curves, one a stroke and one a fill. Now let's plot the points. 
+
+```{r}
+ggplot(black_lines, aes(x = x1, xend = x2, y = y1, yend = y2)) +
+  geom_segment() +
+  geom_point(data = points %>% mutate(x2 = 0, y2 = 0), aes(x = x, y = y, color = class)) +
+  scale_color_brewer(type = "qual", palette = "Paired")
+```
+
+Conveniently, the points in the key are still there, so we can easily label these classes with their correct metadata
+
+```{r}
+genes_detected <- c(1, 1, 2, 2, 3, 3)
+symptoms <- c("yes", "no", "yes", "no", "yes", "no")
+classes <- c("st9", "st12", "st7", "st11", "st5", "st10")
+
+class_info <- tibble(class = classes, symptoms = symptoms, genes_detected = genes_detected)
+
+
+points_detail <- points %>%
+  inner_join(class_info) %>%
+  mutate(genes_detected = as.factor(genes_detected))
+
+ggplot(black_lines, aes(x = x1, xend = x2, y = y1, yend = y2)) +
+  geom_segment() +
+  geom_point(data = points_detail %>% mutate(x2 = 0, y2 = 0), aes(x = x, y = y, color = genes_detected, shape = symptoms)) +
+  scale_color_manual(values = c("red", "blue", "black"))+scale_shape_manual(values=c(1,16))
+```
+
+Getting there!
+
+Now we just need to transform ourselves into the right axes:
+
+```{r}
+
+transform <- function(vector, a_in, a_out, b_in, b_out) {
+  scaling <- (b_out - a_out) / (b_in - a_in)
+  vector <- (vector - a_in) * scaling + a_out
+  return(vector)
+}
+
+
+ytransform <- partial(transform, a_in = y_min_svg, a_out = y_min_real, b_in = y_max_svg, b_out = y_max_real)
+xtransform <- partial(transform, a_in = x_min_svg, a_out = x_min_real, b_in = x_max_svg, b_out = x_max_real)
+
+
+new_axes <- black_lines %>% mutate(y1 = ytransform(y1), y2 = ytransform(y2), x1 = xtransform(x1), x2 = xtransform(x2))
+
+points_transformed <- points_detail %>% mutate(y = ytransform(y), x = xtransform(x))
+
+
+ggplot(new_axes, ) +
+  geom_segment(aes(x = x1, xend = x2, y = y1, yend = y2)) +
+  geom_point(data = points_transformed %>% mutate(x2 = ymd("2020-01-01"), y2 = ymd("2020-01-01")), aes(x = x, y = y, color = genes_detected, shape = symptoms)) +
+  scale_color_manual(values = c("red", "blue", "black"))+scale_shape_manual(values=c(1,16))
+```
+
+OK, at this point we can throw away the axes and just focus on the points.
+
+
+```{r}
+values <- points_transformed %>%
+  filter(y > 0) %>%
+  mutate(Date = x, Ct = y) %>%
+  select(-x, -y, -class,-id)
+
+write_csv(values, "extracted_ct_value_genes_detected_and_symptoms.csv")
+values
+```
+
+And there's our dataset.
+
+
+And here's our graph
+
+```{r}
+ggplot(values,aes(x=Date,y=Ct,color=genes_detected,shape=symptoms)) +
+  scale_color_manual(values = c("red", "blue", "black"))+scale_shape_manual(values=c(1,16)) +geom_point()+theme_bw()+ theme(legend.position="bottom")
+```
+
+as compared to
+![](ons_scatterplot.svg)
+
+
+```{r}
+ggplot(values,aes(x=Ct,fill=genes_detected)) +
+  scale_fill_manual(values = c("red", "blue", "black")) +geom_density(alpha=0.3)
+
+ggplot(values,aes(x=Ct,fill=genes_detected)) +
+  scale_fill_manual(values = c("red", "blue", "black")) +geom_density(position="stack")+facet_grid(symptoms~.)
+
+
+ggplot(values,aes(x=Ct,fill=symptoms)) + geom_density(alpha=0.5)
+
+ggplot(values,aes(x=Ct,fill=genes_detected)) +
+  scale_fill_manual(values = c("red", "blue", "black")) +geom_histogram() +facet_wrap(~month(Date))
+```
+
+```{r}
+simulated_b117 = values %>% mutate(genes_detected=as.factor(as.numeric(as.character(genes_detected))-1)) %>% filter(genes_detected!= 0)
+ggplot(simulated_b117,aes(x=Ct,fill=genes_detected)) +
+  scale_fill_manual(values = c("red", "blue", "black")) +geom_histogram() 
+```
+

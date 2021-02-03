@@ -1,0 +1,38 @@
+---
+title: "Age"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-01-31T10:18:37Z
+lastmod: 2021-01-31T10:18:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output: 
+  hugodown::md_document:
+    fig_width: 6 
+    fig_asp: 0.59
+---
+
+
+```{r include=F}
+library(tidyverse)
+```
+```{r}
+data <- read_csv("./specimenDate_ageDemographic-stacked.csv") %>% filter(areaType=="overview") %>% filter(date>"2021-01-15") %>% filter(age!="unassigned") %>% filter(age!="60+") %>% separate(age,into=c("start_age"),sep="_") %>% mutate(start_age=as.numeric(start_age)) %>% mutate(band=case_when(start_age>79 ~ "80+",start_age>59 ~ "60-80",start_age>39 ~ "40-60",start_age>19 ~ "20-40")) %>% group_by(band,date) %>% summarise( newCasesBySpecimenDateRollingRate=mean(newCasesBySpecimenDateRollingRate) ) %>% mutate(newCasesBySpecimenDateRollingRate = log10(newCasesBySpecimenDateRollingRate))
+
+
+offsets = data  %>% group_by(band) %>% summarise(offset = mean(newCasesBySpecimenDateRollingRate))
+
+data2 = inner_join(data,offsets,by=c("band")) %>% mutate(newCasesBySpecimenDateRollingRate=newCasesBySpecimenDateRollingRate-offset)
+
+
+ggplot(data2,aes(x=date,y=newCasesBySpecimenDateRollingRate,color=band))+geom_line()+geom_point()+labs(y="offset new cases by specimen date")+theme_bw()
+ggsave('plot.png')
+
+
+metadata = read_tsv('meta')
+```
