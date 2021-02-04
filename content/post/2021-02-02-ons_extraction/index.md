@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 41599dffa88aa5ca
+rmd_hash: dd8b9f5ffab921e3
 
 ---
 
@@ -203,7 +203,7 @@ And then try to split up the bezier curves into sub commands, like `M` (move to 
 
 </div>
 
-These circles in SVG form as curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points is absolute, from the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we'll average out, and add back the class metadata.
+These circles in SVG form curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points is absolute, from the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we'll average out, and add back the class metadata.
 
 <div class="highlight">
 
@@ -345,7 +345,7 @@ OK, the coordinates look right. At this point we can throw away the old axes and
 
 There's our [dataset](ons_ct_value_genes_detected_and_symptoms.csv).
 
-And here's our graph
+And here's our graph.
 
 <div class="highlight">
 
@@ -357,7 +357,7 @@ And here's our graph
 
 </div>
 
-as compared to ![](ons_scatterplot.svg)
+as compared to: ![](ons_scatterplot.svg)
 
 Now we can see what this data can tell us about Ct value distributions:
 
@@ -365,7 +365,7 @@ What is the distribution of 1, 2, and 3 gene positives at different Ct values?
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span>,y<span class='o'>=</span><span class='nv'>..count..</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span>
 
 </code></pre>
@@ -378,7 +378,7 @@ What is the distribution of Ct values with and without symptoms?
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'>
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>symptoms</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>symptoms</span>,y<span class='o'>=</span><span class='nv'>..count..</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span>
 
 </code></pre>
 <img src="figs/unnamed-chunk-18-1.png" width="700px" style="display: block; margin: auto;" />
@@ -405,7 +405,7 @@ Crucially from the point of view of assessing B.1.1.7 proportions, we can calcul
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span>,y<span class='o'>=</span><span class='nv'>..count..</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.5</span>,position<span class='o'>=</span><span class='s'>"stack"</span><span class='o'>)</span>
 
 </code></pre>
@@ -413,12 +413,14 @@ Crucially from the point of view of assessing B.1.1.7 proportions, we can calcul
 
 </div>
 
-And we can even simulate B.1.1.7 by artificially dropping out one gene
+And we can even simulate what B.1.1.7 would look like under these conditions. We know that it is very rare to see the `S` positive unless `OR` and `N` are both also positive. So essentially B.1.1.7 SGTF would just turn `3` into `2` here.
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>simul_b117</span> <span class='o'>=</span> <span class='nv'>values</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>genes_detected<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span><span class='o'>-</span><span class='m'>1</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>&gt;</span><span class='m'>0</span><span class='o'>)</span>
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>simul_b117</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>simul_b117</span> <span class='o'>=</span> <span class='nv'>values</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>genes_detected<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>==</span><span class='s'>"3"</span>,<span class='s'>"2"</span>,<span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>&gt;</span><span class='m'>0</span><span class='o'>)</span>
+
+
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>simul_b117</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span>,y<span class='o'>=</span><span class='nv'>..count..</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.5</span>,position<span class='o'>=</span><span class='s'>"stack"</span><span class='o'>)</span>
 
 </code></pre>
@@ -426,12 +428,16 @@ And we can even simulate B.1.1.7 by artificially dropping out one gene
 
 </div>
 
-The `1` values at low Ct are likely artefactual, coming from `2`s in the original dataset that were due to pre-B.1.1.7 SGTF (or on occasion B.1.17). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`.
+We can see that at high Ct, we see a lot of the single gene `OR` or `N`.
 
-With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples that were previously called as `not-compatible with the new variant`.
+With the median Ct value around `31` in recent weeks, this can help to explain the presence of single gene positive samples that were previously called as `not-compatible with the new variant`.
+
+<div class="highlight">
+
+</div>
 
 Conclusion
 ----------
 
-We've seen that even when data are presented in a graphical form, we may be able to turn it back into data so that we can re-analyse it to better understand the patterns in data we are seeing today.
+We've been able to regenerate a valuable dataset which can provide insights into the apparent relative decline of B.1.1.7 in the recent report. Hopefully this dataset can provide a useful building block in downstream analyses of Ct, gene dropout, and temporal dynamics.
 
