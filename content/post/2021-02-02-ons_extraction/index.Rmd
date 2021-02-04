@@ -7,7 +7,7 @@ tags: []
 categories: []
 date: 2021-02-03T10:18:37Z
 featured: false
-draft: true
+draft: false
 projects: []
 mininote: true
 output: 
@@ -16,7 +16,7 @@ output:
     fig_asp: 0.59
 ---
 
-**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have been released only in graphical form which makes them hard to re-analyse. Here I describe how I went about turning one of these graphs back into data using R and briefly explore what it can tell us about SGTF in samples today.
+**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have been released only in graphical form which makes them hard to re-analyse. Here I describe how I went about turning one of these graphs back into data in R and briefly explore what it can tell us about SGTF in samples today.
 
 <hr>
 
@@ -24,15 +24,15 @@ output:
 
 The ONS infection survey is an extremely valuable and well-conducted piece of work. As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the raw data outputs can be subject to different interpretations.
 
-One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to calculating this by calculating the Ct value in different regions, and relating this to the areas mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
+One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to examining this by calculating the Ct value in different regions, and relating this to the area's mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
 
-I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the figure below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
+I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the graph below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
 
 
 ![](ons_scatterplot.svg)
 
 
-Unfortunately this data is only presented graphically. But since they are present in a vector format we can get them back out and create a dataset. Here is how I went about this in R.
+Unfortunately this data is only presented graphically. But since the graphic is present in a vector format we may be able to get the data back out again without locating every point by hand. Here is how I went about this.
 
 ```{r,message=F}
 knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
@@ -56,12 +56,12 @@ linesdf <-
   tibble(bind_rows(lapply(xml_attrs(lines), as.data.frame.list))) %>%
   mutate_at(c("x1", "x2", "y1", "y2"), as.character) %>%
   mutate_at(c("x1", "x2", "y1", "y2"), as.numeric) %>%
-  mutate(y1 = -y1, y2 = -y2) %>%
+  mutate(y1 = -y1, y2 = -y2) %>% # y-axis is reversed in SVG - screen format is from top left
   mutate(length = sqrt((x2 - x1)^2 + (y2 - y1)^2))
 
 ```
 
-Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what.
+Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what items of the plot.
 ```{r}
 ggplot(linesdf, aes(x = x1, xend = x2, y = y1, yend = y2, color = class)) +
   geom_segment()
@@ -132,7 +132,7 @@ We've dealt with the axes. Now time to move onto the points. Unfortunately they 
 Here is a [tool](https://svg-path-visualizer.netlify.app/) I found useful for interpreting SVG commands.
 
 
-We'll extract all the paths
+We'll extract all the paths.
 
 ```{r}
 paths <- xml_nodes(doc, "path")
@@ -163,7 +163,7 @@ commands_processed <- commandsdf %>%
   mutate(abs_x = case_when(command == "M" ~ p1, command == "C" ~ p5), abs_y = case_when(command == "M" ~ p2, command == "C" ~ p6)) %>%
   mutate(rel_x = case_when(command == "c" ~ p5), rel_y = case_when(command == "c" ~ p6))
 ```
-These circles in SVG form as curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points is absolute, from the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we'll average out, and add back the class metadata.
+These circles in SVG form curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points is absolute, from the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we'll average out, and add back the class metadata.
 
 ```{r}
 lowercase_cs <- commands_processed %>%
@@ -257,11 +257,11 @@ values <- points_transformed %>%
   mutate(Date = x, Ct = y) %>%
   select(-x, -y, -class,-id)
 
-write_csv(values, "extracted_ct_value_genes_detected_and_symptoms.csv")
+write_csv(values, "ons_ct_value_genes_detected_and_symptoms.csv")
 values
 ```
 
-There's our dataset.
+There's our [dataset](ons_ct_value_genes_detected_and_symptoms.csv).
 
 
 And here's our graph
@@ -291,12 +291,14 @@ ggplot(values,aes(x=Ct,fill=symptoms)) + geom_density(alpha=0.3)
 
 ```
 
-Does symptomatic Ct distribution vary over time (yes, it does -- which I hadn't especially expected -- this may be because it includes symptoms either side of the test at any length of time, so at times of high Ct perhaps people aren't mostly symptomatic at the time of testing).
+Does symptomatic Ct distribution vary over time? 
+
 ```{r}
 
 ggplot(values,aes(x=Date,y=Ct,color=symptoms)) + geom_smooth()
 
 ```
+(yes, it does -- which I hadn't especially expected -- this may be because it includes symptoms either side of the test at any length of time, so at times of high Ct perhaps people aren't mostly symptomatic at the time of testing)
 
 
 Crucially from the point of view of assessing B.1.1.7 proportions, we can calculate how we expect the number of genes detected to change with Ct value for wild-type SARS-CoV2.
@@ -313,8 +315,10 @@ ggplot(simul_b117,aes(x=Ct,fill=genes_detected)) +
 
 ```
 
-The `1` values at low Ct are likely artefactual, coming from `2` in the original dataset that were due to pre-B.1.1.7 SGTF (or B.1.17 on occasion). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`. With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples.
+The `1` values at low Ct are likely artefactual, coming from `2`s in the original dataset that were due to pre-B.1.1.7 SGTF (or on occasion B.1.17). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`. 
+
+With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples that were previously called as `not-compatible with the new variant`.
 
 ## Conclusion
-We've seen
+We've seen that even when data are presented in a graphical form, we may be able to turn it back into data so that we can re-analyse it to better understand the patterns in data we are seeing today.
   

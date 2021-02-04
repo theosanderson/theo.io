@@ -14,11 +14,11 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 0a303bb487b42b33
+rmd_hash: 41599dffa88aa5ca
 
 ---
 
-**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have been released only in graphical form which makes them hard to re-analyse. Here I describe how I went about turning one of these graphs back into data using R and briefly explore what it can tell us about SGTF in samples today.
+**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have been released only in graphical form which makes them hard to re-analyse. Here I describe how I went about turning one of these graphs back into data in R and briefly explore what it can tell us about SGTF in samples today.
 
 <hr>
 
@@ -26,13 +26,13 @@ rmd_hash: 0a303bb487b42b33
 
 The ONS infection survey is an extremely valuable and well-conducted piece of work. As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the raw data outputs can be subject to different interpretations.
 
-One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to calculating this by calculating the Ct value in different regions, and relating this to the areas mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
+One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to examining this by calculating the Ct value in different regions, and relating this to the area's mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
 
-I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the figure below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
+I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the graph below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
 
 ![](ons_scatterplot.svg)
 
-Unfortunately this data is only presented graphically. But since they are present in a vector format we can get them back out and create a dataset. Here is how I went about this in R.
+Unfortunately this data is only presented graphically. But since the graphic is present in a vector format we may be able to get the data back out again without locating every point by hand. Here is how I went about this.
 
 <div class="highlight">
 
@@ -59,13 +59,13 @@ First we will read in the SVG file as XML and look at the straight lines - i.e.Â
   <span class='nf'>tibble</span><span class='o'>(</span><span class='nf'>bind_rows</span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='o'>(</span><span class='nf'><a href='http://xml2.r-lib.org/reference/xml_attr.html'>xml_attrs</a></span><span class='o'>(</span><span class='nv'>lines</span><span class='o'>)</span>, <span class='nv'>as.data.frame.list</span><span class='o'>)</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'>mutate_at</span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"x1"</span>, <span class='s'>"x2"</span>, <span class='s'>"y1"</span>, <span class='s'>"y2"</span><span class='o'>)</span>, <span class='nv'>as.character</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'>mutate_at</span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"x1"</span>, <span class='s'>"x2"</span>, <span class='s'>"y1"</span>, <span class='s'>"y2"</span><span class='o'>)</span>, <span class='nv'>as.numeric</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
-  <span class='nf'>mutate</span><span class='o'>(</span>y1 <span class='o'>=</span> <span class='o'>-</span><span class='nv'>y1</span>, y2 <span class='o'>=</span> <span class='o'>-</span><span class='nv'>y2</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
+  <span class='nf'>mutate</span><span class='o'>(</span>y1 <span class='o'>=</span> <span class='o'>-</span><span class='nv'>y1</span>, y2 <span class='o'>=</span> <span class='o'>-</span><span class='nv'>y2</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='c'># y-axis is reversed in SVG - screen format is from top left</span>
   <span class='nf'>mutate</span><span class='o'>(</span>length <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='o'>(</span><span class='o'>(</span><span class='nv'>x2</span> <span class='o'>-</span> <span class='nv'>x1</span><span class='o'>)</span><span class='o'>^</span><span class='m'>2</span> <span class='o'>+</span> <span class='o'>(</span><span class='nv'>y2</span> <span class='o'>-</span> <span class='nv'>y1</span><span class='o'>)</span><span class='o'>^</span><span class='m'>2</span><span class='o'>)</span><span class='o'>)</span>
 </code></pre>
 
 </div>
 
-Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what.
+Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what items of the plot.
 
 <div class="highlight">
 
@@ -159,7 +159,7 @@ We've dealt with the axes. Now time to move onto the points. Unfortunately they 
 
 Here is a [tool](https://svg-path-visualizer.netlify.app/) I found useful for interpreting SVG commands.
 
-We'll extract all the paths
+We'll extract all the paths.
 
 <div class="highlight">
 
@@ -322,7 +322,7 @@ OK, the coordinates look right. At this point we can throw away the old axes and
   <span class='nf'>mutate</span><span class='o'>(</span>Date <span class='o'>=</span> <span class='nv'>x</span>, Ct <span class='o'>=</span> <span class='nv'>y</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'>select</span><span class='o'>(</span><span class='o'>-</span><span class='nv'>x</span>, <span class='o'>-</span><span class='nv'>y</span>, <span class='o'>-</span><span class='nv'>class</span>,<span class='o'>-</span><span class='nv'>id</span><span class='o'>)</span>
 
-<span class='nf'>write_csv</span><span class='o'>(</span><span class='nv'>values</span>, <span class='s'>"extracted_ct_value_genes_detected_and_symptoms.csv"</span><span class='o'>)</span>
+<span class='nf'>write_csv</span><span class='o'>(</span><span class='nv'>values</span>, <span class='s'>"ons_ct_value_genes_detected_and_symptoms.csv"</span><span class='o'>)</span>
 <span class='nv'>values</span>
 
 <span class='c'>#&gt; <span style='color: #555555;'># A tibble: 1,886 x 4</span></span>
@@ -343,7 +343,7 @@ OK, the coordinates look right. At this point we can throw away the old axes and
 
 </div>
 
-There's our dataset.
+There's our [dataset](ons_ct_value_genes_detected_and_symptoms.csv).
 
 And here's our graph
 
@@ -385,7 +385,7 @@ What is the distribution of Ct values with and without symptoms?
 
 </div>
 
-Does symptomatic Ct distribution vary over time (yes, it does -- which I hadn't especially expected -- this may be because it includes symptoms either side of the test at any length of time, so at times of high Ct perhaps people aren't mostly symptomatic at the time of testing).
+Does symptomatic Ct distribution vary over time?
 
 <div class="highlight">
 
@@ -398,6 +398,8 @@ Does symptomatic Ct distribution vary over time (yes, it does -- which I hadn't 
 <img src="figs/unnamed-chunk-19-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
+
+(yes, it does -- which I hadn't especially expected -- this may be because it includes symptoms either side of the test at any length of time, so at times of high Ct perhaps people aren't mostly symptomatic at the time of testing)
 
 Crucially from the point of view of assessing B.1.1.7 proportions, we can calculate how we expect the number of genes detected to change with Ct value for wild-type SARS-CoV2.
 
@@ -424,10 +426,12 @@ And we can even simulate B.1.1.7 by artificially dropping out one gene
 
 </div>
 
-The `1` values at low Ct are likely artefactual, coming from `2` in the original dataset that were due to pre-B.1.1.7 SGTF (or B.1.17 on occasion). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`. With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples.
+The `1` values at low Ct are likely artefactual, coming from `2`s in the original dataset that were due to pre-B.1.1.7 SGTF (or on occasion B.1.17). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`.
+
+With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples that were previously called as `not-compatible with the new variant`.
 
 Conclusion
 ----------
 
-We've seen
+We've seen that even when data are presented in a graphical form, we may be able to turn it back into data so that we can re-analyse it to better understand the patterns in data we are seeing today.
 
