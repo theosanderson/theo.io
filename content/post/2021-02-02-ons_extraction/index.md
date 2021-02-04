@@ -1,5 +1,5 @@
 ---
-title: "Democratising ONS infection survey data using SVG parsing"
+title: "Turning a graph back into data"
 subtitle: ""
 summary: ""
 authors: []
@@ -14,21 +14,25 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 5b90def42dba3378
+rmd_hash: 0a303bb487b42b33
 
 ---
 
-**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have only been released in graphical form which makes them hard to re-analyse. I extracted a line-list like dataset containing: swab date, overall Ct value, symptomatic status, and number of genes detected (1, 2 or 3) from a [preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) describing testing work from 26 April--11 October 2020. Here I [make this data available](/ons_ct_values_and_symptoms.csv) for further analysis, and describe the extraction process.
+**Summary:** The ONS Coronavirus Infection Survey is an immensely valuable scientific project measuring prevalence of coronavirus in the community. However some useful data have been released only in graphical form which makes them hard to re-analyse. Here I describe how I went about turning one of these graphs back into data using R and briefly explore what it can tell us about SGTF in samples today.
 
 <hr>
 
 ### Background
 
-The ONS infection survey is an extremely valuable and well-conducted piece of work.
+The ONS infection survey is an extremely valuable and well-conducted piece of work. As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the raw data outputs can be subject to different interpretations.
 
-As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the raw data outputs can be subject to different interpretations.
+One challenge in interpreting this data in that post was that information on the relationship between the number of genes detected and the distribution of Ct values was not available. I resorted to calculating this by calculating the Ct value in different regions, and relating this to the areas mean Ct value. But what I really wanted was a line list containing Ct value data for each test, along with how many genes were detected (and ideally further information).
+
+I have since discovered that some of this data is available in [a preprint](https://www.medrxiv.org/content/10.1101/2020.10.25.20219048v1) published by the survey team in October 2020. Specifically, for me - the most valuable data is the figure below, which depicts individual tests with their Ct values, symptomatic status, and number of genes detected.
 
 ![](ons_scatterplot.svg)
+
+Unfortunately this data is only presented graphically. But since they are present in a vector format we can get them back out and create a dataset. Here is how I went about this in R.
 
 <div class="highlight">
 
@@ -42,7 +46,7 @@ As I discussed in [a previous post](/post/2021-01-22-ons-data/) sometimes the ra
 
 </div>
 
-First we will read in the SVG file as XML and look at the straight lines - i.e. the axis plots and so on.
+First we will read in the SVG file as XML and look at the straight lines - i.e. the axes, things like the axes and tick-lines.
 
 <div class="highlight">
 
@@ -61,7 +65,7 @@ First we will read in the SVG file as XML and look at the straight lines - i.e.�
 
 </div>
 
-Let's try drawing this set of lines.
+Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what.
 
 <div class="highlight">
 
@@ -73,7 +77,7 @@ Let's try drawing this set of lines.
 
 </div>
 
-OK, so `st14` represents the black lines of the axis - lets extract those some more and mark them as horizontal or vertical.
+OK, so `st14` represents the black lines of the axis - lets extract those and mark them each as horizontal or vertical.
 
 <div class="highlight">
 
@@ -135,8 +139,15 @@ Now we can extract the positions of the maximum and minimum tick for each axis, 
 <span class='nv'>x_max_svg</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='o'>(</span><span class='nv'>vert_limits</span><span class='o'>$</span><span class='nv'>x1</span><span class='o'>)</span>
 <span class='nv'>y_min_svg</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='o'>(</span><span class='nv'>horiz_limits</span><span class='o'>$</span><span class='nv'>y1</span><span class='o'>)</span>
 <span class='nv'>y_max_svg</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='o'>(</span><span class='nv'>horiz_limits</span><span class='o'>$</span><span class='nv'>y1</span><span class='o'>)</span>
+</code></pre>
 
-<span class='nv'>x_min_real</span> <span class='o'>&lt;-</span> <span class='nf'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='o'>(</span><span class='s'>"2020-04-26"</span><span class='o'>)</span>
+</div>
+
+We'll also manually enter the corresponding real values from the tick labels
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>x_min_real</span> <span class='o'>&lt;-</span> <span class='nf'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='o'>(</span><span class='s'>"2020-04-26"</span><span class='o'>)</span>
 <span class='nv'>x_max_real</span> <span class='o'>&lt;-</span> <span class='nf'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='o'>(</span><span class='s'>"2020-10-11"</span><span class='o'>)</span>
 <span class='nv'>y_min_real</span> <span class='o'>&lt;-</span> <span class='m'>10</span>
 <span class='nv'>y_max_real</span> <span class='o'>&lt;-</span> <span class='m'>40</span>
@@ -146,9 +157,9 @@ Now we can extract the positions of the maximum and minimum tick for each axis, 
 
 We've dealt with the axes. Now time to move onto the points. Unfortunately they are not points, they are paths (bezier-curves), drawing circles to represent points!
 
-Here is a [useful tool for interpreting SVG commands](https://svg-path-visualizer.netlify.app/)
+Here is a [tool](https://svg-path-visualizer.netlify.app/) I found useful for interpreting SVG commands.
 
-We'll extract all the paths  
+We'll extract all the paths
 
 <div class="highlight">
 
@@ -174,48 +185,12 @@ And then try to split up the bezier curves into sub commands, like `M` (move to 
   <span class='nf'>mutate</span><span class='o'>(</span>d <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='o'>(</span><span class='s'>" "</span>, <span class='s'>""</span>, <span class='nv'>d</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'>mutate</span><span class='o'>(</span>d <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='o'>(</span><span class='s'>"([0-9])-"</span>, <span class='s'>"\\1,-"</span>, <span class='nv'>d</span><span class='o'>)</span><span class='o'>)</span>
 
-
-
 <span class='nv'>commandsdf</span> <span class='o'>&lt;-</span> <span class='nv'>pathsdf</span> <span class='o'>%&gt;%</span>
   <span class='nf'>separate_rows</span><span class='o'>(</span><span class='nv'>d</span>, sep <span class='o'>=</span> <span class='s'>"\\|"</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>d</span> <span class='o'>!=</span> <span class='s'>"z"</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
   <span class='nf'>separate</span><span class='o'>(</span><span class='nv'>d</span>, into <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"command"</span>, <span class='s'>"parameters"</span><span class='o'>)</span>, <span class='s'>":"</span><span class='o'>)</span>
 
 <span class='c'>#&gt; Warning: Expected 2 pieces. Missing pieces filled with `NA` in 24 rows [23, 25, 28, 30, 7933, 7935, 7938, 7940, 8673, 8675, 8678, 8680, 16233, 16235, 16238, 16240, 16243, 16245, 16248, 16250, ...].</span>
-
-
-
-
-<span class='nv'>commandsdf</span> <span class='o'>%&gt;%</span>
-  <span class='nf'>group_by</span><span class='o'>(</span><span class='nv'>id</span>, <span class='nv'>command</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
-  <span class='nf'>summarise</span><span class='o'>(</span>n <span class='o'>=</span> <span class='nf'>n</span><span class='o'>(</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
-  <span class='nf'>group_by</span><span class='o'>(</span><span class='nv'>n</span>, <span class='nv'>command</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
-  <span class='nf'>summarise</span><span class='o'>(</span>count <span class='o'>=</span> <span class='nf'>n</span><span class='o'>(</span><span class='o'>)</span><span class='o'>)</span>
-
-<span class='c'>#&gt; `summarise()` regrouping output by 'id' (override with `.groups` argument)</span>
-
-<span class='c'>#&gt; `summarise()` regrouping output by 'n' (override with `.groups` argument)</span>
-
-<span class='c'>#&gt; <span style='color: #555555;'># A tibble: 15 x 3</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'># Groups:   n [3]</span></span>
-<span class='c'>#&gt;        n command                  count</span>
-<span class='c'>#&gt;    <span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 1</span><span>     1 C                         </span><span style='text-decoration: underline;'>3</span><span>784</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 2</span><span>     1 M                         </span><span style='text-decoration: underline;'>3</span><span>796</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 3</span><span>     1 s-0.72,0.36,-0.72,0.72       2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 4</span><span>     1 s-0.72,0.36,-0.72,0.9        4</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 5</span><span>     1 S43,38.37,43,38.91           2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 6</span><span>     1 S43,54.21,43,54.75           2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 7</span><span>     1 S43,75.45,43,75.99           2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 8</span><span>     1 S44.44,39.27,44.44,38.91     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 9</span><span>     1 S44.44,55.29,44.44,54.75     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>10</span><span>     1 S44.44,76.53,44.44,75.99     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>11</span><span>     1 S55.78,40.89,55.78,40.53     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>12</span><span>     1 S55.78,44.49,55.78,44.13     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>13</span><span>     1 S55.78,62.49,55.78,62.13     2</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>14</span><span>     2 c                           12</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>15</span><span>     3 c                         </span><span style='text-decoration: underline;'>3</span><span>784</span></span>
-
 
 
 <span class='nv'>commands_processed</span> <span class='o'>&lt;-</span> <span class='nv'>commandsdf</span> <span class='o'>%&gt;%</span>
@@ -228,7 +203,7 @@ And then try to split up the bezier curves into sub commands, like `M` (move to 
 
 </div>
 
-These circles are represented as 4 curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points in just the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we average out, and add back the class metadata.
+These circles in SVG form as curves, with 4 control points. If we take the average of these we can find the position of the point. One of the points is absolute, from the `M` coordinates, but 3 are from `c` commands, and they only have relative coordinates, so we need to calculate the cumulative sums of these, and then add them to the `M` coordinates. Then we'll average out, and add back the class metadata.
 
 <div class="highlight">
 
@@ -278,7 +253,7 @@ Above you can see I have filtered to only some of the classes. This is because s
   <span class='nf'>scale_color_brewer</span><span class='o'>(</span>type <span class='o'>=</span> <span class='s'>"qual"</span>, palette <span class='o'>=</span> <span class='s'>"Paired"</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-11-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-12-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
@@ -291,7 +266,6 @@ Conveniently, the points in the key are still there, so we can easily label thes
 <span class='nv'>classes</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"st9"</span>, <span class='s'>"st12"</span>, <span class='s'>"st7"</span>, <span class='s'>"st11"</span>, <span class='s'>"st5"</span>, <span class='s'>"st10"</span><span class='o'>)</span>
 
 <span class='nv'>class_info</span> <span class='o'>&lt;-</span> <span class='nf'>tibble</span><span class='o'>(</span>class <span class='o'>=</span> <span class='nv'>classes</span>, symptoms <span class='o'>=</span> <span class='nv'>symptoms</span>, genes_detected <span class='o'>=</span> <span class='nv'>genes_detected</span><span class='o'>)</span>
-
 
 <span class='nv'>points_detail</span> <span class='o'>&lt;-</span> <span class='nv'>points</span> <span class='o'>%&gt;%</span>
   <span class='nf'>inner_join</span><span class='o'>(</span><span class='nv'>class_info</span><span class='o'>)</span> <span class='o'>%&gt;%</span>
@@ -306,11 +280,11 @@ Conveniently, the points in the key are still there, so we can easily label thes
   <span class='nf'>scale_color_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_shape_manual</span><span class='o'>(</span>values<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>1</span>,<span class='m'>16</span><span class='o'>)</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-12-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-13-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
-Getting there!
+We're getting there! We have recreated the chart within our ggplot.
 
 Now we just need to transform ourselves into the right axes:
 
@@ -323,15 +297,11 @@ Now we just need to transform ourselves into the right axes:
   <span class='kr'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='o'>(</span><span class='nv'>vector</span><span class='o'>)</span>
 <span class='o'>&#125;</span>
 
-
 <span class='nv'>ytransform</span> <span class='o'>&lt;-</span> <span class='nf'>partial</span><span class='o'>(</span><span class='nv'>transform</span>, a_in <span class='o'>=</span> <span class='nv'>y_min_svg</span>, a_out <span class='o'>=</span> <span class='nv'>y_min_real</span>, b_in <span class='o'>=</span> <span class='nv'>y_max_svg</span>, b_out <span class='o'>=</span> <span class='nv'>y_max_real</span><span class='o'>)</span>
 <span class='nv'>xtransform</span> <span class='o'>&lt;-</span> <span class='nf'>partial</span><span class='o'>(</span><span class='nv'>transform</span>, a_in <span class='o'>=</span> <span class='nv'>x_min_svg</span>, a_out <span class='o'>=</span> <span class='nv'>x_min_real</span>, b_in <span class='o'>=</span> <span class='nv'>x_max_svg</span>, b_out <span class='o'>=</span> <span class='nv'>x_max_real</span><span class='o'>)</span>
 
-
 <span class='nv'>new_axes</span> <span class='o'>&lt;-</span> <span class='nv'>black_lines</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>y1 <span class='o'>=</span> <span class='nf'>ytransform</span><span class='o'>(</span><span class='nv'>y1</span><span class='o'>)</span>, y2 <span class='o'>=</span> <span class='nf'>ytransform</span><span class='o'>(</span><span class='nv'>y2</span><span class='o'>)</span>, x1 <span class='o'>=</span> <span class='nf'>xtransform</span><span class='o'>(</span><span class='nv'>x1</span><span class='o'>)</span>, x2 <span class='o'>=</span> <span class='nf'>xtransform</span><span class='o'>(</span><span class='nv'>x2</span><span class='o'>)</span><span class='o'>)</span>
-
 <span class='nv'>points_transformed</span> <span class='o'>&lt;-</span> <span class='nv'>points_detail</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>y <span class='o'>=</span> <span class='nf'>ytransform</span><span class='o'>(</span><span class='nv'>y</span><span class='o'>)</span>, x <span class='o'>=</span> <span class='nf'>xtransform</span><span class='o'>(</span><span class='nv'>x</span><span class='o'>)</span><span class='o'>)</span>
-
 
 <span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>new_axes</span>, <span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>geom_segment</span><span class='o'>(</span><span class='nf'>aes</span><span class='o'>(</span>x <span class='o'>=</span> <span class='nv'>x1</span>, xend <span class='o'>=</span> <span class='nv'>x2</span>, y <span class='o'>=</span> <span class='nv'>y1</span>, yend <span class='o'>=</span> <span class='nv'>y2</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
@@ -339,11 +309,11 @@ Now we just need to transform ourselves into the right axes:
   <span class='nf'>scale_color_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_shape_manual</span><span class='o'>(</span>values<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>1</span>,<span class='m'>16</span><span class='o'>)</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-13-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-14-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
-OK, at this point we can throw away the axes and just focus on the points.
+OK, the coordinates look right. At this point we can throw away the old axes and just focus on the points.
 
 <div class="highlight">
 
@@ -373,7 +343,7 @@ OK, at this point we can throw away the axes and just focus on the points.
 
 </div>
 
-And there's our dataset.
+There's our dataset.
 
 And here's our graph
 
@@ -383,52 +353,81 @@ And here's our graph
   <span class='nf'>scale_color_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>scale_shape_manual</span><span class='o'>(</span>values<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='m'>1</span>,<span class='m'>16</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>geom_point</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>theme_bw</span><span class='o'>(</span><span class='o'>)</span><span class='o'>+</span> <span class='nf'>theme</span><span class='o'>(</span>legend.position<span class='o'>=</span><span class='s'>"bottom"</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-15-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-16-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
 as compared to ![](ons_scatterplot.svg)
 
+Now we can see what this data can tell us about Ct value distributions:
+
+What is the distribution of 1, 2, and 3 gene positives at different Ct values?
+
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
-  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_grid</span><span class='o'>(</span><span class='nv'>symptoms</span><span class='o'>~</span><span class='nv'>.</span><span class='o'>)</span>
-
-</code></pre>
-<img src="figs/unnamed-chunk-16-1.png" width="700px" style="display: block; margin: auto;" />
-<pre class='chroma'><code class='language-r' data-lang='r'>
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
-  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>geom_density</span><span class='o'>(</span>position<span class='o'>=</span><span class='s'>"stack"</span><span class='o'>)</span><span class='o'>+</span><span class='nf'>facet_grid</span><span class='o'>(</span><span class='nv'>symptoms</span><span class='o'>~</span><span class='nv'>.</span><span class='o'>)</span>
-
-</code></pre>
-<img src="figs/unnamed-chunk-16-2.png" width="700px" style="display: block; margin: auto;" />
-<pre class='chroma'><code class='language-r' data-lang='r'>
-
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>symptoms</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.5</span><span class='o'>)</span>
-
-</code></pre>
-<img src="figs/unnamed-chunk-16-3.png" width="700px" style="display: block; margin: auto;" />
-<pre class='chroma'><code class='language-r' data-lang='r'>
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
-  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>geom_histogram</span><span class='o'>(</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>facet_wrap</span><span class='o'>(</span><span class='o'>~</span><span class='nf'><a href='http://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='o'>(</span><span class='nv'>Date</span><span class='o'>)</span><span class='o'>)</span>
-
-<span class='c'>#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
-
-</code></pre>
-<img src="figs/unnamed-chunk-16-4.png" width="700px" style="display: block; margin: auto;" />
-
-</div>
-
-<div class="highlight">
-
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>simulated_b117</span> <span class='o'>=</span> <span class='nv'>values</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>genes_detected<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span><span class='o'>-</span><span class='m'>1</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>!=</span> <span class='m'>0</span><span class='o'>)</span>
-<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>simulated_b117</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
-  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span><span class='nf'>geom_histogram</span><span class='o'>(</span><span class='o'>)</span> 
-
-<span class='c'>#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span>
 
 </code></pre>
 <img src="figs/unnamed-chunk-17-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
+
+What is the distribution of Ct values with and without symptoms?
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>symptoms</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.3</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-18-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+Does symptomatic Ct distribution vary over time (yes, it does -- which I hadn't especially expected -- this may be because it includes symptoms either side of the test at any length of time, so at times of high Ct perhaps people aren't mostly symptomatic at the time of testing).
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Date</span>,y<span class='o'>=</span><span class='nv'>Ct</span>,color<span class='o'>=</span><span class='nv'>symptoms</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_smooth</span><span class='o'>(</span><span class='o'>)</span>
+
+<span class='c'>#&gt; `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-19-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+Crucially from the point of view of assessing B.1.1.7 proportions, we can calculate how we expect the number of genes detected to change with Ct value for wild-type SARS-CoV2.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>values</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
+  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.5</span>,position<span class='o'>=</span><span class='s'>"stack"</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-20-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+And we can even simulate B.1.1.7 by artificially dropping out one gene
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>simul_b117</span> <span class='o'>=</span> <span class='nv'>values</span> <span class='o'>%&gt;%</span> <span class='nf'>mutate</span><span class='o'>(</span>genes_detected<span class='o'>=</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span><span class='o'>-</span><span class='m'>1</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='o'>(</span><span class='nv'>genes_detected</span><span class='o'>&gt;</span><span class='m'>0</span><span class='o'>)</span>
+<span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>simul_b117</span>,<span class='nf'>aes</span><span class='o'>(</span>x<span class='o'>=</span><span class='nv'>Ct</span>,fill<span class='o'>=</span><span class='nv'>genes_detected</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span>
+  <span class='nf'>scale_fill_manual</span><span class='o'>(</span>values <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"red"</span>, <span class='s'>"blue"</span>, <span class='s'>"black"</span><span class='o'>)</span><span class='o'>)</span> <span class='o'>+</span> <span class='nf'>geom_density</span><span class='o'>(</span>alpha<span class='o'>=</span><span class='m'>0.5</span>,position<span class='o'>=</span><span class='s'>"stack"</span><span class='o'>)</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-21-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+The `1` values at low Ct are likely artefactual, coming from `2` in the original dataset that were due to pre-B.1.1.7 SGTF (or B.1.17 on occasion). But ignoring that, we can see that at high Ct we see a lot of the single gene `OR` or `N`. With the median Ct value around `31` in recent weeks, it seems unsurprising that we are seeing so many single gene positive samples.
+
+Conclusion
+----------
+
+We've seen
 
