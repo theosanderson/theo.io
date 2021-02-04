@@ -61,7 +61,7 @@ linesdf <-
 
 ```
 
-Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to what items of the plot.
+Let's try drawing this set of lines in ggplot. We'll colour them in by their SVG class to see what class corresponds to which items of the plot.
 ```{r}
 ggplot(linesdf, aes(x = x1, xend = x2, y = y1, yend = y2, color = class)) +
   geom_segment()
