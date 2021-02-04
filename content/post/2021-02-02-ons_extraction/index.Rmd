@@ -308,6 +308,9 @@ ggplot(values,aes(x=Ct,fill=genes_detected,y=..count..)) +
   scale_fill_manual(values = c("red", "blue", "black")) + geom_density(alpha=0.5,position="stack")
 ```
 
+This dataset gives us a sense of how much 'false positive B.1.1.7' we might see from random S dropout at a range of different Ct values (i.e. the `2` values might be predominantly this).
+
+
 And we can even simulate what B.1.1.7 would look like under these conditions. We know that it is very rare to see the `S` positive unless `OR` and `N` are both also positive. So essentially B.1.1.7 SGTF would just turn `3` into `2` here.
 
 ```{r}
