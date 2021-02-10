@@ -142,8 +142,11 @@ ggplot(data%>% filter(Region=="England",Amplicons %in% c("OR+N+S","OR+N")),aes(x
 
 ggplot(data%>% filter(RegionType=="EnglandRegion",Amplicons %in% c("OR+N+S","OR+N")),aes(x=week, fill=B117_incompatible,y=Count))+geom_bar(stat="identity",position="fill")+scale_y_continuous(labels=scales::percent) +labs(title="Regions")+facet_wrap(~Region)
 
+```
+```{r}
 
+library(tidyvers)
+data<-read_csv("later_ons_graph.csv")
 ```
 
-to be continued
-
+**Update:** the next week the ONS resolved this issue by excluding single-amplicon tests from either figure.
