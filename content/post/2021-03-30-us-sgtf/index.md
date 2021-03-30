@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: efe89070acf8c2e9
+rmd_hash: 84d4eca9f6e40193
 
 ---
 
@@ -56,7 +56,7 @@ Despite the title, I decided to extend this a bit. Let's first do as above but t
 
 </div>
 
-And now bring in case data from the New York Times and split by SGTF status.
+And now bring in case data from the New York Times and split these cases by likely SGTF status.
 
 <div class="highlight">
 
@@ -71,4 +71,6 @@ And now bring in case data from the New York Times and split by SGTF status.
 <img src="figs/unnamed-chunk-4-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
+
+Note that in the graph above we are relying here on SGTF data from one company, Helix, and then assuming it is representative of all cases in a state. This may not be an accurate assumption, as [noted by Marm Kilpatrick](https://twitter.com/DiseaseEcology/status/1377004446639550468). Interpret with caution.
 

@@ -67,5 +67,5 @@ ggplot(together %>% filter(value>0),aes(x=collection_date, y=value,color=name))+
 
 ```
 
-
+Note that in the graph above we are relying here on SGTF data from one company, Helix, and then assuming it is representative of all cases in a state. This may not be an accurate assumption, as [noted by Marm Kilpatrick](https://twitter.com/DiseaseEcology/status/1377004446639550468). Interpret with caution.
 
