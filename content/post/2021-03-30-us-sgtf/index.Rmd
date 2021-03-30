@@ -18,7 +18,7 @@ output:
 
 Somebody on Twitter was asking whether B.1.1.7 data from Florida was compatible with a logistic growth curve. It's amazing how simple this sort of thing is to look at with the Tidyverse and nicely formatted data SGTF data from Helix. (There are lots of ways one could improve this, bringing in genome data and modelling uncertainty, but it provides a quick look:)
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 data = read_csv(url("https://raw.githubusercontent.com/myhelix/helix-covid19db/master/counts_by_state.csv"))
 state_selection = (data %>% group_by(state) %>% summarise(total=sum(positive)) %>% filter(total>5000))$state
