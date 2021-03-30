@@ -1,5 +1,5 @@
 ---
-title: "Four lines of R"
+title: "Five lines of R"
 subtitle: ""
 summary: ""
 authors: []

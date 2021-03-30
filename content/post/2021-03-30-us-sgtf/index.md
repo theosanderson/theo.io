@@ -1,5 +1,5 @@
 ---
-title: "Four lines of R"
+title: "Five lines of R"
 subtitle: ""
 summary: ""
 authors: []
@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 7fcb803849cb9cff
+rmd_hash: 3a24ec5ca8427881
 
 ---
 
