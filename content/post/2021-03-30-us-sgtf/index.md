@@ -14,11 +14,11 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: b479eebbab42f045
+rmd_hash: 1bf368848c197ce4
 
 ---
 
-Somebody on Twitter asked me whether B.1.1.7 data from Florida was still compatible with a logistic growth curve.
+Somebody on Twitter asked me whether B.1.1.7 data from Florida was still compatible with a logistic increase
 
 It's amazing how simple this sort of thing is to look at with the Tidyverse and nicely formatted data SGTF data from [Helix](https://github.com/myhelix/helix-covid19db).
 
