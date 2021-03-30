@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 9acc7e6efabb452b
+rmd_hash: efe89070acf8c2e9
 
 ---
 
@@ -41,7 +41,7 @@ There are lots of ways one could improve this, bringing in genome data and model
 
 **Addendum**
 
-Despite the title, I decided to extend this a bit. Lets first do the same but take rolling averages of SGTF across 7-day intervals:
+Despite the title, I decided to extend this a bit. Let's first do as above but take rolling averages of SGTF across 7-day intervals:
 
 <div class="highlight">
 
