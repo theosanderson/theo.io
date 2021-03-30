@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 422cb114475e770d
+rmd_hash: 9acc7e6efabb452b
 
 ---
 

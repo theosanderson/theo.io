@@ -19,7 +19,7 @@ output:
 Somebody on Twitter asked me whether B.1.1.7 data from Florida was still compatible with a logistic increase.
 
 It's amazing how simple this sort of thing is to look at with the Tidyverse and nicely formatted SGTF data from [Helix](https://github.com/myhelix/helix-covid19db). 
-```{r message=FALSE, warning=FALSE,fig.width=7,fig.height=7}
+```{r message=FALSE, warning=FALSE,fig.width=7,fig.height=7, dev="CairoPNG"}
 library(tidyverse)
 data = read_csv(url("https://raw.githubusercontent.com/myhelix/helix-covid19db/master/counts_by_state.csv"))
 state_selection = (data %>% group_by(state) %>% summarise(total=sum(positive)) %>% filter(total>5000))$state
@@ -27,7 +27,7 @@ data = data  %>% mutate(percent_sgtf=all_SGTF/positive) %>% filter(state %in% st
 ggplot(data,aes(x=collection_date, y=percent_sgtf))+geom_point()+ stat_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE,  fullrange=TRUE) +xlim(lubridate::ymd("2020-12-01"),lubridate::ymd("2021-04-30"))+labs(title="US SGTF",x="Date",y="Percent SGTF")+facet_wrap(~state)+theme_bw()+scale_y_continuous(label=scales::percent)
 ```
 
-```{r include=FALSE, echo=FALSE}
+```{r include=FALSE, echo=FALSE, dev="CairoPNG"}
 
 
 ggsave("sgtf_us.png",width=7,height=7,type="cairo")
@@ -53,7 +53,7 @@ data = data  %>% filter(state %in% state_selection) %>% arrange(collection_date)
 
 And now bring in case data from the New York Times and split by SGTF status.
 
-```{r message=FALSE, warning=FALSE,fig.width=7,fig.height=7}
+```{r message=FALSE, warning=FALSE,fig.width=7,fig.height=7, dev="CairoPNG"}
 case_data = read_csv(url("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")) %>% rename(State=state)
 
 case_data= case_data %>% group_by(State) %>% arrange(date) %>% mutate(daily_cases=cases-lag(cases)) %>% mutate(smoothed_daily_cases=rollmean(daily_cases,k=7,na.pad=T))
