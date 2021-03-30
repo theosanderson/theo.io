@@ -33,4 +33,4 @@ ggplot(data,aes(x=collection_date, y=percent_sgtf))+geom_point()+ stat_smooth(me
 ggsave("sgtf_us.png",width=7,height=7,type="cairo")
 ```
 
-There are lots of ways one could improve this, bringing in genome data and modelling uncertainty, but it provides a quick look.
+There are lots of ways one could improve this, bringing in genome data and modelling uncertainty, but it provides a quick look at what's happening.

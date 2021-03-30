@@ -14,7 +14,7 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: ad65679c4e6d4593
+rmd_hash: 7fcb803849cb9cff
 
 ---
 
@@ -35,5 +35,5 @@ It's amazing how simple this sort of thing is to look at with the Tidyverse and 
 
 </div>
 
-There are lots of ways one could improve this, bringing in genome data and modelling uncertainty, but it provides a quick look.
+There are lots of ways one could improve this, bringing in genome data and modelling uncertainty, but it provides a quick look at what's happening.
 
