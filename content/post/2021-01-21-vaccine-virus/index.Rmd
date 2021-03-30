@@ -20,19 +20,36 @@ One framing for thinking about COVID is as a race between vaccination and infect
 try(library(tidyverse), silent=TRUE)
 library(jsonlite)
 library(ggthemes)
-a = fromJSON("mrc_biostats.json")
-df=tibble(date=a[[1]],y=a[[2]])
-df$date=lubridate::ymd(df$date)
+library(lubridate)
 
-
-df$label = "People infected"
 b = read_csv("vaccinations.csv")
 b$y=b$numFirstDose
 b$date=lubridate::dmy(b$date)
 b$label = "People vaccinated"
-ggplot(bind_rows(df,b),aes(x=date,y=y/1000000,color=label))+geom_line(size=1) +labs(x="Date",y="Number of people (millions)",color="Type",title="Infection and vaccination levels in England",caption="Data sources: MRC Biostatistics Unit (cumulative infection estimates)\nOur World In Data & PHE (vaccination figures – at least one dose)")+theme_hc()+
-  theme(plot.title = element_text(hjust = 0.5))
-ggsave("plot.png",width=7.3,height=4, type = "cairo") 
+
+
+a = fromJSON("mrc_biostats.json")
+df=tibble(date=a[[1]],y=a[[2]])
+df$date=lubridate::ymd(df$date)
+
+subset = df %>% filter(date>"2021-01-25") %>% arrange(date)%>% mutate(cases = y-lag(y))
+mod = lm(log10(cases)~yday(date), data=subset)
+
+dates_to_fill = seq(max(df$date),max(b$date),by="day" )
+
+
+predicted = tibble(date =dates_to_fill)
+predicted$cases= 10^predict(mod,predicted)
+predicted$label ="People infected (extrapolated)"
+predicted$y=cumsum(predicted$cases) + max(subset$y) - 20000
+
+
+df$label = "People infected"
+
+dataset=  bind_rows(df,b,predicted)
+ggplot(dataset %>% filter(label!="People infected (extrapolated)"),aes(x=date,y=y/1000000,color=label))+geom_line( size=1) + geom_line( size=1,data = dataset %>% filter(label=="People infected (extrapolated)"),lty="11")  +labs(x="Date",y="Number of people (millions)",color="Type",title="Infection and vaccination levels in England",caption="Data sources: MRC Biostatistics Unit (cumulative infection estimates)\nOur World In Data & PHE (vaccination figures – at least one dose)")+theme_hc()+
+  theme(plot.title = element_text(hjust = 0.5))+scale_color_manual(name="type",values=c("#ef3939","#ef3939","#2f72f2")) 
+ggsave("plot23.png",width=7.3,height=4, type = "cairo") 
 ```
 
 If we literally were to imagine vaccination and infection to be mutually exclusive (which clearly isn't true in either direction), we could plot a graph like this to look at where they might meet.
@@ -50,4 +67,21 @@ ggsave("plot2.png",width=7.3,height=4, type = "cairo")
 
 ```
 
+```{r}
+df=tibble(date=a[[1]],y=a[[2]])
+df$date=lubridate::ymd(df$date)
+df$daily_incidence = df$y- lag(df$y)
+df$type="What happened (from MRC Biostatus Unit model)"
 
+ggplot(df,aes(x=date,y=daily_incidence))+geom_line()
+
+sixweeklevel = 475833
+data = tibble(date = lubridate::ymd("2020-03-22")+(1:(10*7)),daily_incidence=sixweeklevel,type="Original plan")
+data2 = tibble(date = lubridate::ymd("2020-03-22")+((10+(10*7):(10+(10*7)+100))),daily_incidence=0,type="Original plan")
+data3 = tibble(date = lubridate::ymd("2020-03-22")+(-100:-10),daily_incidence=0,type="Original plan")
+
+ggplot(bind_rows(data,data2,data3,df),aes(x=date,y=daily_incidence,color=type))+geom_line()+theme_classic()+scale_y_continuous(labels = scales::unit_format(unit = "K", scale = 1e-3),expand = c(0,0))+labs(x="Date",y="Daily infections")+scale_color_manual(values=c("red","blue"))
+
+ggsave("plan_comparison.png",type="cairo",width=7,height=4)
+
+```

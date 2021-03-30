@@ -1,12 +1,13 @@
 {{- define "main" -}}
 
 <article class="article">
+ 
 
   {{ partial "page_header" . }}
-
+  <link rel="stylesheet" href="/theo.css" />
   <div class="article-container">
 
-    <div class="article-style">
+    <div class="article-style"><a class="viewsource" href="https://github.com/theosanderson/theo.io/tree/master/content/{{ .File.Path }}">View source</a>
       {{ .Content }}
     </div>
 

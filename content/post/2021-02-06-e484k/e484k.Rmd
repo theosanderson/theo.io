@@ -25,6 +25,8 @@ grouped = data %>%filter(e484k=="K") %>% group_by(lineage) %>% summarise(n=n()) 
 
 iso_to_lat_long = read_csv("iso_to_lat_long.csv") %>% mutate(coordinate_location=gsub("Point\\((.*)\\)","\\1",coordinate_location)) %>% separate(coordinate_location,into=c("long","lat"),sep=" ") %>% mutate(lat=as.numeric(lat),long=as.numeric(long)) %>% mutate(iso_3166_code=value)  %>% group_by(iso_3166_code) %>% summarise(lat=mean(lat,na.rm=TRUE),long=mean(long,na.rm=TRUE))
 
+write_csv(iso_to_lat_long,"iso_lat_long.csv")
+
 
 
 both = inner_join(iso_to_lat_long,data %>% filter(e484k=="K"),by="iso_3166_code")

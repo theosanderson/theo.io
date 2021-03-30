@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+library(sf)
+
+library(gganimate)
+
+
+
+data <- read_csv("cog_metadata_microreact_geocodes_only.csv") %>% mutate(sample_date=lubridate::ymd(sample_date)) %>% filter(pillar_2) %>% mutate(ISO_A3=iso_3166_code) %>% full_join(regions) %>% filter(sample_date>"2020-12-01") %>% mutate(lineage=case_when( grepl("B.1.177",lineage,fixed=TRUE)~  "B.1.177",lineage=="B.1.351"~"B.1.351",lineage=="B.1.1.7"~"B.1.1.7",grepl("B.1",lineage,fixed=TRUE)~  "B.1",grepl("A",lineage,fixed=TRUE)~  "A.23.1",TRUE ~ lineage)) %>% mutate(group=1:n())
+
+
+
+grouped = data %>%filter(e484k=="K") %>% group_by(lineage) %>% summarise(n=n()) %>% arrange(-n)
+
+iso_to_lat_long = read_csv("iso_to_lat_long.csv") %>% mutate(coordinate_location=gsub("Point\\((.*)\\)","\\1",coordinate_location)) %>% separate(coordinate_location,into=c("long","lat"),sep=" ") %>% mutate(lat=as.numeric(lat),long=as.numeric(long)) %>% mutate(iso_3166_code=value)  %>% group_by(iso_3166_code) %>% summarise(lat=mean(lat,na.rm=TRUE),long=mean(long,na.rm=TRUE))
+
+write_csv(iso_to_lat_long,"iso_lat_long.csv")
+
+
+
+both = inner_join(iso_to_lat_long,data %>% filter(e484k=="K"),by="iso_3166_code")
+
+geojson = st_read("ceremonial_counties_and_non_UK_countries.geojson.txt")
+
+p=ggplot(geojson %>% filter(is.na(geojson$ISO_A3))) +geom_sf(fill="white",color="gray") + geom_jitter(width=0.1,height=0.1,data=both,aes(group=group,x=long,y=lat,color=lineage))+coord_sf(x=c(-5,2),y=c(50.8,54.5))+scale_color_manual(values=c("B.1"="#4f6bff","A.23.1"="#f34a44","B.1.177"="#97d400","B.1.1.7"="#ffa401","P.2"="#6cc8dd","B.1.351"="#ffd84c")) +theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())+ theme(
+  panel.background = element_rect(fill = "#eeeeee",
+                                colour = "#eeeeee",
+                                size = 0.5, linetype = "solid"),
+  panel.grid.major = element_line(size = 0.5, linetype = 'solid',
+                                colour = "#eeeeee"), 
+  panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
+                                colour = "#eeeeee")
+  )
+
+p
+ggsave("e484k-UK2.png",width=7,height=5,type="cairo")
+
+a = p+transition_reveal(sample_date)+  ggtitle("{frame_along }") 
+
+animate(a,end_pause=5, type="cairo", renderer = file_renderer("./uk_map2/"),width=700,height=600)
+anim_save("e484.gif")
+
+
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
