@@ -1,0 +1,77 @@
+---
+title: "LFD, PCR, PPV, TLA"
+subtitle: ""
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2021-03-30T10:18:37Z
+featured: false
+draft: false
+projects: []
+mininote: true
+output: 
+  hugodown::md_document:
+    fig_width: 6 
+    fig_asp: 0.59
+---
+
+People are very interested in the *positive predictive value* of lateral flow tests. That is, if you receive a positive result from the test, how likely is it that you truly are infected. Personally I think that in terms of measuring whether these tests are helpful, this metric is actually not terribly useful - since it is strongly affected by how much virus is circulating in the population. That means that the metric suggests that lateral flow testing is useless in countries with very low numbers of cases. But actually LFDs have exactly the same effect on R whatever the level of virus in the population, and the same number of absolute false positives.
+
+Nevertheless, it is understandable that people want a test to ideally give them the right answer about their own status. This is helped in part by the fact that the government now says that all LFD positives should be followed up by confirmatory PCR testing, which both helps an individual by confirming their status, and also has the potential to provide us all with information about the reliability of these tests. Information has not been released systematically on what proportion of PCR retests confirm LFD results, but today the coronavirus dashboard has changed to exclude these results. Therefore by comparing today's results with yesterdays we can get a sense of this metric and calculate the minimum possible PPV, assuming that the PCR retest has 100% sensitivity. These sorts of figures have been described by [Oliver Johnson](https://twitter.com/BristOliver/status/1380544543695716353) and [Alex Selby](https://twitter.com/alexselby1770/status/1380614571791151106).
+
+Here is my quick look in R
+
+
+```{r include=FALSE, dev="CairoPNG"}
+library(tidyverse)
+
+```
+
+
+
+```{r fig.width=7,fig.height=7}
+
+
+before = read_csv("https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&areaCode=E92000001&metric=newCasesLFDOnlyBySpecimenDate&metric=changeInNewCasesBySpecimenDate&format=csv&release=2021-04-08&metric=newCasesLFDConfirmedPCRBySpecimenDate")
+
+after = read_csv("https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&areaCode=E92000001&metric=newCasesLFDOnlyBySpecimenDate&metric=changeInNewCasesBySpecimenDate&format=csv&release=2021-04-09&metric=newCasesLFDConfirmedPCRBySpecimenDate")
+
+```
+
+
+
+```{r include=FALSE, message=FALSE, warning=FALSE,fig.width=7,fig.height=5, dev="CairoPNG"}
+
+both = inner_join(before,after,by="date", suffix=c("_before","_after")) %>% filter(date>"2020-12-15")%>% filter(date<"2021-04-01")
+
+both= both %>% mutate(notional_false_positives = newCasesLFDOnlyBySpecimenDate_before - newCasesLFDOnlyBySpecimenDate_after  - (newCasesLFDConfirmedPCRBySpecimenDate_before - newCasesLFDConfirmedPCRBySpecimenDate_after)) %>% mutate( notional_proportion_of_positives_false = notional_false_positives / (notional_false_positives+ newCasesLFDConfirmedPCRBySpecimenDate_after ) )%>% filter(notional_false_positives>0)
+
+
+
+
+library(binom)
+
+cis = binom.confint(both$notional_false_positives,both$notional_false_positives + both$newCasesLFDConfirmedPCRBySpecimenDate_after, method="exact")
+
+both$ppv_upper = 1- cis$lower
+both$ppv_lower = 1- cis$upper
+
+ggplot(both,aes(x=date,y=1-notional_proportion_of_positives_false,ymin=ppv_lower,ymax=ppv_upper))+geom_point()+geom_smooth()+coord_cartesian(ylim=c(0,1))+labs(x="Day",y="Notional positive predictive value")+scale_y_continuous(label=scales::percent)+theme_bw() +geom_pointrange()
+
+
+```
+
+
+```{r}
+library(zoo)
+both = inner_join(before,after,by="date", suffix=c("_before","_after")) %>% filter(date>"2020-12-15")%>% filter(date<"2021-04-01")
+
+both= both %>% mutate(notional_false_positives = newCasesLFDOnlyBySpecimenDate_before - newCasesLFDOnlyBySpecimenDate_after -  (newCasesLFDConfirmedPCRBySpecimenDate_before - newCasesLFDConfirmedPCRBySpecimenDate_after) ) %>% arrange(date) %>% mutate(notional_false_positives=rollsum(notional_false_positives,7,na.pad=T),newCasesLFDConfirmedPCRBySpecimenDate_after=rollsum(newCasesLFDConfirmedPCRBySpecimenDate_after,7,na.pad=T)) %>% mutate( notional_proportion_of_positives_false = notional_false_positives / (notional_false_positives+ newCasesLFDConfirmedPCRBySpecimenDate_after ) )%>% filter(notional_false_positives>0)
+
+ggplot(both,aes(x=date,y=1-notional_proportion_of_positives_false))+geom_point()+geom_smooth()+coord_cartesian(ylim=c(0,1))+labs(x="Day",y="Notional minimum positive predictive value")+scale_y_continuous(label=scales::percent)+theme_bw() 
+
+
+```
+
+
