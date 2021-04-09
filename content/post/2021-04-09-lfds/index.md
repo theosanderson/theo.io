@@ -14,11 +14,11 @@ output:
   hugodown::md_document:
     fig_width: 6 
     fig_asp: 0.59
-rmd_hash: 03fecc4b86ed94ff
+rmd_hash: 8c1855daf0ed2c1a
 
 ---
 
-People are very interested in the *positive predictive value* of lateral flow tests. That is, if you receive a positive result from the test, how likely is it that you truly are infected. Personally I think that in terms of measuring whether these tests are helpful, this metric is actually not terribly useful - since it is strongly affected by how much virus is circulating in the population. That means that the metric implies that lateral flow testing is useless in countries with very low numbers of cases -- but actually LFDs have exactly the same effect on R whatever the level of virus in the population, and the same number of absolute false positives.
+People are very interested in the *positive predictive value* of lateral flow tests. That is, if you receive a positive result from the test, how likely is it that you truly are infected? Personally I think that in terms of measuring whether these tests are helpful to society, this metric is actually not terribly useful - since it is strongly affected by how much virus is circulating in the population. That means that the metric implies that lateral flow testing is useless in countries with very low numbers of cases -- but actually LFDs have exactly the same effect on R whatever the level of virus in the population, and the same number of absolute false positives.
 
 Nevertheless, it is understandable that people want a test to ideally give them the right answer about their own status. They are now helped by the fact that the government says that all LFD positives should be followed up by confirmatory PCR testing, which both helps an individual to confirm their status, and also has the potential to provide us all with information about the general reliability of these tests. Information has not been released systematically on what proportion of PCR retests confirm LFD results, but today the coronavirus dashboard has changed to exclude cases which were retested and gave negative results. Therefore by comparing today's results with yesterdays we can get a sense of this metric and calculate the minimum possible PPV, assuming that the PCR retest has 100% sensitivity. These sorts of analyses have already been described by [Oliver Johnson](https://twitter.com/BristOliver/status/1380544543695716353) and [Alex Selby](https://twitter.com/alexselby1770/status/1380614571791151106) amongst others.
 
