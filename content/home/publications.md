@@ -38,5 +38,5 @@ design:
 ---
 
 {{% callout note %}}
-You can also [search publications](./publication/).
+You can also [search publications](./publication/). Some more recent publications might be listed only on [Google Scholar](https://scholar.google.co.uk/citations?hl=en&user=voDDwYIAAAAJ&view_op=list_works&sortby=pubdate).
 {{% /callout %}}
