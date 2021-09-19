@@ -18,6 +18,11 @@
 #  url = "#projects"
 #  weight = 30
 
+[[main]]
+  name = "Misc."
+  url = "/creation"
+  weight = 59
+
 #[[main]]
 # name = "Talks"
 #  url = "#talks"
