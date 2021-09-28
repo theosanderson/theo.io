@@ -21,7 +21,7 @@ tags: []
 categories: []
 date: '2021-05-01'
 lastmod: 2021-06-03T13:45:25+01:00
-featured: false
+featured: true 
 draft: false
 
 # Featured image
@@ -43,4 +43,7 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*medRxiv*'
+summary: Here we constructed a model of SARS-CoV-2 genomic epidemiology in the UK during 2020-21, chronicling the rise of first the Alpha lineage and the Delta lineage, using data generated at the Sanger Insitute from the sequencing of positive Pillar 2 tests. 
+
+url_pdf: https://www.medrxiv.org/content/10.1101/2021.05.22.21257633v2
 ---
