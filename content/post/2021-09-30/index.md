@@ -32,7 +32,7 @@ Of course although we "expect" 5, the process of sampling is essentially a binom
 
 ![](2021-09-30-17-12-23.png)
 
-If one is able to boost the number of barcodes that get into the sample, for instance by extracting into say 10 μl and still loading 10 μl (a twenty-fold boost), one can get a much better signal-to-noise ratio.
+If one is able to boost the number of barcodes that get into the sample, for instance by extracting into say 10 μl and still loading 2 μl (a twenty-fold boost), one can get a much better signal-to-noise ratio.
 
 
 ## Tip 2: always perform technical duplicate PCRs
