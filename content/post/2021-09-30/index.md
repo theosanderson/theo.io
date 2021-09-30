@@ -24,7 +24,7 @@ Say you are taking a timecourse of cultured parasites, and at each timepoint you
 
 ![](2021-09-30-16-40-48.png)
 
-In some of your samples, perhaps parasitaemia is as low as 0.1%? If so then your 200 million RBCs contain 200,000 parasites. Now you take that blood and you put it through a DNA extraction. Suppose this is 50% efficient. Now you are down to 100,000 parasites. You elute in 200 microlitres, so in each microlitre you have just 500 parasites. 
+In some of your samples, perhaps parasitaemia is as low as 0.1%? If so then your 200 million RBCs contain 200,000 parasites. Now you take that blood and you put it through a DNA extraction. Suppose this is 50% efficient. Now you are down to 100,000 parasites. You elute in 200 microlitres, so in each microlitre you have just 500 parasites' worth of barcodes. 
 
 Suppose you use 2 μl of template in your barcode amplification PCR, that is 1000 parasites that make it to the PCR. Now suppose you have 20 different barcodes represented in this sample. In an idealised situation where those barcodes are equally abundant you would have 50 barcodes for each of them. In practice however, there is probably quite a range of abundances, perhaps with some barcodes ten times as common as others. So there could easily be barcodes for which we expect only 5 copies to be present in the template.
 
