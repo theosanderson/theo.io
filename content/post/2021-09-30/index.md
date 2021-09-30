@@ -14,7 +14,7 @@ mininote: true
 output:  hugodown::md_document  
 ---
 
-In my time I've done various bits of analysis for barcode-sequencing (barseq) experiments (in _Plasmodium_), and sometimes have chats with people who are starting for the first time. Basically these chats tend to often hit the same two beats about experimental design so here's a quick blog about them.
+In my time I've done various bits of analysis for barcode-sequencing (barseq) experiments (in _Plasmodium_), and sometimes have chats with people who are starting for the first time. Basically these chats tend to often hit the same two beats about experimental design so here's a quick blog post about them.
 
 ## Tip 1: work out how many barcodes you expect to go into your process
 
