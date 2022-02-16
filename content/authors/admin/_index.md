@@ -17,7 +17,7 @@ bio: Biologist developing tools to scale malaria reverse genetics.
 
 # Interests to show in About widget
 interests:
-- Parasite Genetics
+- Pathogen Genetics
 - Open Source Hardware
 - Machine Learning
 
@@ -64,6 +64,6 @@ email: ""
 highlight_name: false
 ---
 
-I study the genes of malaria parasites. I am interested in developing the tools needed to provide a better systems-level understanding of these parasites, with a focus on open-source methods for high-throughput culture. Recently I have also been seconded to help with SARS-CoV-2 genomic surveillance.
+Developing new tools to study pathogen genetics at scale, in SARS-CoV-2 and malaria.
 
 
