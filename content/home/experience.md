@@ -29,7 +29,7 @@ experience:
     date_start: '2019-06-01'
     date_end: ''
     description: |2-
-        Developing open-source tooling for large scale reverse genetics in malaria parasites.
+        Developing open-source tooling for high-thoughput pathogen genetics, including: PlasmoTron, CovInce, Chronumental and Taxonium.
         
   - title: AI Resident
     company: Google
