@@ -24,7 +24,7 @@ author_notes:
 
 
 date: "2020-08-01T00:00:00Z"
-doi: ""
+doi: "10.1371/journal.ppat.1008717"
 
 # Schedule page publish date (NOT publication's date).
 publishDate: "2017-01-01T00:00:00Z"
@@ -53,7 +53,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: '//wellcomeopenresearch.org/articles/2-45'
+url_pdf: 'https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717'
 url_code: ''
 url_dataset: ''
 url_poster: ''
