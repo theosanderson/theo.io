@@ -5,13 +5,12 @@ summary: ""
 authors: []
 tags: []
 categories: []
-date: 2022-06-10
-lastmod: 2022-06-10
+date: 2022-08-10 # future to unpublish
+lastmod: 2022-08-10  # future to unpublish
 featured: false
 draft: true
 projects: []
 mininote: true
-output:  hugodown::md_document  
 ---
 
 Something I have learnt after having this blog a while is that posts on surprisingly niche topics do eventually find quite a few readers (e.g. several people I know in real life have stumbled on my [epMotion 5075 teardown](https://theo.io/blog/2019/01/05/emotion-5075-teardown/) after encountering such a robot).
