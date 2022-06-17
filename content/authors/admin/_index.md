@@ -64,6 +64,8 @@ email: ""
 highlight_name: false
 ---
 
-Developing new tools to study pathogen genetics at scale, in SARS-CoV-2 and malaria.
+I develop new approaches for studying pathogen genomes at scale, both in the laboratory and computationally.
+
+
 
 
