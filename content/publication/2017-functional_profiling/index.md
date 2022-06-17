@@ -91,4 +91,5 @@ projects: []
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
 slides: ""
+doi: "10.1016/j.cell.2017.06.030"
 ---

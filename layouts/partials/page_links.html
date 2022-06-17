@@ -133,7 +133,7 @@
   DOI
 </a>{{ end }}
 
-{{ with $page.Params.doi }}<div style="display:inline-block; position:relative; top:5px;" data-badge-popover="right" data-badge-type="badge" data-doi="{{ . }}" data-condensed="false"  data-badge-type="1" data-hide-less-than="20" class="altmetric-embed"></div>
+{{ with $page.Params.doi }}<div style="display:inline-block; position:relative; top:3px;" data-badge-popover="right" data-badge-type="badge" data-doi="{{ . }}" data-condensed="false"  data-badge-type="1" data-hide-less-than="20" class="altmetric-embed"></div>
 {{ end }}
 {{ range $page.Params.links }}
   {{ $pack := or .icon_pack "fas" }}

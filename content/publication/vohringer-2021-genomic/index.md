@@ -45,4 +45,5 @@ publication: '*Nature*'
 summary: Here we constructed a model of SARS-CoV-2 genomic epidemiology in the UK during 2020-21, chronicling the rise of first the Alpha lineage and the Delta lineage, using data generated at the Sanger Insitute from the sequencing of positive Pillar 2 tests. 
 
 url_pdf: https://www.nature.com/articles/s41586-021-04069-y
+doi: '10.1038/s41586-021-04069-y'
 ---
