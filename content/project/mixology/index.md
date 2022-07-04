@@ -17,7 +17,7 @@ url_code: ""
 url_pdf: ""
 url_slides: ""
 url_video: ""
-url_tool: "https://mixology.science/"
+url_tool: "//mixology.science/"
 
 ---
 
