@@ -28,4 +28,7 @@ I decided to use a fine-tuned version of GPT-3 because having a model that start
 
 The downside of using GPT-3 is that it is a commercial offering and you pay for each token (approximately per word) that you use. I have two pieces of data for each PubMed ID: the title and the abstract. I decided to take an approach very like a human who is limited in how many words they can use would take. I trained one model to classify papers into whether they would report a title just based on the title. Then I trained a second model to perform classification based on reading the full abstract.
 
-If the cheap title model gave a reasonable prob
+If the cheap title model gave a reasonable probability that the paper might report a phenotype then I ran it through the abstract model to get more confidence one way or the other.
+
+Because RMgmDB handles the rodent malaria phenotypes, I don't necessarily need to read those papers, so I also built in a classifier for whether the paper reports a phenotype in berghei or falciparum.
+[..]
