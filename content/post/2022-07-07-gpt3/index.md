@@ -34,35 +34,34 @@ Because RMgmDB handles the rodent malaria phenotypes, I don't necessarily need t
 
 When we look at the 10 titles that the title classifier is most confident report a phenotype they look like this:
 
-```
-Plasmodium liver stage developmental arrest by depletion of a protein at the parasite-host interface.	
-A Plasmodium homolog of ER tubule-forming proteins is required for parasite virulence.	
-A role for the Plasmodium falciparum RESA protein in resistance against heat shock demonstrated using gene disruption.	
-An essential role of the basal body protein SAS-6 in Plasmodium male gamete development and malaria transmission.	
-Disruption of the Plasmodium falciparum PfPMT gene results in a complete loss of phosphatidylcholine biosynthesis via the serine-decarboxylase-phosphoethanolamine-methyltransferase pathway and severe growth and survival defects.	
-Disruption of Plasmodium sporozoite transmission by depletion of sporozoite invasion-associated protein 1.	
-A conserved malaria parasite antigen Pb22 plays a critical role in male gametogenesis in Plasmodium berghei.	
-Analysis of mutant Plasmodium berghei parasites lacking expression of multiple PbCCp genes.	
-Gene disruption reveals a dispensable role for plasmepsin VII in the Plasmodium berghei life cycle.	
-Knockdown of the translocon protein EXP2 in Plasmodium falciparum reduces growth and protein export.
-```
+
+1. Plasmodium liver stage developmental arrest by depletion of a protein at the parasite-host interface.	
+1. A Plasmodium homolog of ER tubule-forming proteins is required for parasite virulence.	
+1. A role for the Plasmodium falciparum RESA protein in resistance against heat shock demonstrated using gene disruption.	
+1. An essential role of the basal body protein SAS-6 in Plasmodium male gamete development and malaria transmission.	
+1. Disruption of the Plasmodium falciparum PfPMT gene results in a complete loss of phosphatidylcholine biosynthesis via the serine-decarboxylase-phosphoethanolamine-methyltransferase pathway and severe growth and survival defects.	
+1. Disruption of Plasmodium sporozoite transmission by depletion of sporozoite invasion-associated protein 1.	
+1. A conserved malaria parasite antigen Pb22 plays a critical role in male gametogenesis in Plasmodium berghei.	
+1. Analysis of mutant Plasmodium berghei parasites lacking expression of multiple PbCCp genes.	
+1. Gene disruption reveals a dispensable role for plasmepsin VII in the Plasmodium berghei life cycle.	
+1. Knockdown of the translocon protein EXP2 in Plasmodium falciparum reduces growth and protein export.
+
 
 You can see that these titles are those with very clear flags of a phenotype (knockdown, essential, etc.)
 
 In contrast the ten titles least likely to report a phenotype look like this:
 
-```
-A critical review of traditional medicine and traditional healer use for malaria and among people in malaria-endemic areas: contemporary research in low to middle-income Asia-Pacific countries.	
-Co-infections of Schistosoma spp. and malaria with hepatitis viruses from endemic countries: A systematic review and meta-analysis.	
-Same-day antiretroviral therapy initiation for people living with HIV who have tuberculosis symptoms: a systematic review.	
-Efficacy and safety of artemisinin-based combination therapies for the treatment of uncomplicated malaria in pediatrics: a systematic review and meta-analysis.	
-Aetiology of fever in returning travellers and migrants: a systematic review and meta-analysis.	
-Self-diagnosis and self-treatment of Plasmodium spp. infection by travellers (1989-2019): A systematic review and meta-analysis.	
-Non-malarial febrile illness: a systematic review of published aetiological studies and case reports from Africa, 1980-2015.	
-Zoonotic causes of febrile illness in malaria endemic countries: a systematic review.	
-Therapeutic efficacy of artesunate-amodiaquine and artemether-lumefantrine combinations for uncomplicated malaria in 10 sentinel sites across Ghana: 2015-2017.	
-Malaria standby emergency treatment (SBET) for travellers visiting malaria endemic areas: a systematic review and meta-analysis.
-```
+1. A critical review of traditional medicine and traditional healer use for malaria and among people in malaria-endemic areas: contemporary research in low to middle-income Asia-Pacific countries.	
+1. Co-infections of Schistosoma spp. and malaria with hepatitis viruses from endemic countries: A systematic review and meta-analysis.	
+1. Same-day antiretroviral therapy initiation for people living with HIV who have tuberculosis symptoms: a systematic review.	
+1. Efficacy and safety of artemisinin-based combination therapies for the treatment of uncomplicated malaria in pediatrics: a systematic review and meta-analysis.	
+1. Aetiology of fever in returning travellers and migrants: a systematic review and meta-analysis.	
+1. Self-diagnosis and self-treatment of Plasmodium spp. infection by travellers (1989-2019): A systematic review and meta-analysis.	
+1. Non-malarial febrile illness: a systematic review of published aetiological studies and case reports from Africa, 1980-2015.	
+1. Zoonotic causes of febrile illness in malaria endemic countries: a systematic review.	
+1. Therapeutic efficacy of artesunate-amodiaquine and artemether-lumefantrine combinations for uncomplicated malaria in 10 sentinel sites across Ghana: 2015-2017.	
+1. Malaria standby emergency treatment (SBET) for travellers visiting malaria endemic areas: a systematic review and meta-analysis.
+
 
 These are papers with clear flags of relating to malaria in medicine, rather than molecular biology.
 
