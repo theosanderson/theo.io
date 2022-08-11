@@ -13,7 +13,7 @@ organizations:
   url: https://www.crick.ac.uk
 
 # Short bio (displayed in user profile at end of posts)
-bio: Biologist developing tools to scale malaria reverse genetics.
+bio: Biologist developing tools to scale pathogen genetics.
 
 # Interests to show in About widget
 interests:
