@@ -6,10 +6,10 @@ title: Regulators of male and female sexual development critical for transmissio
 subtitle: ''
 summary: ''
 authors:
-- Andrew JC Russell*
-- Theo Sanderson*
-- Ellen Bushell*
-- Arthur M Talman*
+- Andrew JC Russell
+- Theo Sanderson
+- Ellen Bushell
+- Arthur M Talman
 - Burcu Anar
 - Gareth Girling
 - Mirjam Hunziker
@@ -17,6 +17,15 @@ authors:
 - Tom Metcalf
 - Ruddy Montandon
 - ' others'
+
+
+# Author notes (optional)
+author_notes:
+- "Equal contribution"
+- "Equal contribution"
+- "Equal contribution"
+- "Equal contribution"
+
 tags: []
 categories: []
 date: '2021-01-01'
