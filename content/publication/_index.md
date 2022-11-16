@@ -13,3 +13,6 @@ header:
   caption: ""
   image: ""
 ---
+{{% callout note %}}
+Publications as a member of the COG-UK Consortium (main roles: sample prioritisation and quality-control) are excluded below, but can be found [here](https://www.cogconsortium.uk/priority-areas/research/cog-uk-publications/).
+{{% /callout %}}

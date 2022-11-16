@@ -38,5 +38,5 @@ design:
 ---
 
 {{% callout note %}}
-You can also [search publications](./publication/). This section tends to get out of date, more recent publications can be found on [Google Scholar](https://scholar.google.co.uk/citations?hl=en&user=voDDwYIAAAAJ&view_op=list_works&sortby=pubdate).
+This section tends to get out of date: more recent publications can be found on [Google Scholar](https://scholar.google.co.uk/citations?hl=en&user=voDDwYIAAAAJ&view_op=list_works&sortby=pubdate).
 {{% /callout %}}
