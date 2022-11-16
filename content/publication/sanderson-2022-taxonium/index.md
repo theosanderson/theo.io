@@ -8,7 +8,7 @@ authors:
 - Theo Sanderson
 tags: []
 categories: []
-date: '2022-01-01'
+date: '2022-11-01'
 lastmod: 2022-06-17T15:28:16+01:00
 featured: true
 draft: false
@@ -31,7 +31,7 @@ publishDate: '2022-06-17T14:28:16.337428Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*bioRxiv*'
+publication: '*eLife*'
 url_pdf: '//doi.org/10.7554/eLife.82392'
 url_code: '//github.com/theosanderson/taxonium'
 url_dataset: ''
