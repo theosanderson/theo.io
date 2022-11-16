@@ -19,7 +19,7 @@ authors:
 - ' others'
 tags: []
 categories: []
-date: '2022-01-01'
+date: '2022-06-01'
 lastmod: 2022-06-17T15:28:15+01:00
 featured: false
 draft: false
@@ -42,5 +42,5 @@ publishDate: '2022-06-17T14:28:14.778369Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*bioRxiv*'
+publication: '*Virus Evolution*'
 ---
