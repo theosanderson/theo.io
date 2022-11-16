@@ -38,5 +38,5 @@ publishDate: '2022-06-17T14:28:15.301882Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*bioRxiv*'
+publication: '*mBio*'
 ---
