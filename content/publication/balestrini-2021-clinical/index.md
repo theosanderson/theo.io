@@ -16,7 +16,19 @@ authors:
 - Katri Silvennoinen
 - Fenglai Xiao
 - Sara Zagaglia
-- ' others'
+- '[..] (as member of Crick Covid Consortium)'
+author_notes:
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+- 'My roles in the Crick COVID Consortium were SARS-CoV-2 swab processing, and setting up automation for antibody assays.'
 tags: []
 categories: []
 date: '2021-01-01'

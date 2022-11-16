@@ -6,6 +6,6 @@ authors: ["Crick Covid Consortium"]
 publication_types: ["2"]
 abstract: ""
 featured: false
-publication: "*Nature biotechnology*"
+publication: "*Nature Biotechnology*"
 ---
 

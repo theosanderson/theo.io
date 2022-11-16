@@ -16,7 +16,27 @@ authors:
 - Eileen Gallagher
 - Natalie Groves
 - Ben Jackson
-- ' others'
+- J T McCrone
+- Áine O’Toole
+- Anna Price
+- admin
+- Emily Scher
+- Joel Southgate
+- Erik Volz
+- The COVID-19 Genomics UK (COG-UK) Consortium
+- Wendy S Barclay
+- Jeffrey C Barrett
+- Meera Chand
+- Thomas Connor
+- Ian Goodfellow
+- Ravindra K Gupta
+- Ewan M Harrison
+- Nicholas Loman
+- Richard Myers
+- David L Robertson
+- Oliver G Pybus
+- Andrew Rambaut
+
 tags: []
 categories: []
 date: '2022-06-01'
