@@ -8,7 +8,7 @@ authors:
 - Takahiro Ishizaki
 - Sophia Hernandez
 - Martina S Paoletta
-- Theo Sanderson
+- admin
 - Ellen SC Bushell
 author_notes:
 -

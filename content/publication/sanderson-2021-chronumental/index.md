@@ -5,7 +5,7 @@ title: 'Chronumental: time tree estimation from very large phylogenies'
 subtitle: ''
 summary: 'Chronumental is a new tool that allows each node on a phylogenetic tree to be placed in time. Previous tools typically worked only for trees of up to tens of thousands of nodes, but Chronumental readily scales to pandemic-scale trees with millions of nodes.'
 authors:
-- Theo Sanderson
+- admin
 tags: []
 categories: []
 date: '2021-01-01'

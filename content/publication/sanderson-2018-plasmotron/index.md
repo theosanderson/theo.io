@@ -5,7 +5,7 @@ title: 'PlasmoTron: an open-source platform for automated culture of malaria par
 subtitle: ''
 summary: ''
 authors:
-- Theo Sanderson
+- admin
 - Julian C Rayner
 tags: []
 categories: []

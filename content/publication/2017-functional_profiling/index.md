@@ -7,7 +7,7 @@ title: "Functional profiling of a Plasmodium genome reveals an abundance of esse
 authors:
 - Ellen Bushell
 - Ana Rita Gomes
-- Theo Sanderson
+- admin
 - Burcu Anar
 - Gareth Girling
 - Colin Herd

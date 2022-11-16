@@ -7,7 +7,7 @@ summary: ''
 authors:
 - Harriet V Mears
 - George R Young
-- Theo Sanderson
+- admin
 - Ruth Harvey
 - Margaret Crawford
 - Daniel M Snell

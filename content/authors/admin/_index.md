@@ -61,7 +61,7 @@ social:
 email: ""
 
 # Highlight the author in author lists? (true/false)
-highlight_name: false
+highlight_name: false # toggle to highlight author in author lists
 ---
 
 I develop new approaches for studying pathogen genomes at scale, both in the laboratory and computationally.

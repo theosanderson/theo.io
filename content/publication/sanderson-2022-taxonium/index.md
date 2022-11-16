@@ -5,7 +5,7 @@ title: 'Taxonium, a web-based tool for exploring large phylogenetic trees'
 subtitle: ''
 summary: 'Taxonium is the first tool to allow trees of millions of nodes to be readily explored in the browser.'
 authors:
-- Theo Sanderson
+- admin
 tags: []
 categories: []
 date: '2022-11-01'

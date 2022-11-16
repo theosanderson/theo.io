@@ -7,7 +7,7 @@ subtitle: ''
 summary: ''
 authors:
 - Andrew JC Russell
-- Theo Sanderson
+- admin
 - Ellen Bushell
 - Arthur M Talman
 - Burcu Anar

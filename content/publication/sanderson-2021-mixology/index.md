@@ -6,7 +6,7 @@ title: 'Mixology: a tool for calculating required masses and volumes for laborat
 subtitle: ''
 summary: ''
 authors:
-- Theo Sanderson
+- admin
 tags: []
 categories: []
 date: '2021-04-01'

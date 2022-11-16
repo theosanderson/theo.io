@@ -5,7 +5,7 @@ title: "ProteInfer: deep networks for protein functional inference"
 subtitle: ''
 summary: ''
 authors:
-- "Theo Sanderson"
+- "admin"
 - "Maxwell Bileschi"
 - David Belanger
 - Lucy Colwell

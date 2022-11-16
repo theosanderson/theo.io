@@ -6,7 +6,7 @@ title: Systematic Errors Associated with Some Implementations of ARTIC V4 and a 
 subtitle: ''
 summary: ''
 authors:
-- Theo Sanderson
+- admin
 - Nicola De Maio
 - Angie S. Hinrichs
 - Adriano de Bernardi Schneider

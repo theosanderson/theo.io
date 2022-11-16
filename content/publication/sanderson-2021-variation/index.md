@@ -6,7 +6,7 @@ title: Variation at Spike position 142 in SARS-CoV-2 Delta genomes is a technica
 subtitle: ''
 summary: ''
 authors:
-- Theo Sanderson
+- admin
 - Jeffrey C Barrett
 tags: []
 categories: []

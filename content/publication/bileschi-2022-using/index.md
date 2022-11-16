@@ -8,7 +8,7 @@ authors:
 - Maxwell L Bileschi
 - David Belanger
 - Drew H Bryant
-- Theo Sanderson
+- admin
 - Brandon Carter
 - D Sculley
 - Alex Bateman

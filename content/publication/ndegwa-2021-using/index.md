@@ -10,7 +10,7 @@ authors:
 - Prasun Kundu
 - Jessica B Hostetler
 - Alejandro Marin-Menendez
-- Theo Sanderson
+- admin
 - Kioko Mwikali
 - Lisa H Verzier
 - Rachael Coyle

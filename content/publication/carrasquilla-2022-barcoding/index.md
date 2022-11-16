@@ -9,7 +9,7 @@ authors:
 - Manuela Carrasquilla
 - Ndey Fatou Drammeh
 - Mukul Rawat
-- Theo Sanderson
+- admin
 - Zenon Zenonos
 - Julian C Rayner
 - Marcus Lee
