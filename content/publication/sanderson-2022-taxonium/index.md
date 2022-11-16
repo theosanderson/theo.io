@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: 'Taxonium: a web-based tool for exploring large phylogenetic trees'
+title: 'Taxonium, a web-based tool for exploring large phylogenetic trees'
 subtitle: ''
 summary: 'Taxonium is the first tool to allow trees of millions of nodes to be readily explored in the browser.'
 authors:
@@ -32,7 +32,7 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*bioRxiv*'
-url_pdf: '//www.biorxiv.org/content/10.1101/2022.06.03.494608v1'
+url_pdf: '//doi.org/10.7554/eLife.82392'
 url_code: '//github.com/theosanderson/taxonium'
 url_dataset: ''
 url_poster: ''
