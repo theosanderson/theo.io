@@ -53,7 +53,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717'
+url_pdf: '//journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717'
 url_code: ''
 url_dataset: ''
 url_poster: ''
