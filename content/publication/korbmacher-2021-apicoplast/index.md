@@ -7,5 +7,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*Cellular Microbiology*"
+url_pdf: '//pubmed.ncbi.nlm.nih.gov/32975363/'
 ---
 

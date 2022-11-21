@@ -42,4 +42,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*PLoS Pathogens*'
+url_pdf: '//journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008864'
 ---

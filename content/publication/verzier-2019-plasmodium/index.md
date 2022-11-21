@@ -14,5 +14,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*PLoS neglected tropical diseases*"
+url_pdf: '//journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0007470'
 ---
 

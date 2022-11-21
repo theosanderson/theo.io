@@ -40,4 +40,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*Cell Host & Microbe*'
+url_pdf: '//www.ncbi.nlm.nih.gov/pmc/articles/PMC9289044/'
 ---

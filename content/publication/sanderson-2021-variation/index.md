@@ -34,4 +34,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*medRxiv*'
+url_pdf: '//wellcomeopenresearch.org/articles/6-305/v1'
 ---

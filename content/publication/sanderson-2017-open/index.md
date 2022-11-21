@@ -7,5 +7,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*Authorea Preprints*"
+url_pdf: '//www.authorea.com/users/174669/articles/214113-open-hardware-for-random-access-plate-storage'
 ---
 

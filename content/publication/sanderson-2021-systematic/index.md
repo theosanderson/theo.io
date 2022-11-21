@@ -41,4 +41,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*Virological.org*'
+url_pdf: '//virological.org/t/issues-with-sars-cov-2-sequencing-data/473/16'
 ---
