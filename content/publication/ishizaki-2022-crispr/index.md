@@ -42,4 +42,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*Biochemical Society Transactions*'
+url_pdf: '//pubmed.ncbi.nlm.nih.gov/35621119/'
 ---

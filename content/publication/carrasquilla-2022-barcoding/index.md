@@ -39,4 +39,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*mBio*'
+url_pdf: "//pubmed.ncbi.nlm.nih.gov/35972144/"
 ---
