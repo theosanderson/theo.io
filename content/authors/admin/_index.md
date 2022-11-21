@@ -64,7 +64,7 @@ email: ""
 highlight_name: true # toggle to highlight author in author lists
 ---
 
-I am based at the Francis Crick Institute, develop new approaches for studying pathogen genomes at scale, both in the laboratory and computationally. I received my PhD at the Wellcome Sanger Institute, where I worked on the PlasmoGEM project, which performed some of the first genome-scale screens in malaria parasites. I then undertook an AI Residency with Google in Boston, applying machine learning to amino acid sequences to predict protein function. Since then I have been a Sir Henry Wellcome Fellow at the Crick. I continue to work on scaling up malaria genetics, with a particular focus on automation. Since the COVID-19 pandemic I have also been developing new computational approaches to phylogenetics at scale.
+I am a researcher based at the Francis Crick Institute, where I develop new approaches for studying pathogen genomes at scale, both in the laboratory and computationally. I received my PhD at the Wellcome Sanger Institute, where I worked on the PlasmoGEM project, which performed some of the first genome-scale screens in malaria parasites. I then undertook an AI Residency with Google in Boston, applying machine learning to amino acid sequences to predict protein function. I then took up a Sir Henry Wellcome Fellowship to continue to work on scaling up malaria genetics, with a particular focus on automation. Since the COVID-19 pandemic I have also been developing new computational approaches to phylogenetics at scale.
 
 
 
