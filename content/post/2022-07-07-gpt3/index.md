@@ -56,6 +56,6 @@ In contrast the ten titles least likely to report a phenotype look like this:
 
 These are papers with clear flags of relating to malaria in medicine, rather than molecular biology.
 
-In general the model seems to be doing a decent job, and the abstract model is
+In general this title model seems to be doing a decent job, and the abstract model adds significant confirmation, as well as identifying the species involved.
 
 I now run this model over the latest PubMed results each day, and the results are at [papers.phenoplasm.org](https://papers.phenoplasm.org)
