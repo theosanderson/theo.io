@@ -7,5 +7,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*medRxiv*"
+url_pdf: "//www.medrxiv.org/content/10.1101/2020.06.29.20142430v1"
 ---
 

@@ -63,4 +63,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*Virus Evolution*'
+url_pdf: '//academic.oup.com/ve/article/8/2/veac080/6677185'
 ---

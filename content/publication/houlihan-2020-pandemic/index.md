@@ -7,5 +7,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*The Lancet*"
+url_pdf: "//www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31484-7/fulltext"
 ---
 

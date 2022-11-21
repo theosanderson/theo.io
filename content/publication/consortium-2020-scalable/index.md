@@ -7,5 +7,6 @@ publication_types: ["2"]
 abstract: ""
 featured: false
 publication: "*Nature Biotechnology*"
+url_pdf: "//www.nature.com/articles/s41587-020-0588-y"
 ---
 
