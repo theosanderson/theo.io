@@ -9,7 +9,7 @@ headless: true
 # Order that this section appears on the page.
 weight: 40
 
-title: Post-doctoral experience
+title: Positions held
 subtitle:
 
 # Date format for experience
