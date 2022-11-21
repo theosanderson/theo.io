@@ -47,5 +47,5 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*BMC medicine*'
-url_pdf: '//pubmed.ncbi.nlm.nih.gov/33902581/
+url_pdf: '//pubmed.ncbi.nlm.nih.gov/33902581/'
 ---
