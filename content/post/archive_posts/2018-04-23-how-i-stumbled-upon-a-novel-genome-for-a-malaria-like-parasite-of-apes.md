@@ -10,6 +10,8 @@ categories:
 ---
 <span style="color: gray;">Sometimes in science you come across things that are definitely interesting, and useful, but which you don&#8217;t have time to write up properly for one reason or another. I&#8217;m going to try to get into the habit of sharing these as blog-posts rather than letting them disappear. Here is one such story.</span>
 
+<b>Update: we [published an annotated genome](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717) in a big collaboration between the data generators at the University of Oregon and bioinformaticians at the Sanger Institute.</b>
+
 * * *
 
 Not long ago I was searching for orthologs of a malaria gene of interest on the NCBI non-redundant database, which allows one to search across the entire (sequenced) tree of life. Here is a recreation of what I saw:
