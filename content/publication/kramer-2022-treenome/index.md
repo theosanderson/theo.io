@@ -34,6 +34,6 @@ publishDate: '2022-11-16T17:41:00.279400Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*bioRxiv*'
-url_pdf: "//www.biorxiv.org/content/10.1101/2022.09.28.509985v1"
+publication: '*Bioinformatics*'
+url_pdf: "//academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac772/6858450"
 ---
