@@ -10,7 +10,7 @@ categories:
 ---
 <span style="color: gray;">Sometimes in science you come across things that are definitely interesting, and useful, but which you don&#8217;t have time to write up properly for one reason or another. I&#8217;m going to try to get into the habit of sharing these as blog-posts rather than letting them disappear. Here is one such story.</span>
 
-<b>Update: we [published an annotated genome](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717) in a big collaboration between the data generators at the University of Oregon and bioinformaticians at the Sanger Institute.</b>
+<b>Update: we [published a paper with a fully annotated genome](https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1008717) in a big collaboration between the data generators at the University of Oregon and bioinformaticians at the Sanger Institute.</b>
 
 * * *
 
