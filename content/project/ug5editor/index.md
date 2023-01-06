@@ -1,6 +1,6 @@
 ---
 title: The Up-Goer Five Text Editor
-summary: A tool for thinking about what it is like to communicate using just 1,000 words
+summary: A tool for communicating science using just 1,000 words
 tags:
 date: "2016-04-27T00:00:00Z"
 
