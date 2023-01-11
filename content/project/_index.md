@@ -13,4 +13,4 @@ header:
   image: ""
 ---
 
-This page lists some projects I have worked on, with a particular focus on those that are not included in [publications](/publication).
+This page lists some smaller projects I have worked on, with a particular focus on those that are not included in [publications](/publication).
