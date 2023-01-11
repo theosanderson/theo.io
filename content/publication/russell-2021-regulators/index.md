@@ -28,7 +28,7 @@ author_notes:
 
 tags: []
 categories: []
-date: '2022-10-01'
+date: '2023-01-01'
 lastmod: 2022-06-17T15:28:13+01:00
 featured: false
 draft: false
@@ -51,5 +51,6 @@ publishDate: '2022-06-17T14:28:13.737036Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*Cell, Host and Microbe (in Press)*'
+publication: '*Cell, Host and Microbe*'
+url_pdf: https://www.sciencedirect.com/science/article/pii/S1931312822006126
 ---
