@@ -1,5 +1,5 @@
 ---
-title: Projects
+title: Other projects
 
 # View.
 #   1 = List
@@ -13,4 +13,4 @@ header:
   image: ""
 ---
 
-This page lists a few of the **smaller** projects I have worked on, with a particular focus on those that are not included in [publications](/publication).
+This page lists some smaller things I have built, with a particular focus on those that are not included in [publications](/publication).
