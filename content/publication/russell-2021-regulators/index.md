@@ -51,6 +51,6 @@ publishDate: '2022-06-17T14:28:13.737036Z'
 publication_types:
 - '2'
 abstract: ''
-publication: '*Cell, Host and Microbe*'
+publication: '*Cell Host & Microbe*'
 url_pdf: https://www.sciencedirect.com/science/article/pii/S1931312822006126
 ---
