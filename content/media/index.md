@@ -6,10 +6,6 @@ In the media
 
 {{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/radio.mp4" >}}
 
-{{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/graph_on_german_tv_1.mp4" >}}
-
-{{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/graph_on_german_tv_2.mp4" >}}
-
 https://audioboom.com/posts/6623953-malaria-genetic-barcodes-ft-theo-sanderson
 
 https://www.theverge.com/2020/12/30/22206522/coronavirus-test-variant-contagious-uk-gene
@@ -47,3 +43,12 @@ https://www.theguardian.com/technology/shortcuts/2013/jan/22/up-goer-five-thing-
 https://www.theguardian.com/science/life-and-physics/2013/jan/19/upgoerfive-particlephysics?CMP=twt_fd
 
 https://www.dailymail.co.uk/sciencetech/article-1333334/How-trees-glow-like-fireflies-day-replace-streetlights.html
+
+
+## Graphs
+
+
+{{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/graph_on_german_tv_1.mp4" >}}
+
+{{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/graph_on_german_tv_2.mp4" >}}
+
