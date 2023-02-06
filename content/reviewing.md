@@ -1,3 +1,5 @@
 I have reviewed for journals including:
 - JAMA
-- Nature Communications
+- Communications Biology
+- Virus Evolution
+- iScience
