@@ -3,3 +3,4 @@ I have reviewed for journals including:
 - Communications Biology
 - Virus Evolution
 - iScience
+- GigaScience
