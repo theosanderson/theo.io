@@ -39,7 +39,7 @@ publication_types:
 - '2'
 abstract: ''
 publication: '*eLife*'
-summary: This work, completed as part of my residency at Google AI, uses deep residual networks to predict protein function from amino acid sequences. We show that these networks are able to perform this task effectively, in a way that complements BLAST-based approaches, and that they learn to place protein sequences into a generalised embedding space that facilitates downstream applications. Using TensorFlow JS, we built a tool that performs protein functional inference in the browser, client-side. The paper is presented as an interactive preprint that allows the reader to explore the work that we did.
+summary: This work, completed as part of my residency at Google AI, uses deep residual networks to predict protein function from amino acid sequences. We show that these networks are able to perform this task effectively, in a way that complements BLAST-based approaches, and that they learn to place protein sequences into a generalised embedding space that facilitates downstream applications. Using TensorFlow JS, we built a tool that performs protein functional inference in the browser, client-side. The paper is presented in an interactive form that allows the reader to explore our work and try the models.
 
 url_pdf: '//google-research.github.io/proteinfer/'
 url_code: '//github.com/google-research/proteinfer'
