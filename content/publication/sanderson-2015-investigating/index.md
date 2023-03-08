@@ -7,6 +7,6 @@ publication_types: ["7"]
 abstract: ""
 featured: false
 publication: ""
-url: "//theosanderson.github.io/thesis/"
+url_pdf: "//theosanderson.github.io/thesis/"
 ---
 
