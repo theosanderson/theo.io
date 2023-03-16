@@ -48,6 +48,8 @@ I had a play to see how well it might be able to plan run biological experiments
 .chat-message {
   grid-column: 2;
   margin-left: 0;
+  /* because of border-box we need to add the padding to the width */
+  width: calc(100% - 6rem);
   word-wrap: break-word;
   font-size: 0.8rem;
   color: #666; /* Choose your desired color */
@@ -63,6 +65,8 @@ I had a play to see how well it might be able to plan run biological experiments
   padding: 2px 5px;
   border-radius: 5px;
 }
+
+
 </style>
 
 
