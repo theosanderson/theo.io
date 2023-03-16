@@ -392,3 +392,13 @@ Fantastic -- thanks! I'll stick them in the incubator
 So: pretty cool. But, to confirm doing it like this is not ready for prime time. Firstly, I haven't actually checked this code runs, though it looks fairly plausible. In my various experiments it definitely sometimes tried to run protocols which didn't quite make sense, and I added some hints to guide it in the prompt. Clearly setting up dilution series is something that will be in the training set already. Also, trying to do more complex stuff "set up an assay that would allow me to draw an isobologram" didn't go so well.
 
 However on the other side of the coin, this model has never been remotely fine-tuned for this task. There may well be a lot of low-hanging gains to be made from doing a bit of fine-tuning with some specific tasks. Even just from working out exactly what hints to add to the prompt. With the 32k context length you could imagine a really long prompt with a bunch of examples. Watch this space.
+
+** Update **
+
+It's better to use the Jupyter-style OT API to avoid the boilerplate above.
+
+Here it does some maths to figure out how to make up a mastermix:
+
+<blockquote class="twitter-tweet"><p lang="in" dir="ltr">GPT-4 sets up a PCR (pt 1) <a href="https://t.co/J6NDloCDLW">pic.twitter.com/J6NDloCDLW</a></p>&mdash; Theo Sanderson (@theosanderson) <a href="https://twitter.com/theosanderson/status/1636412631216013314?ref_src=twsrc%5Etfw">March 16, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">(contd.) <a href="https://t.co/czMfySDs9C">pic.twitter.com/czMfySDs9C</a></p>&mdash; Theo Sanderson (@theosanderson) <a href="https://twitter.com/theosanderson/status/1636413656853532674?ref_src=twsrc%5Etfw">March 16, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
