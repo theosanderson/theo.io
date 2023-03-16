@@ -1,0 +1,6 @@
+{{ $speaker := .Get "speaker" | default "Anonymous" }}
+<div class="chat-container">
+  <div class="chat-speaker">
+    <span class="speaker-name">{{ $speaker | upper }}</span>
+  </div>
+  <div class="chat-message">
