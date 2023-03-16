@@ -385,6 +385,6 @@ Fantastic -- thanks! I'll stick them in the incubator
 
 <p style="height: 30px; margin: 0px; padding: 0px;"></p>
 
-So: pretty cool. But, to confirm doing it like this is not ready for prime time. Firstly, I haven't actually checked this code runs, though it looks fairly plausible. In my various experiments it definitely sometimes did wrong stuff and I added some hints to guide it in the prompt. Also, trying to do more complex stuff "set up an assay that would allow me to draw an isobologram" didn't go so well.
+So: pretty cool. But, to confirm doing it like this is not ready for prime time. Firstly, I haven't actually checked this code runs, though it looks fairly plausible. In my various experiments it definitely sometimes tried to run protocols which didn't quite make sense, and I added some hints to guide it in the prompt. Clearly setting up dilution series is something that will be in the training set already. Also, trying to do more complex stuff "set up an assay that would allow me to draw an isobologram" didn't go so well.
 
 However on the other side of the coin, this model has never been remotely fine-tuned for this task. There may well be a lot of low-hanging gains to be made from doing a bit of fine-tuning with some specific tasks. Even just from working out exactly what hints to add to the prompt. With the 32k context length you could imagine a really long prompt with a bunch of examples. Watch this space.
