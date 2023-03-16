@@ -25,7 +25,9 @@ projects: []
 ---
 
 
-[GPT-4](https://openai.com/research/gpt-4) has been released. I had a play to see how well it might be able to plan and set up biological experiments. Scroll to the bottom for some caveats.
+[GPT-4](https://openai.com/research/gpt-4) has been released.
+
+I had a play to see how well it might be able to plan run biological experiments. Scroll to the bottom for some caveats.
 
 
 
