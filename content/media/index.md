@@ -2,7 +2,15 @@ In the media
 -------------------
 
 
+https://www.nature.com/articles/d41586-023-00347-z
 
+https://www.verywellhealth.com/merck-covid-antiviral-variants-7107973
+
+https://www.science.org/content/article/could-popular-covid-19-antiviral-supercharge-pandemic
+
+https://www.bloomberg.com/news/articles/2023-02-01/merck-s-mrk-covid-drug-linked-to-viable-spreading-mutants-study-says
+
+https://www.nzdoctor.co.nz/article/news/supplier-wants-officials-rethink-their-advice-against-covid-antiviral
 
 {{< video autoplay="true" loop="true" controls="true" src="https://theo.nyc3.cdn.digitaloceanspaces.com/media/radio.mp4" >}}
 
