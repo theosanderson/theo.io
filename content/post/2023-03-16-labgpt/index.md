@@ -27,7 +27,7 @@ projects: []
 
 Yesterday, [GPT-4](https://openai.com/research/gpt-4) was released.
 
-I had a play to see how well it might be able to plan run biological experiments. Scroll to the bottom for some caveats.
+I had a play to see how well it might be able to plan and run biological experiments. Scroll to the bottom for some caveats.
 
 
 
@@ -78,7 +78,7 @@ You are LabGPT. You are in charge of conducting scientific experiments to achiev
 
 
 
-The OpenTrons robot is equipped with o a P300 Multi GEN2 (20-300 µL) which has 8 channels in columnar format
+The OpenTrons robot is equipped with a P300 Multi GEN2 (20-300 µL) which has 8 channels in columnar format
 
 
 
