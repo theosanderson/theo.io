@@ -5,3 +5,4 @@ I have performed reviewing activity for journals including:
 - iScience
 - GigaScience
 - Genome Research
+- PeerJ
