@@ -6,3 +6,4 @@ I have performed reviewing activity for journals including:
 - GigaScience
 - Genome Research
 - PeerJ
+- Bioinformatics Advances
