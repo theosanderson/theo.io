@@ -7,3 +7,4 @@ I have performed reviewing activity for journals including:
 - Genome Research
 - PeerJ
 - Bioinformatics Advances
+- Microbial Genomics
