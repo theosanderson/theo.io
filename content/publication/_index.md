@@ -14,5 +14,5 @@ header:
   image: ""
 ---
 {{% callout note %}}
-Publications as a member of the COG-UK Consortium (main roles: sample prioritisation and quality-control) are excluded below, but can be found [here](https://www.cogconsortium.uk/priority-areas/research/cog-uk-publications/).
+Publications as a member of the COG-UK Consortium (main roles: sample prioritisation and quality-control) are excluded below, but can be found [here](https://webarchive.nationalarchives.gov.uk/ukgwa/20230507123011/https://www.cogconsortium.uk/priority-areas/research/cog-uk-publications/#).
 {{% /callout %}}
