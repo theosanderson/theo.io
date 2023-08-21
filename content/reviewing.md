@@ -8,3 +8,4 @@ I have performed reviewing activity for journals including:
 - PeerJ
 - Bioinformatics Advances
 - Microbial Genomics
+- Nucleic Acids Research
