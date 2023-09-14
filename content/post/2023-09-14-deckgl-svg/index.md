@@ -16,18 +16,18 @@ mininote: true
 
 [Taxonium](https://taxonium.org), my tool for exploring large phylogenetic trees, uses  a few tricks to be fast even when exploring trees of 15 million sequences. One is sparsification: there is no need to draw every single node when sometimes thousands are overlapping and occluding those below: where nodes overlap we only draw some of them. But even so, there are tens of thousands of nodes being shown, which means we need a framework for showing them that is faster than classic web approaches. We use [DeckGL](https://deck.gl) which makes use of the GPU to display large numbers of visual elements quickly.
 
-DeckGL is inherently raster-based, it works in pixels. You can take screenshots of it in pixels, but these aren't great for publications, where we'd like infinitely zoomable vector graphics. DeckGL doesn't have a way to do this but I've been thinking for a while that it wouldn't be too hard, and have finally got round to trying it.
+DeckGL is inherently raster-based, it works in pixels. You can take screenshots of it in this pixelly form -- but these aren't great for publications, where we much prefer infinitely zoomable vector graphics. DeckGL doesn't have a way to export in a vector format, due to its underlying architecture, this but I've been thinking for a while that it wouldn't be too hard to hack something together, and have finally got round to trying it.
 
 And it works pretty nicely:
 ![](2023-09-14-17-52-05.png)
 
-Here is an outline of the approach - this isn't a full tutorial  or anything but might provide some inspiration.
+Below is an outline of the approach - this isn't a full tutorial  or anything but might provide some inspiration if you're facing a similar issue.
 
-Normally you build a layers object for DeckGL layers which might look something like
+Normally you build a `layers` object for DeckGL layers which might look something like
 
 ```javascript
 const layers = [
-    new deck.ScatterplotLayer({
+    new ScatterplotLayer({
       data: [
         {position: [-122.45, 37.8], color: [255, 0, 0], radius: 100}
       ],
@@ -37,7 +37,7 @@ const layers = [
   ]
 ```
 
-To be able to output SVG we want to first build an intermediate version which doesn't use the DeckGL layers (there may be an alternative where you use them all along, but anyway), so we use:
+To be able to output SVG we want to first build an intermediate version which doesn't use the DeckGL layers (there may be an alternative approach where you use them all along, but anyway..), so we use:
 
 ```javascript
 const intermediateLayers =  [
@@ -75,7 +75,7 @@ const processedLayers = layers.map((layer) => {
 
 (You may need to add more cases to this switch statement depending on what layers you are using.)
 
-But we can also generate SVG. [Here](https://github.com/theosanderson/taxonium/blob/e1758284ecf9bca09593194e74fe3ff52ba372c1/taxonium_component/src/utils/deckglToSvg.js) is the code I use to do that. It won't work for you out of the box, it uses some viewState parameters called min_x, max_x, min_y, max_y which I set in other code. But hopefully it may be a source of inspiration in terms of how to go about things.
+But we can also generate SVG from this same intermediate object. [Here](https://github.com/theosanderson/taxonium/blob/e1758284ecf9bca09593194e74fe3ff52ba372c1/taxonium_component/src/utils/deckglToSvg.js) is the code I use to do that. It won't work for you out of the box, it uses some viewState parameters called `min_x`, `max_x`, `min_y`, `max_y` which I set in other code. But hopefully it may be a source of inspiration in terms of how to go about things.
 
 Here's the function that does the real work:
     
@@ -214,5 +214,7 @@ return svgContent;
 ```
 
 There's also a useful function in there that will trigger a download of the SVG.
+
+You can see it all in accession by clicking the 📷 button in the bottom right on [Cov2Tree](//cov2tree.org).
 
 Anyway, if you're stuck on this problem hopefully this provides inspiration that a solution is possible. Best of luck!
