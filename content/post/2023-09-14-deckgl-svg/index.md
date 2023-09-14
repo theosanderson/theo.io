@@ -212,6 +212,6 @@ return svgContent;
 
 There's also a useful function in there that will trigger a download of the SVG.
 
-You can see it all in accession by clicking the 📷 button in the bottom right on [Cov2Tree](//cov2tree.org).
+You can see it all in action by clicking the 📷 button in the bottom right on [Cov2Tree](//cov2tree.org).
 
 Anyway, if you're stuck on this problem hopefully this provides inspiration that a solution is possible. Best of luck!
