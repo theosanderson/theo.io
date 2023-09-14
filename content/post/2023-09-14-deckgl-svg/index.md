@@ -108,10 +108,7 @@ for (const layer of layers) {
     case "ScatterplotLayer":
         for (const point of layer.data) {
         const [x, y] = applyBounds(layer.getPosition(point));
-        // if either is null, skip this point
-        if (x === null || y === null) {
-            continue;
-        }
+        
         const accessor = layer.getFillColor
             ? layer.getFillColor
             : layer.getColor;
