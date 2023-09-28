@@ -8,6 +8,8 @@ authors:
 - admin
 - Ryan Hisner
 - I'ah Donovan-Banfield
+- Hassan Hartman
+- Alessandra Lochen
 - Thomas Peacock
 - Christopher Ruis
 
