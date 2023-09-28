@@ -21,7 +21,7 @@ author_notes:
 
 
 date: "2023-10-27T00:00:00Z"
-doi: "https://doi.org/10.1101/2023.01.26.23284998"
+doi: "10.1101/2023.01.26.23284998"
 
 # Schedule page publish date (NOT publication's date).
 publishDate: "2023-01-27T00:00:00Z"
