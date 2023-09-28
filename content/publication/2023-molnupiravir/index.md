@@ -1,5 +1,5 @@
 ---
-title: "Identification of a molnupiravir-associated mutational signature in SARS-CoV-2 sequencing databases"
+title: "A molnupiravir-associated mutational signature in global SARS-CoV-2 genomes"
 
 # Authors
 # If you created a profile for a user (e.g. the default `admin` user), write the username (folder name) here 
