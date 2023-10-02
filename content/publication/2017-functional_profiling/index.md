@@ -45,7 +45,7 @@ publishDate: "2017-01-01T00:00:00Z"
 publication_types: ["2"]
 
 # Publication name and optional abbreviated publication name.
-publication: In *Cell*
+publication: *Cell*
 
 abstract: The genomes of malaria parasites contain many genes of unknown function. To assist drug development through the identification of essential genes and pathways, we have measured competitive growth rates in mice of 2,578 barcoded Plasmodium berghei knockout mutants, representing >50% of the genome, and created a phenotype database. At a single stage of its complex life cycle, P. berghei requires two-thirds of genes for optimal growth, the highest proportion reported from any organism and a probable consequence of functional optimization necessitated by genomic reductions during the evolution of parasitism. In contrast, extreme functional redundancy has evolved among expanded gene families operating at the parasite-host interface. The level of genetic redundancy in a single-celled organism may thus reflect the degree of environmental variation it experiences. In the case of Plasmodium parasites, this helps rationalize both the relative successes of drugs and the greater difficulty of making an effective vaccine.
 
