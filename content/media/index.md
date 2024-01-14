@@ -5,7 +5,17 @@ https://www.newscientist.com/article/2393799-covid-19-drug-may-be-creating-new-v
 
 https://www.theguardian.com/world/2023/sep/25/use-of-antiviral-molnupiravir-evolution-covid-virus-mutations
 
+https://www.independent.co.uk/news/science/university-of-cape-town-university-of-cambridge-francis-crick-institute-university-of-liverpool-nature-b2418152.html
+
+https://news.sky.com/story/molnupiravir-covid-drug-linked-to-mutations-that-could-spread-the-illness-scientists-say-12969805
+
+https://www.france24.com/en/live-news/20230925-anti-covid-drug-may-have-led-to-virus-mutations-study
+
+https://thebulletin.org/2023/09/mercks-covid-drug-may-be-creating-transmissible-mutated-viruses/
+
 https://www.nature.com/articles/d41586-023-00347-z
+
+https://www.nature.com/articles/d41586-023-00901-9
 
 https://www.verywellhealth.com/merck-covid-antiviral-variants-7107973
 
