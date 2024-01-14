@@ -1,6 +1,9 @@
 In the media
 -------------------
 
+https://www.newscientist.com/article/2393799-covid-19-drug-may-be-creating-new-variants-with-distinctive-mutations/
+
+https://www.theguardian.com/world/2023/sep/25/use-of-antiviral-molnupiravir-evolution-covid-virus-mutations
 
 https://www.nature.com/articles/d41586-023-00347-z
 
