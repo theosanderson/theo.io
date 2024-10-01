@@ -9,8 +9,8 @@ role: Sir Henry Wellcome Fellow
 
 # Organizations/Affiliations to show in About widget
 organizations:
-- name: Francis Crick Institute
-  url: https://www.crick.ac.uk
+- name: London School of Hygiene and Tropical Medicine
+  url: https://www.lshtm.ac.uk
 
 # Short bio (displayed in user profile at end of posts)
 bio: Biologist developing tools to scale pathogen genetics.
