@@ -17,7 +17,9 @@ bio: Biologist developing tools to scale pathogen genetics.
 
 # Interests to show in About widget
 interests:
-- Pathogen Genetics
+- Viral Genomics
+- Phylogenetics
+- Malaria
 - Open Source Hardware
 - Machine Learning
 
