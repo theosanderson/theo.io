@@ -22,6 +22,14 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: Assistant Professor
+    company: London School of Hygiene and Tropical Medicine
+    company_url: ''
+    location: London
+    date_start: '2024-10-01'
+    date_end: ''
+    description: |2-
+        Leading a group working on large scale viral genomics
   - title: Sir Henry Wellcome Fellow
     company: Francis Crick Institute
     company_url: ''
