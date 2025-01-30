@@ -50,6 +50,10 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/theosanderson
+- icon: wifi
+  icon_pack: fab
+  link: [https://github.com/theosanderson](https://bsky.app/profile/theo.io)
+
 
 
 # Link to a PDF of your resume/CV.
