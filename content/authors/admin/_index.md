@@ -41,6 +41,9 @@ social:
 - icon: envelope
   icon_pack: fas
   link: '/#contact'
+- icon: comments
+  icon_pack: fas
+  link: https://bsky.app/profile/theo.io
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/theosanderson
@@ -50,6 +53,7 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/theosanderson
+
 
 
 # Link to a PDF of your resume/CV.
