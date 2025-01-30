@@ -50,10 +50,6 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/theosanderson
-- icon: wifi
-  icon_pack: fas
-  link: [https://github.com/theosanderson](https://bsky.app/profile/theo.io)
-
 
 
 # Link to a PDF of your resume/CV.
@@ -71,5 +67,3 @@ highlight_name: true # toggle to highlight author in author lists
 ---
 
 I am an Assistant Professor at the London School of Hygiene and Tropical Medicine where I lead a <a href="//sandersonlab.org">research group</a> working on large-scale viral genomics.
-
-
