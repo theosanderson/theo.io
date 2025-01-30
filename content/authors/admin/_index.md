@@ -51,7 +51,7 @@ social:
   icon_pack: fab
   link: https://github.com/theosanderson
 - icon: wifi
-  icon_pack: fab
+  icon_pack: fas
   link: [https://github.com/theosanderson](https://bsky.app/profile/theo.io)
 
 
